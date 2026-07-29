@@ -35,10 +35,4 @@
     "last 2 versions",
     "not dead"
   ],
-  "devDependencies": {
-    "comment": "Para desarrollo futuro si se agrega tooling"
-  },
-  "optionalDependencies": {
-    "comment": "Herramientas opcionales para optimización"
-  }
 }
