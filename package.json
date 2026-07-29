@@ -1,0 +1,44 @@
+{
+  "name": "opsyn-landing-page",
+  "version": "1.0.0",
+  "description": "Landing page oficial de OPSYN - Partner tecnológico integral",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "build": "echo 'No build step needed - static site'",
+    "test": "echo 'Usar Lighthouse en Chrome DevTools'",
+    "deploy": "See deployment guide in README.md"
+  },
+  "keywords": [
+    "opsyn",
+    "landing-page",
+    "web-development",
+    "ai",
+    "automation",
+    "tech-agency"
+  ],
+  "author": "OPSYN Team",
+  "license": "© 2026 OPSYN - All rights reserved",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OPSYN/pagina-web.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OPSYN/pagina-web/issues"
+  },
+  "homepage": "https://opsyn.com",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "devDependencies": {
+    "comment": "Para desarrollo futuro si se agrega tooling"
+  },
+  "optionalDependencies": {
+    "comment": "Herramientas opcionales para optimización"
+  }
+}

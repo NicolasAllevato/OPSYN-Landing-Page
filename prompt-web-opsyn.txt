@@ -1,0 +1,68 @@
+PROMPT PARA CLAUDE DESIGN (claude.ai/design) — WEB OPSYN
+=========================================================
+
+Diseña una landing page profesional, bilingüe (español/inglés con selector de
+idioma), para OPSYN, una agencia de tecnología boutique que ofrece bajo un
+mismo techo: desarrollo de software/apps a medida, agentes de IA y
+automatización, consultoría tecnológica, y marketing digital/redes.
+
+PROPUESTA DE VALOR CENTRAL (debe sentirse en el copy, no solo listarse):
+OPSYN no es un proveedor más — es un partner integral que combina visión
+estratégica con ejecución técnica, con trato cercano y personalizado (sin
+capas corporativas). Le habla tanto a negocios que quieren digitalizarse
+desde cero como a los que ya usan tecnología y quieren llevarla al siguiente
+nivel con IA. El mensaje debe transmitir "pensamos tu negocio antes de
+programar, y lo acompañamos de cerca".
+
+IDENTIDAD DE MARCA:
+Logo con triángulo imposible que fusiona un león, un pez y un remolino
+cósmico en el centro (adjunto el archivo como referencia; el significado
+simbólico queda pendiente de agregar más adelante — no forzar una
+explicación en el copy por ahora).
+Tagline: "somos una idea, somos un proyecto, somos la solución para vos".
+
+PALETA DE COLORES (extraída del logo real):
+- Fondo base (casi negro): #0D0326
+- Violeta profundo: #38137C
+- Púrpura primario: #5A1CA1
+- Acento magenta brillante (CTAs, hovers): #9434D4
+- Cian (detalles tipo circuito, glow): de #2D89AD a #79FFFF
+- Texto: blanco #FFFFFF
+
+ESTILO VISUAL:
+Dark mode futurista con toque cósmico/místico, glow sutil en bordes de
+botones y tarjetas, líneas finas tipo "circuito" como elemento decorativo de
+fondo (sutil, no recargado). Tipografía sans-serif geométrica y moderna.
+
+TONO DE COMUNICACIÓN:
+Cercano y directo, sin jerga técnica excesiva, hablando de tú a tú con el
+visitante — nunca frío ni corporativo.
+
+NAVEGACIÓN (header):
+Inicio, Servicios, Nosotros, Portfolio, Blog, Contacto. Selector de idioma
+ES/EN.
+
+SECCIONES:
+1. Hero — Logo, tagline, frase de impacto que transmita el enfoque integral
+   + cercano (no solo "hacemos IA"), CTA principal hacia el formulario de
+   contacto.
+2. Servicios — 4 bloques: Desarrollo de software, Agentes de IA y
+   automatización, Consultoría tecnológica, Marketing digital. Ícono,
+   título, descripción breve.
+3. Nosotros — Quiénes son, por qué existen (boutique + visión estratégica +
+   ejecución técnica), qué los diferencia de una agencia tradicional o de un
+   freelancer suelto.
+4. Portfolio/Casos de éxito — Grid de 3-4 tarjetas placeholder (imagen,
+   nombre de proyecto, resultado breve), lista para reemplazar con casos
+   reales.
+5. Blog/Recursos — Grid de 3 artículos placeholder (imagen, título, fecha,
+   resumen).
+6. Contacto — Formulario (nombre, email, mensaje, tipo de servicio de
+   interés) como CTA principal del sitio.
+7. Footer — Logo, email de contacto, link a Instagram, copyright, links
+   rápidos a secciones.
+
+NOTAS:
+- Sin sección de precios (todo se cotiza a medida).
+- Sin testimonios por ahora.
+- Responsive mobile/desktop.

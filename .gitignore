@@ -1,0 +1,58 @@
+# Archivos del Sistema Operativo
+.DS_Store
+Thumbs.db
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# IDEs y Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Dependencias (si se agregaran en el futuro)
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Build outputs
+dist/
+build/
+out/
+.cache/
+
+# Archivos temporales
+*.tmp
+*.temp
+.env.local
+.env.*.local
+
+# Backups
+*.bak
+*.backup
+*~
+
+# Archivos de prueba/desarrollo
+.test-cache/
+.coverage/
+
+# Ignition files
+.ignition/
