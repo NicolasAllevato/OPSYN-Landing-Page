@@ -10,20 +10,37 @@
   <meta property="og:type" content="website">
 
   <title>OPSYN - Partner tecnológico integral</title>
-  <link rel="icon" type="image/png" href="./uploads/Logo Opsyn.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="./assets/favicon.png">
+  <link rel="apple-touch-icon" href="./assets/logo-opsyn-160.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
   <link rel="stylesheet" href="./css/styles.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
+  <a href="#main" class="skip-link">Saltar al contenido</a>
   <div class="page-container">
     <!-- HEADER -->
     <header class="header">
       <div class="header-content">
         <div class="logo-section">
-          <img src="./uploads/Logo Opsyn.png" alt="OPSYN" class="logo-icon">
+          <picture>
+            <source srcset="./assets/logo-opsyn-80.webp" type="image/webp">
+            <img src="./assets/logo-opsyn-80.png" alt="" width="40" height="36" class="logo-icon">
+          </picture>
           <span class="logo-text">OPSYN</span>
         </div>
 
-        <nav class="nav-menu">
+        <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path class="nav-toggle-open" d="M3 6h18M3 12h18M3 18h18"/>
+            <path class="nav-toggle-close" d="M6 6l12 12M18 6L6 18"/>
+          </svg>
+        </button>
+
+        <nav class="nav-menu" id="nav-menu" aria-label="Navegación principal">
           <a href="#inicio" class="nav-link">Inicio</a>
           <a href="#servicios" class="nav-link">Servicios</a>
           <a href="#nosotros" class="nav-link">Nosotros</a>
@@ -33,23 +50,24 @@
         </nav>
 
         <div class="lang-switcher">
-          <button class="lang-btn active" data-lang="es">ES</button>
-          <button class="lang-btn" data-lang="en">EN</button>
+          <button class="lang-btn active" data-lang="es" aria-pressed="true" lang="es">ES</button>
+          <button class="lang-btn" data-lang="en" aria-pressed="false" lang="en">EN</button>
         </div>
       </div>
     </header>
 
+    <main id="main">
     <!-- HERO -->
     <section id="inicio" class="hero">
       <div class="hero-background">
-        <svg class="circuit-bg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1920 1000">
-          <g stroke="#2D89AD" stroke-width="1.5" fill="none">
-            <path d="M0 200 H300 V500 H700 V180" />
-            <path d="M1920 300 H1600 V700 H1200 V400" />
-            <path d="M0 900 H250 V1200 H600" />
-            <path d="M1920 1100 H1650 V1500 H1300 V1800" />
+        <svg class="circuit-bg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1920 1000" aria-hidden="true">
+          <g stroke="currentColor" stroke-width="1.5" fill="none">
+            <path class="circuit-trace" d="M0 200 H300 V500 H700 V180" />
+            <path class="circuit-trace" d="M1920 300 H1600 V700 H1200 V400" />
+            <path class="circuit-trace" d="M0 900 H250 V1200 H600" />
+            <path class="circuit-trace" d="M1920 1100 H1650 V1500 H1300 V1800" />
           </g>
-          <g fill="#79FFFF">
+          <g class="circuit-nodes">
             <circle cx="300" cy="200" r="4" />
             <circle cx="700" cy="180" r="4" />
             <circle cx="1600" cy="700" r="4" />
@@ -59,13 +77,18 @@
 
         <div class="glow-orb glow-orb-1"></div>
         <div class="glow-orb glow-orb-2"></div>
-        <div class="glow-orb glow-orb-3"></div>
         <div class="rotating-ring ring-1"></div>
-        <div class="rotating-ring ring-2"></div>
       </div>
 
       <div class="hero-content">
-        <img src="./uploads/Logo con nombre OPSYN.png" alt="OPSYN" class="hero-logo fade-in">
+        <span class="hero-logo-wrap fade-in">
+          <picture>
+            <source srcset="./assets/logo-opsyn-full-440.webp 440w, ./assets/logo-opsyn-full-880.webp 880w"
+                    sizes="min(260px, 55vw)" type="image/webp">
+            <img src="./assets/logo-opsyn-full-440.png" alt="OPSYN"
+                 width="440" height="391" class="hero-logo" fetchpriority="high" decoding="async">
+          </picture>
+        </span>
         <p class="hero-tagline fade-in" data-i18n="tagline">
           "somos una idea, somos un proyecto, somos la solución para vos"
         </p>
@@ -89,26 +112,34 @@
       </div>
 
       <div class="services-grid">
-        <div class="service-card reveal-on-scroll">
-          <div class="service-icon">👨‍💻</div>
+        <div class="service-card reveal-on-scroll" style="--i:0">
+          <div class="service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6M16 6l6 6-6 6"/></svg>
+          </div>
           <h3 data-i18n="service1Title">Desarrollo de software</h3>
           <p data-i18n="service1Desc">Apps web y móviles a medida, pensadas para tu operación real, no para una plantilla genérica.</p>
         </div>
 
-        <div class="service-card reveal-on-scroll">
-          <div class="service-icon">🤖</div>
+        <div class="service-card reveal-on-scroll" style="--i:1">
+          <div class="service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M12 4v4M9 14h.01M15 14h.01M2 13h2M20 13h2"/></svg>
+          </div>
           <h3 data-i18n="service2Title">Agentes de IA y automatización</h3>
           <p data-i18n="service2Desc">Bots, agentes y flujos automáticos que te devuelven horas de trabajo manual.</p>
         </div>
 
-        <div class="service-card reveal-on-scroll">
-          <div class="service-icon">◆</div>
+        <div class="service-card reveal-on-scroll" style="--i:2">
+          <div class="service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.1 5.4-5.4 2.1 2.1-5.4z"/></svg>
+          </div>
           <h3 data-i18n="service3Title">Consultoría tecnológica</h3>
           <p data-i18n="service3Desc">Diagnóstico honesto de dónde estás y hacia dónde conviene moverte con tecnología.</p>
         </div>
 
-        <div class="service-card reveal-on-scroll">
-          <div class="service-icon">✦</div>
+        <div class="service-card reveal-on-scroll" style="--i:3">
+          <div class="service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-7v16l-18-7z"/><path d="M7 12.5V19a1 1 0 0 0 1 1h2"/></svg>
+          </div>
           <h3 data-i18n="service4Title">Marketing digital</h3>
           <p data-i18n="service4Desc">Estrategia y gestión de redes y contenido para que tu marca se vea tan bien como funciona.</p>
         </div>
@@ -133,17 +164,17 @@
         </div>
 
         <div class="about-points">
-          <div class="about-card reveal-on-scroll">
+          <div class="about-card reveal-on-scroll" style="--i:0">
             <h4 data-i18n="aboutPoint1Title">Visión estratégica</h4>
             <p data-i18n="aboutPoint1Desc">No empezamos por el código, empezamos por tu negocio.</p>
           </div>
 
-          <div class="about-card reveal-on-scroll">
+          <div class="about-card reveal-on-scroll" style="--i:1">
             <h4 data-i18n="aboutPoint2Title">Trato cercano</h4>
             <p data-i18n="aboutPoint2Desc">Hablás directo con quien construye, sin intermediarios.</p>
           </div>
 
-          <div class="about-card reveal-on-scroll">
+          <div class="about-card reveal-on-scroll" style="--i:2">
             <h4 data-i18n="aboutPoint3Title">Ejecución técnica real</h4>
             <p data-i18n="aboutPoint3Desc">Lo que diseñamos, lo construimos y lo sostenemos.</p>
           </div>
@@ -159,45 +190,29 @@
       </div>
 
       <div class="portfolio-grid">
-        <div class="portfolio-card reveal-on-scroll">
-          <div class="portfolio-image">
-            <img src="./assets/portfolio-1.png" alt="Proyecto E-commerce">
-          </div>
-          <div class="portfolio-info">
-            <h3>Proyecto E-commerce</h3>
-            <p>Resultado: +40% en ventas</p>
-          </div>
-        </div>
+        <article class="portfolio-card reveal-on-scroll" style="--i:0">
+          <p class="portfolio-eyebrow">Proyecto E-commerce</p>
+          <p class="portfolio-metric">+40<span class="portfolio-unit">%</span></p>
+          <h3 class="portfolio-label">en ventas</h3>
+        </article>
 
-        <div class="portfolio-card reveal-on-scroll">
-          <div class="portfolio-image">
-            <img src="./assets/portfolio-2.png" alt="Agente IA de soporte">
-          </div>
-          <div class="portfolio-info">
-            <h3>Agente IA de soporte</h3>
-            <p>Resultado: -60% tiempo de respuesta</p>
-          </div>
-        </div>
+        <article class="portfolio-card reveal-on-scroll" style="--i:1">
+          <p class="portfolio-eyebrow">Agente IA de soporte</p>
+          <p class="portfolio-metric">&minus;60<span class="portfolio-unit">%</span></p>
+          <h3 class="portfolio-label">tiempo de respuesta</h3>
+        </article>
 
-        <div class="portfolio-card reveal-on-scroll">
-          <div class="portfolio-image">
-            <img src="./assets/portfolio-3.png" alt="App de gestión interna">
-          </div>
-          <div class="portfolio-info">
-            <h3>App de gestión interna</h3>
-            <p>Resultado: 15hs/semana ahorradas</p>
-          </div>
-        </div>
+        <article class="portfolio-card reveal-on-scroll" style="--i:2">
+          <p class="portfolio-eyebrow">App de gestión interna</p>
+          <p class="portfolio-metric">15<span class="portfolio-unit">hs</span></p>
+          <h3 class="portfolio-label">ahorradas por semana</h3>
+        </article>
 
-        <div class="portfolio-card reveal-on-scroll">
-          <div class="portfolio-image">
-            <img src="./assets/portfolio-4.png" alt="Rebranding + redes">
-          </div>
-          <div class="portfolio-info">
-            <h3>Rebranding + redes</h3>
-            <p>Resultado: +3x engagement</p>
-          </div>
-        </div>
+        <article class="portfolio-card reveal-on-scroll" style="--i:3">
+          <p class="portfolio-eyebrow">Rebranding + redes</p>
+          <p class="portfolio-metric">3<span class="portfolio-unit">&times;</span></p>
+          <h3 class="portfolio-label">más engagement</h3>
+        </article>
       </div>
     </section>
 
@@ -209,38 +224,41 @@
       </div>
 
       <div class="blog-grid">
-        <div class="blog-card reveal-on-scroll">
+        <article class="blog-card reveal-on-scroll" style="--i:0">
           <div class="blog-image">
-            <img src="./assets/blog-1.png" alt="IA para pymes">
+            <img src="./assets/blog-1-placeholder.svg" data-cdn="images/blog/blog-1.webp"
+                 alt="" width="400" height="250" loading="lazy" decoding="async">
           </div>
           <div class="blog-info">
             <span class="blog-date">12 jul 2026</span>
             <h3>IA para pymes: por dónde empezar</h3>
             <p>Los primeros pasos reales para sumar IA sin perder de vista tu negocio.</p>
           </div>
-        </div>
+        </article>
 
-        <div class="blog-card reveal-on-scroll">
+        <article class="blog-card reveal-on-scroll" style="--i:1">
           <div class="blog-image">
-            <img src="./assets/blog-2.png" alt="Automatizar">
+            <img src="./assets/blog-2-placeholder.svg" data-cdn="images/blog/blog-2.webp"
+                 alt="" width="400" height="250" loading="lazy" decoding="async">
           </div>
           <div class="blog-info">
             <span class="blog-date">28 jun 2026</span>
             <h3>Automatizar sin perder el toque humano</h3>
             <p>Cómo elegir qué automatizar y qué dejar en manos de personas.</p>
           </div>
-        </div>
+        </article>
 
-        <div class="blog-card reveal-on-scroll">
+        <article class="blog-card reveal-on-scroll" style="--i:2">
           <div class="blog-image">
-            <img src="./assets/blog-3.png" alt="Transformación digital">
+            <img src="./assets/blog-3-placeholder.svg" data-cdn="images/blog/blog-3.webp"
+                 alt="" width="400" height="250" loading="lazy" decoding="async">
           </div>
           <div class="blog-info">
             <span class="blog-date">10 jun 2026</span>
             <h3>Transformación digital paso a paso</h3>
             <p>Una hoja de ruta simple para digitalizar tu negocio sin caos.</p>
           </div>
-        </div>
+        </article>
       </div>
     </section>
 
@@ -255,57 +273,63 @@
           </p>
         </div>
 
-        <form class="contact-form" id="contactForm">
+        <form class="contact-form" id="contactForm" novalidate>
           <div class="form-row">
-            <input
-              type="text"
-              placeholder="Nombre"
-              data-i18n="formName"
-              required
-              class="form-input"
-            >
-            <input
-              type="email"
-              placeholder="Email"
-              data-i18n="formEmail"
-              required
-              class="form-input"
-            >
+            <div class="form-field">
+              <label for="f-nombre" class="form-label" data-i18n="formName">Nombre</label>
+              <input id="f-nombre" name="nombre" type="text" autocomplete="name"
+                     maxlength="100" required class="form-input">
+            </div>
+            <div class="form-field">
+              <label for="f-email" class="form-label" data-i18n="formEmail">Email</label>
+              <input id="f-email" name="email" type="email" autocomplete="email"
+                     maxlength="254" required class="form-input">
+            </div>
           </div>
 
-          <select required class="form-input" data-i18n="formServiceLabel">
-            <option value="">Tipo de servicio de interés</option>
-            <option value="software">Desarrollo de software</option>
-            <option value="ia">Agentes de IA y automatización</option>
-            <option value="consulting">Consultoría tecnológica</option>
-            <option value="marketing">Marketing digital</option>
-          </select>
+          <div class="form-field">
+            <label for="f-servicio" class="form-label" data-i18n="formServiceLabel">Tipo de servicio de interés</label>
+            <select id="f-servicio" name="servicio" required class="form-input">
+              <option value="" data-i18n="formServicePlaceholder">Elegí una opción</option>
+              <option value="software">Desarrollo de software</option>
+              <option value="ia">Agentes de IA y automatización</option>
+              <option value="consulting">Consultoría tecnológica</option>
+              <option value="marketing">Marketing digital</option>
+            </select>
+          </div>
 
-          <textarea
-            placeholder="Contanos sobre tu proyecto"
-            data-i18n="formMessage"
-            rows="5"
-            required
-            class="form-input"
-          ></textarea>
+          <div class="form-field">
+            <label for="f-mensaje" class="form-label" data-i18n="formMessage">Contanos sobre tu proyecto</label>
+            <textarea id="f-mensaje" name="mensaje" rows="5" minlength="10" maxlength="5000"
+                      required class="form-input"></textarea>
+          </div>
 
-          <button type="submit" class="form-submit" data-i18n="formSubmit">
-            Enviar mensaje
+          <!-- Honeypot anti-spam: oculto para personas, tentador para bots. No borrar. -->
+          <div class="form-honeypot" aria-hidden="true">
+            <label for="f-gotcha">No completar este campo</label>
+            <input id="f-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <button type="submit" class="form-submit">
+            <span class="form-submit-text" data-i18n="formSubmit">Enviar mensaje</span>
+            <span class="form-spinner" aria-hidden="true"></span>
           </button>
 
-          <div class="form-success hidden" data-i18n="formSuccess">
-            ¡Gracias! Te contactaremos pronto.
-          </div>
+          <p class="form-feedback" role="status" aria-live="polite"></p>
         </form>
       </div>
     </section>
+    </main>
 
     <!-- FOOTER -->
     <footer class="footer">
       <div class="footer-content">
         <div class="footer-section">
           <div class="footer-logo">
-            <img src="./uploads/Logo Opsyn.png" alt="OPSYN">
+            <picture>
+              <source srcset="./assets/logo-opsyn-80.webp" type="image/webp">
+              <img src="./assets/logo-opsyn-80.png" alt="" width="32" height="28" loading="lazy">
+            </picture>
             <span>OPSYN</span>
           </div>
           <p data-i18n="footerTagline">Tu partner tecnológico integral.</p>
@@ -327,7 +351,7 @@
           <h4 data-i18n="footerContactLabel">Contacto</h4>
           <ul>
             <li><a href="mailto:hola@opsyn.com">hola@opsyn.com</a></li>
-            <li><a href="https://instagram.com/opsyn" target="_blank">Instagram</a></li>
+            <li><a href="https://instagram.com/opsyn" target="_blank" rel="noopener noreferrer">Instagram</a></li>
           </ul>
         </div>
       </div>
@@ -338,6 +362,7 @@
     </footer>
   </div>
 
+  <script src="./js/assets.js"></script>
   <script src="./js/main.js"></script>
 </body>
 </html>

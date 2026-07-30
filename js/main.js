@@ -38,9 +38,13 @@ const TRANSLATIONS = {
     formName: 'Nombre',
     formEmail: 'Email',
     formServiceLabel: 'Tipo de servicio de interés',
+    formServicePlaceholder: 'Elegí una opción',
     formMessage: 'Contanos sobre tu proyecto',
     formSubmit: 'Enviar mensaje',
     formSuccess: '¡Gracias! Te contactaremos pronto.',
+    formErrorGeneric: 'Hubo un error al enviar tu mensaje. Probá de nuevo en un momento.',
+    formErrorValidation: 'Revisá los datos del formulario e intentá de nuevo.',
+    formErrorRateLimit: 'Ya enviaste varios mensajes. Esperá unos minutos antes de volver a intentar.',
     footerTagline: 'Tu partner tecnológico integral.',
     footerLinksLabel: 'Secciones',
     footerContactLabel: 'Contacto',
@@ -80,9 +84,13 @@ const TRANSLATIONS = {
     formName: 'Name',
     formEmail: 'Email',
     formServiceLabel: 'Service you\'re interested in',
+    formServicePlaceholder: 'Pick an option',
     formMessage: 'Tell us about your project',
     formSubmit: 'Send message',
     formSuccess: 'Thanks! We\'ll be in touch soon.',
+    formErrorGeneric: 'Something went wrong sending your message. Please try again shortly.',
+    formErrorValidation: 'Please check the form fields and try again.',
+    formErrorRateLimit: 'You\'ve sent several messages already. Wait a few minutes before trying again.',
     footerTagline: 'Your full-stack tech partner.',
     footerLinksLabel: 'Sections',
     footerContactLabel: 'Contact',
@@ -93,13 +101,19 @@ const TRANSLATIONS = {
 // INICIALIZACIÓN
 // ========================================
 
-let currentLang = localStorage.getItem('opsyn-lang') || 'es';
+let currentLang = ['es', 'en'].includes(localStorage.getItem('opsyn-lang'))
+  ? localStorage.getItem('opsyn-lang')
+  : 'es';
 
 document.addEventListener('DOMContentLoaded', () => {
   initLanguage();
   initScrollReveal();
   initContactForm();
   initLangSwitcher();
+  initNavToggle();
+  initActiveNavObserver();
+  initHeaderScrollState();
+  initParallax();
   updateCopyright();
 });
 
@@ -114,31 +128,28 @@ function initLanguage() {
 function applyLanguage(lang) {
   currentLang = lang;
   localStorage.setItem('opsyn-lang', lang);
+  document.documentElement.setAttribute('lang', lang);
 
-  // Actualizar texto de elementos con data-i18n
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     const translation = TRANSLATIONS[lang][key];
-    if (translation) {
-      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-        el.placeholder = translation;
-      } else if (el.tagName === 'SELECT') {
-        el.querySelector('option[value=""]').textContent = translation;
-      } else if (el.tagName === 'BUTTON' && el.classList.contains('form-submit')) {
-        el.textContent = translation;
-      } else {
-        el.textContent = translation;
-      }
+    if (!translation) return;
+
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      el.placeholder = translation;
+    } else if (el.tagName === 'OPTION') {
+      el.textContent = translation;
+    } else {
+      el.textContent = translation;
     }
   });
 
-  // Actualizar botones de idioma
   document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.remove('active');
+    const isActive = btn.getAttribute('data-lang') === lang;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', String(isActive));
   });
-  document.querySelector(`[data-lang="${lang}"]`)?.classList.add('active');
 
-  // Actualizar copyright
   updateCopyright();
 }
 
@@ -158,10 +169,57 @@ function updateCopyright() {
 function initLangSwitcher() {
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
-      const lang = e.target.getAttribute('data-lang');
+      const lang = e.currentTarget.getAttribute('data-lang');
       applyLanguage(lang);
     });
   });
+}
+
+// ========================================
+// MENÚ MÓVIL
+// ========================================
+
+function initNavToggle() {
+  const toggle = document.querySelector('.nav-toggle');
+  const menu = document.getElementById('nav-menu');
+  if (!toggle || !menu) return;
+
+  toggle.addEventListener('click', () => {
+    const isOpen = menu.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    toggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+  });
+
+  menu.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      menu.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
+
+// ========================================
+// FONDO DEL HEADER AL HACER SCROLL
+// ========================================
+
+function initHeaderScrollState() {
+  const header = document.querySelector('.header');
+  if (!header) return;
+
+  let ticking = false;
+
+  const update = () => {
+    header.classList.toggle('is-scrolled', window.scrollY > 12);
+    ticking = false;
+  };
+
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }, { passive: true });
+
+  update();
 }
 
 // ========================================
@@ -169,10 +227,18 @@ function initLangSwitcher() {
 // ========================================
 
 function initScrollReveal() {
+  const targets = document.querySelectorAll('.reveal-on-scroll, .fade-in');
+  if (!targets.length) return;
+
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach(el => el.classList.add('is-visible'));
+    return;
+  }
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('revealed');
+        entry.target.classList.add('is-visible');
         observer.unobserve(entry.target);
       }
     });
@@ -181,9 +247,62 @@ function initScrollReveal() {
     rootMargin: '0px 0px -50px 0px'
   });
 
-  document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-    observer.observe(el);
+  targets.forEach(el => observer.observe(el));
+}
+
+// ========================================
+// NAV ACTIVA (IntersectionObserver, sin scroll listener)
+// ========================================
+
+function initActiveNavObserver() {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  if (!sections.length || !navLinks.length || !('IntersectionObserver' in window)) return;
+
+  const setActive = (id) => {
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+    });
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter(entry => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+    if (visible) setActive(visible.target.id);
+  }, {
+    rootMargin: '-40% 0px -50% 0px',
+    threshold: [0, 0.25, 0.5, 0.75, 1]
   });
+
+  sections.forEach(section => observer.observe(section));
+}
+
+// ========================================
+// PARALLAX EN HERO (rAF-throttled, respeta reduced-motion)
+// ========================================
+
+function initParallax() {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const circuitBg = document.querySelector('.circuit-bg');
+  if (!circuitBg || prefersReducedMotion) return;
+
+  let ticking = false;
+
+  const update = () => {
+    const scrolled = window.scrollY;
+    if (scrolled < window.innerHeight) {
+      circuitBg.style.transform = `translateY(${scrolled * 0.3}px)`;
+    }
+    ticking = false;
+  };
+
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }, { passive: true });
 }
 
 // ========================================
@@ -194,57 +313,55 @@ function initContactForm() {
   const form = document.getElementById('contactForm');
   if (!form) return;
 
+  const submitBtn = form.querySelector('.form-submit');
+  const feedback = form.querySelector('.form-feedback');
+
+  const setFeedback = (message, state) => {
+    if (!feedback) return;
+    feedback.textContent = message;
+    feedback.dataset.state = state || '';
+  };
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(form);
-    const data = {
-      nombre: form.querySelector('input[type="text"]').value,
-      email: form.querySelector('input[type="email"]').value,
-      servicio: form.querySelector('select').value,
-      mensaje: form.querySelector('textarea').value,
-      fecha: new Date().toLocaleString(),
-      idioma: currentLang
+    if (submitBtn?.disabled) return;
+
+    const payload = {
+      nombre: form.querySelector('#f-nombre')?.value.trim() || '',
+      email: form.querySelector('#f-email')?.value.trim() || '',
+      servicio: form.querySelector('#f-servicio')?.value || '',
+      mensaje: form.querySelector('#f-mensaje')?.value.trim() || '',
+      _gotcha: form.querySelector('#f-gotcha')?.value || ''
     };
 
+    submitBtn?.setAttribute('disabled', 'true');
+    setFeedback('', '');
+
     try {
-      // Aquí se puede integrar un servicio de email (Formspree, EmailJS, etc.)
-      // Por ahora, simulamos el envío
-      console.log('Mensaje enviado:', data);
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
 
-      // Mostrar mensaje de éxito
-      const submitBtn = form.querySelector('.form-submit');
-      const successMsg = form.querySelector('.form-success');
+      const result = await response.json().catch(() => ({}));
 
-      submitBtn.style.display = 'none';
-      successMsg.classList.remove('hidden');
-
-      // Limpiar formulario
-      form.reset();
-
-      // Restaurar estado después de 3 segundos
-      setTimeout(() => {
-        submitBtn.style.display = 'block';
-        successMsg.classList.add('hidden');
-      }, 3000);
-
-    } catch (error) {
-      console.error('Error al enviar:', error);
-      alert(currentLang === 'es'
-        ? 'Hubo un error al enviar tu mensaje. Intenta nuevamente.'
-        : 'There was an error sending your message. Please try again.');
+      if (response.ok && result.success) {
+        setFeedback(TRANSLATIONS[currentLang].formSuccess, 'success');
+        form.reset();
+      } else if (response.status === 429) {
+        setFeedback(TRANSLATIONS[currentLang].formErrorRateLimit, 'error');
+      } else if (response.status === 400) {
+        setFeedback(TRANSLATIONS[currentLang].formErrorValidation, 'error');
+      } else {
+        setFeedback(TRANSLATIONS[currentLang].formErrorGeneric, 'error');
+      }
+    } catch {
+      setFeedback(TRANSLATIONS[currentLang].formErrorGeneric, 'error');
+    } finally {
+      submitBtn?.removeAttribute('disabled');
     }
-  });
-
-  // Mejorar inputs
-  const inputs = form.querySelectorAll('input, textarea, select');
-  inputs.forEach(input => {
-    input.addEventListener('focus', function() {
-      this.parentElement?.classList.add('focused');
-    });
-    input.addEventListener('blur', function() {
-      this.parentElement?.classList.remove('focused');
-    });
   });
 }
 
@@ -253,7 +370,7 @@ function initContactForm() {
 // ========================================
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
+  anchor.addEventListener('click', function (e) {
     const href = this.getAttribute('href');
     if (href === '#' || href === '') return;
 
@@ -264,102 +381,3 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     }
   });
 });
-
-// ========================================
-// NAV ACTIVA EN SCROLL
-// ========================================
-
-window.addEventListener('scroll', () => {
-  updateActiveNav();
-});
-
-function updateActiveNav() {
-  const sections = document.querySelectorAll('section[id]');
-  const scrollPosition = window.scrollY + 100;
-
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop;
-    const sectionHeight = section.offsetHeight;
-
-    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-      document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.remove('active');
-      });
-
-      const activeLink = document.querySelector(`.nav-link[href="#${section.id}"]`);
-      if (activeLink) {
-        activeLink.classList.add('active');
-      }
-    }
-  });
-}
-
-// ========================================
-// PARALLAX EFFECT EN HERO
-// ========================================
-
-window.addEventListener('scroll', () => {
-  const scrolled = window.scrollY;
-  const hero = document.querySelector('.hero');
-
-  if (hero && scrolled < window.innerHeight) {
-    const circuitBg = document.querySelector('.circuit-bg');
-    if (circuitBg) {
-      circuitBg.style.transform = `translateY(${scrolled * 0.5}px)`;
-    }
-  }
-});
-
-// ========================================
-// UTILIDADES
-// ========================================
-
-// Detectar si el navegador soporta características
-function checkBrowserSupport() {
-  const hasIntersectionObserver = 'IntersectionObserver' in window;
-  const hasLocalStorage = (() => {
-    try {
-      localStorage.setItem('test', 'test');
-      localStorage.removeItem('test');
-      return true;
-    } catch {
-      return false;
-    }
-  })();
-
-  if (!hasIntersectionObserver) {
-    console.warn('IntersectionObserver no soportado. Las animaciones de scroll pueden no funcionar.');
-  }
-
-  if (!hasLocalStorage) {
-    console.warn('localStorage no disponible. El idioma seleccionado no se guardará.');
-  }
-
-  return hasIntersectionObserver && hasLocalStorage;
-}
-
-// Iniciar verificación de soporte
-checkBrowserSupport();
-
-// ========================================
-// ANALYTICS (Opcional)
-// ========================================
-
-// Rastrear clics en CTA
-document.querySelectorAll('.cta-button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    console.log('CTA clicked:', btn.textContent);
-    // Aquí se puede enviar a Google Analytics, Mixpanel, etc.
-  });
-});
-
-// ========================================
-// SERVICE WORKER (Opcional)
-// ========================================
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    // Descomenta la siguiente línea si tienes un archivo sw.js
-    // navigator.serviceWorker.register('./sw.js');
-  });
-}

@@ -42,8 +42,21 @@ out/
 # Archivos temporales
 *.tmp
 *.temp
+
+# Secretos y variables de entorno
+.env
 .env.local
+.env.development
+.env.production
+.env.test
 .env.*.local
+*.pem
+*.key
+*.cert
+*.crt
+credentials.json
+secrets.json
+*.secret
 
 # Backups
 *.bak
@@ -56,3 +69,5 @@ out/
 
 # Ignition files
 .ignition/
+
+.vercel
