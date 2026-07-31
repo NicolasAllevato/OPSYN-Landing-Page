@@ -424,8 +424,11 @@ a:hover {
 
 .hero-logo {
   width: min(220px, 50vw);
+  height: auto;
   object-fit: contain;
   filter: drop-shadow(0 0 30px var(--glow-color));
+  -webkit-mask-image: radial-gradient(circle, black 58%, transparent 82%);
+  mask-image: radial-gradient(circle, black 58%, transparent 82%);
 }
 
 .hero-tagline {
