@@ -437,7 +437,7 @@ a:hover {
   font-size: var(--fs-sm);
   color: var(--cyan);
   letter-spacing: 0.5px;
-  margin: 8px 0 0;
+  margin: 8px auto 0;
   max-width: 520px;
 }
 
@@ -452,7 +452,7 @@ a:hover {
   line-height: 1.5;
   color: var(--text-muted);
   max-width: 560px;
-  margin: 0;
+  margin: 0 auto;
 }
 
 .cta-button {
@@ -1554,12 +1554,18 @@ html:not(.js) .fade-in {
 }
 
 @media (min-width: 1025px) {
-  .services-grid,
-  .about-points {
+  .services-grid {
     grid-template-columns: repeat(4, 1fr);
   }
 
-  .portfolio-grid,
+  .about-points {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .blog-grid {
     grid-template-columns: repeat(3, 1fr);
   }
