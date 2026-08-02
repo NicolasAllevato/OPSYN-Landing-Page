@@ -50,7 +50,8 @@
 
   /* --- Espaciado y radios --- */
   --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
-  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --sp-6: 24px; --sp-8: 32px; --sp-10: 40px; --sp-12: 48px;
+  --sp-16: 64px; --sp-20: 80px;
   --r-sm: 8px; --r-md: 12px; --r-lg: 20px; --r-pill: 999px;
 
   --container: 1120px;
@@ -220,7 +221,7 @@ a:hover {
 }
 
 .header-content {
-  max-width: 1200px;
+  max-width: var(--container);
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -333,7 +334,7 @@ a:hover {
   align-items: center;
   text-align: center;
   padding: 136px 24px 64px;
-  gap: 16px;
+  gap: var(--sp-6);
   overflow: hidden;
   min-height: 100vh;
   justify-content: center;
@@ -433,7 +434,7 @@ a:hover {
 
 .hero-tagline {
   font-family: var(--font-primary);
-  font-size: 14px;
+  font-size: var(--fs-sm);
   color: var(--cyan);
   letter-spacing: 0.5px;
   margin: 8px 0 0;
@@ -447,7 +448,7 @@ a:hover {
 }
 
 .hero-subtitle {
-  font-size: 14.5px;
+  font-size: var(--fs-sm);
   line-height: 1.5;
   color: var(--text-muted);
   max-width: 560px;
@@ -508,7 +509,7 @@ section {
 }
 
 .section-subtitle {
-  font-size: 14px;
+  font-size: var(--fs-sm);
   color: var(--text-muted);
   max-width: 560px;
 }
@@ -518,25 +519,27 @@ section {
    ======================================== */
 
 .services {
-  padding: 56px 24px;
-  max-width: 1100px;
+  padding: var(--sp-20) var(--sp-6);
+  max-width: var(--container);
   margin: 0 auto;
 }
 
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
+  gap: var(--sp-6);
 }
 
 .service-card {
   background: linear-gradient(160deg, rgba(56, 19, 124, 0.4), rgba(13, 3, 38, 0.6));
   border: 1px solid rgba(148, 52, 212, 0.3);
   border-radius: 12px;
-  padding: 18px 16px;
+  padding: var(--sp-6) var(--sp-4);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  text-align: center;
+  gap: var(--sp-2);
   transition: var(--transition);
 }
 
@@ -559,12 +562,12 @@ section {
 
 .service-card h3 {
   font-family: var(--font-primary);
-  font-size: 15px;
+  font-size: var(--fs-md);
   margin: 0;
 }
 
 .service-card p {
-  font-size: 13px;
+  font-size: var(--fs-sm);
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.72);
   margin: 0;
@@ -575,7 +578,7 @@ section {
    ======================================== */
 
 .about {
-  padding: 56px 24px;
+  padding: var(--sp-20) var(--sp-6);
   background: linear-gradient(180deg, rgba(56, 19, 124, 0.15), transparent);
 }
 
@@ -587,7 +590,7 @@ section {
 .about-text {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--sp-4);
   margin-bottom: 24px;
 }
 
@@ -601,15 +604,15 @@ section {
 .about-points {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px;
+  gap: var(--sp-4);
   width: 100%;
 }
 
 .about-card {
   border: 1px solid var(--teal-40);
   border-radius: 10px;
-  padding: 14px;
-  text-align: left;
+  padding: var(--sp-4);
+  text-align: center;
   transition: var(--transition);
 }
 
@@ -620,13 +623,13 @@ section {
 
 .about-card h4 {
   font-family: var(--font-primary);
-  font-size: 14px;
+  font-size: var(--fs-sm);
   margin: 0 0 5px;
   color: var(--cyan);
 }
 
 .about-card p {
-  font-size: 12.5px;
+  font-size: var(--fs-sm);
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.7);
   margin: 0;
@@ -637,15 +640,15 @@ section {
    ======================================== */
 
 .portfolio {
-  padding: 56px 24px;
-  max-width: 1100px;
+  padding: var(--sp-20) var(--sp-6);
+  max-width: var(--container);
   margin: 0 auto;
 }
 
 .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
+  gap: var(--sp-6);
 }
 
 .portfolio-card {
@@ -667,6 +670,8 @@ section {
 .portfolio-card {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: var(--sp-2);
   padding: var(--sp-6);
   min-height: 180px;
@@ -713,9 +718,9 @@ section {
    ======================================== */
 
 .blog {
-  padding: 80px 24px;
+  padding: var(--sp-20) var(--sp-6);
   background: linear-gradient(180deg, transparent, rgba(56, 19, 124, 0.15));
-  max-width: 1100px;
+  max-width: var(--container);
   margin: 0 auto;
   width: 100%;
 }
@@ -723,7 +728,7 @@ section {
 .blog-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
+  gap: var(--sp-6);
 }
 
 .blog-card {
@@ -759,25 +764,27 @@ section {
 }
 
 .blog-info {
-  padding: 12px 14px;
+  padding: var(--sp-4);
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  align-items: center;
+  text-align: center;
+  gap: var(--sp-2);
 }
 
 .blog-date {
-  font-size: 11px;
+  font-size: var(--fs-xs);
   color: rgba(255, 255, 255, 0.5);
 }
 
 .blog-info h3 {
   font-family: var(--font-primary);
-  font-size: 14px;
+  font-size: var(--fs-md);
   margin: 0;
 }
 
 .blog-info p {
-  font-size: 12.5px;
+  font-size: var(--fs-sm);
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.7);
   margin: 0;
@@ -788,7 +795,7 @@ section {
    ======================================== */
 
 .contact {
-  padding: 56px 24px;
+  padding: var(--sp-20) var(--sp-6);
   max-width: 680px;
   margin: 0 auto;
 }
@@ -800,18 +807,18 @@ section {
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: var(--sp-4);
   background: rgba(56, 19, 124, 0.2);
   border: 1px solid rgba(148, 52, 212, 0.3);
   border-radius: 20px;
-  padding: 36px 24px;
+  padding: var(--sp-8) var(--sp-6);
   box-shadow: 0 0 40px rgba(148, 52, 212, 0.12);
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
+  gap: var(--sp-4);
 }
 
 @media (max-width: 600px) {
@@ -908,7 +915,7 @@ select.form-input option {
 }
 
 .footer-content {
-  max-width: 1200px;
+  max-width: var(--container);
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
@@ -999,15 +1006,42 @@ select.form-input option {
     gap: 12px;
   }
 
+  .header .nav-toggle {
+    display: inline-flex;
+  }
+
   .nav-menu {
     order: 3;
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    right: 0;
     width: 100%;
-    gap: 12px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: var(--sp-4);
+    background: var(--header-bg);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    transform: translateY(-8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
     font-size: 13px;
+  }
+
+  .nav-menu.is-open {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
   }
 
   .nav-link {
     font-size: 13px;
+    padding: var(--sp-3) 0;
+    border-bottom: 1px solid var(--border-color);
   }
 
   .hero {
@@ -1017,8 +1051,8 @@ select.form-input option {
   .services-grid,
   .portfolio-grid,
   .blog-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 12px;
+    grid-template-columns: 1fr;
+    gap: var(--sp-3);
   }
 
   .about-points {
@@ -1242,12 +1276,6 @@ select.form-input option {
    FORMULARIO — CAMPOS, LABELS, ESTADOS
    ======================================== */
 
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--sp-4);
-}
-
 .form-field {
   display: flex;
   flex-direction: column;
@@ -1297,10 +1325,10 @@ select.form-input option {
 
 .form-submit[disabled] .form-spinner {
   display: inline-block;
-  animation: spin 0.7s linear infinite;
+  animation: spinSimple 0.7s linear infinite;
 }
 
-@keyframes spin {
+@keyframes spinSimple {
   to { transform: rotate(360deg); }
 }
 
@@ -1350,9 +1378,16 @@ select.form-input option {
 
 .circuit-nodes circle {
   opacity: 0;
-  animation: fadeInNode 0.6s ease-out forwards;
-  animation-delay: 1.8s;
+  transform-box: fill-box;
+  transform-origin: center;
+  /* fadeInNode: aparición única | nodePulse: latido ambiental en loop, arranca cuando termina el fade */
+  animation: fadeInNode 0.6s ease-out forwards, nodePulse 2.8s ease-in-out infinite;
+  animation-delay: 1.8s, 2.4s;
 }
+
+.circuit-nodes circle:nth-child(2) { animation-delay: 1.8s, 2.9s; }
+.circuit-nodes circle:nth-child(3) { animation-delay: 1.8s, 3.4s; }
+.circuit-nodes circle:nth-child(4) { animation-delay: 1.8s, 3.9s; }
 
 @keyframes drawTrace {
   to { stroke-dashoffset: 0; }
@@ -1360,6 +1395,55 @@ select.form-input option {
 
 @keyframes fadeInNode {
   to { opacity: 1; }
+}
+
+/* Latido sutil de los nodos: transform en vez de radio/filtro para quedar en GPU */
+@keyframes nodePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.35); }
+}
+
+/* Circuito "vivo": punto de luz recorriendo cada trazo en loop, vía CSS motion path.
+   offset-path repite el mismo "d" del trazo correspondiente. */
+.circuit-pulses circle {
+  fill: var(--cyan);
+  opacity: 0;
+  animation: circuitFlow 5.5s linear infinite;
+  animation-delay: 2.4s;
+}
+
+.circuit-pulses circle:nth-child(1) {
+  offset-path: path('M0 200 H300 V500 H700 V180');
+  animation-delay: 2.4s;
+}
+
+.circuit-pulses circle:nth-child(2) {
+  offset-path: path('M1920 300 H1600 V700 H1200 V400');
+  animation-delay: 3.6s;
+}
+
+.circuit-pulses circle:nth-child(3) {
+  offset-path: path('M0 900 H250 V1200 H600');
+  animation-delay: 4.8s;
+}
+
+.circuit-pulses circle:nth-child(4) {
+  offset-path: path('M1920 1100 H1650 V1500 H1300 V1800');
+  animation-delay: 6s;
+}
+
+@keyframes circuitFlow {
+  0% { offset-distance: 0%; opacity: 0; }
+  8% { opacity: 0.9; }
+  92% { opacity: 0.9; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+/* Degradación prolija en navegadores sin soporte de motion path: ocultar los pulsos */
+@supports not (offset-path: path('M0 0')) {
+  .circuit-pulses {
+    display: none;
+  }
 }
 
 /* ========================================
@@ -1445,6 +1529,11 @@ html:not(.js) .fade-in {
 
   .circuit-nodes circle {
     opacity: 1;
+    transform: none;
+  }
+
+  .circuit-pulses {
+    display: none;
   }
 
   .service-card:hover,
@@ -1452,60 +1541,6 @@ html:not(.js) .fade-in {
   .portfolio-card:hover,
   .blog-card:hover {
     transform: none;
-  }
-}
-
-/* ========================================
-   RESPONSIVE — MENÚ MÓVIL Y GRIDS
-   ======================================== */
-
-@media (max-width: 768px) {
-  .nav-toggle {
-    display: inline-flex;
-  }
-
-  .nav-menu {
-    position: fixed;
-    top: var(--header-h);
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    padding: var(--sp-4);
-    background: var(--header-bg);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border-color);
-    transform: translateY(-8px);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
-  }
-
-  .nav-menu.is-open {
-    opacity: 1;
-    transform: none;
-    visibility: visible;
-  }
-
-  .nav-link {
-    padding: var(--sp-3) 0;
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-
-  .services-grid,
-  .about-points {
-    grid-template-columns: 1fr;
-  }
-
-  .portfolio-grid,
-  .blog-grid {
-    grid-template-columns: 1fr;
   }
 }
 

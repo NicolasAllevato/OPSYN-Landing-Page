@@ -188,7 +188,8 @@ async function enviarEmailDeContacto(datos) {
     throw new Error('CONFIGURACION_INCOMPLETA');
   }
 
-  const asunto = `Nuevo contacto: ${datos.nombre} — ${ETIQUETAS_SERVICIO[datos.servicio] || datos.servicio}`;
+  const nombreAsunto = datos.nombre.replace(/[\r\n]+/g, ' ').trim();
+  const asunto = `Nuevo contacto: ${nombreAsunto} — ${ETIQUETAS_SERVICIO[datos.servicio] || datos.servicio}`;
 
   const respuesta = await fetch('https://api.resend.com/emails', {
     method: 'POST',
