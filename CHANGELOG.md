@@ -16,6 +16,26 @@ Seguimos [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/) y [Semantic
 
 ---
 
+## [1.3.0] - 2026-08-12
+
+### Added
+- Páginas legales: `privacidad.html`, `terminos.html`, `cookies.html`, con contenido final (jurisdicción Argentina, Ley 25.326 de Protección de Datos Personales).
+- `404.html` con estilo consistente al resto del sitio.
+- `robots.txt` y `sitemap.xml` en la raíz.
+- SEO técnico en `index.html`: `<meta name="robots">`, `<link rel="canonical">`, meta tags de Twitter Card, `og:url`/`og:image`/`og:locale`, y JSON-LD `Organization`.
+- Sección "Legal" en el footer de `index.html` (Privacidad / Términos / Cookies), traducida ES/EN.
+- Estilos `.legal-*` y `.error-*` en `css/styles.css` para las páginas nuevas.
+
+### Security
+- CSP (`vercel.json`) actualizado: se agregó el hash `sha256` del nuevo `<script type="application/ld+json">` a `script-src` (mismo patrón que el script inline existente; sigue sin usarse `unsafe-inline`).
+
+### Pending
+- Crear cuenta en Resend, verificar dominio propio y cargar `RESEND_API_KEY` + `CONTACT_TO_EMAIL` en Vercel; actualizar el `from` de `api/contact.js` al dominio verificado.
+- Confirmar el dominio final (hoy `opsyn-landing.vercel.app` en canonical/sitemap/robots/OG; actualizar si se conecta un dominio propio).
+- Si en el futuro se constituye una sociedad, actualizar el nombre legal en `privacidad.html` y `terminos.html` (hoy operan como emprendimiento sin razón social registrada).
+
+---
+
 ## [1.0.0] - 2026-07-28
 
 ### Added

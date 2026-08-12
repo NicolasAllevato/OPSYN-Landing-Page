@@ -16,24 +16,27 @@ Sitio web bilingüe (ES/EN) para OPSYN, agencia de desarrollo tecnológico e IA.
 
 ```
 ├── index.html                 # Página principal
+├── privacidad.html             # Política de Privacidad
+├── terminos.html                # Términos y Condiciones
+├── cookies.html                 # Política de Cookies
+├── 404.html                     # Página de error 404
+├── robots.txt                   # Directivas para crawlers
+├── sitemap.xml                  # Mapa del sitio
 ├── css/
 │   └── styles.css            # Estilos (variables CSS, responsive)
 ├── js/
-│   └── main.js               # JavaScript (idioma, animaciones, formulario)
-├── uploads/
-│   ├── Logo Opsyn.png        # Logo pequeño
-│   └── Logo con nombre OPSYN.png  # Logo con nombre
-├── assets/
-│   ├── blog-1.png            # Imagen blog
-│   ├── blog-2.png
-│   ├── blog-3.png
-│   ├── portfolio-1.png       # Imagen portfolio
-│   ├── portfolio-2.png
-│   ├── portfolio-3.png
-│   └── portfolio-4.png
+│   ├── main.js                # JavaScript (idioma, animaciones, formulario)
+│   └── assets.js              # Configuración del CDN de imágenes (R2, hoy inactivo)
+├── api/
+│   └── contact.js             # Backend del formulario (Vercel Function + Resend)
+├── assets/                     # Logos e imágenes optimizados (WebP/PNG)
+├── Logo Opsyn.png               # Logo original (fuente de las variantes optimizadas)
+├── Logo con nombre OPSYN.png    # Logo original con nombre
+├── vercel.json                  # Config de hosting + cabeceras de seguridad (CSP, HSTS, etc.)
 ├── README.md                 # Este archivo
 ├── GUÍA_USO.md              # Guía de personalización
-└── ESTRUCTURA.md            # Documentación técnica
+├── ESTRUCTURA.md             # Documentación técnica
+└── CHANGELOG.md               # Historial de cambios
 ```
 
 ## Secciones
@@ -126,33 +129,15 @@ const TRANSLATIONS = {
 
 ## Integración del Formulario de Contacto
 
-El formulario actualmente es simulado (solo muestra confirmación local).
-Para enviar emails reales, integrar uno de estos servicios:
+El formulario ya está integrado con un backend real: `js/main.js` hace `fetch` a `/api/contact`, una Vercel Serverless Function (`api/contact.js`) que valida los datos, aplica honeypot y rate limit (5 envíos / 15 min por IP), y envía el email vía **Resend** (API REST nativa, sin SDK).
 
-### Opción 1: Formspree
-```html
-<form action="https://formspree.io/f/TU_ID" method="POST">
-```
+Para que funcione en producción falta:
+1. Crear cuenta en [Resend](https://resend.com) y verificar un dominio propio de envío (Resend no permite enviar desde dominios de terceros como `gmail.com`; se necesita un dominio propio con los registros DNS verificados).
+2. Cargar `RESEND_API_KEY` en Vercel → Project Settings → Environment Variables (ver `.env.example`).
+3. Cargar `CONTACT_TO_EMAIL=opsyn.soluciones@gmail.com` en las mismas Environment Variables — esa es la casilla que **recibe** los mensajes del formulario, no requiere verificación de dominio.
+4. Una vez verificado el dominio en Resend, actualizar el `from` en `api/contact.js` (hoy `contacto@opsyn.dev`, placeholder) por `algo@<tu-dominio-verificado>`.
 
-### Opción 2: EmailJS
-```javascript
-emailjs.init('TU_PUBLIC_KEY');
-emailjs.send('TU_SERVICE_ID', 'TU_TEMPLATE_ID', templateParams)
-  .then((response) => {
-    console.log('Enviado', response);
-  });
-```
-
-### Opción 3: Backend personalizado
-Crear endpoint en tu servidor:
-```javascript
-fetch('/api/contacto', {
-  method: 'POST',
-  body: JSON.stringify(data)
-})
-```
-
-Ver `GUÍA_USO.md` para ejemplos detallados.
+Ver `api/README.md` para el detalle del endpoint.
 
 ## Rendimiento
 
@@ -176,16 +161,23 @@ Ver `GUÍA_USO.md` para ejemplos detallados.
 ## SEO
 
 ### Meta Tags Incluidos
-- Title y Description
-- Open Graph (og:title, og:description, og:type)
+- Title, Description, Keywords y `<meta name="robots">`
+- `<link rel="canonical">`
+- Open Graph (og:title, og:description, og:type, og:url, og:image, og:locale)
+- Twitter Card
+- JSON-LD `Organization` (schema.org)
 - Viewport para responsive
 - Favicon
+- `robots.txt` y `sitemap.xml` en la raíz
 
-### Recomendaciones
-1. Agregar `robots.txt` y `sitemap.xml`
-2. Verificar con Google Search Console
-3. Usar schema.org structured data
-4. Optimizar alt text en imágenes
+### Pendiente
+1. Verificar con Google Search Console una vez que el dominio final esté conectado.
+2. Actualizar `opsyn-landing.vercel.app` por el dominio propio (`opsyn.com`) en `index.html`, `robots.txt` y `sitemap.xml` cuando esté configurado.
+3. Optimizar alt text en imágenes de portfolio/blog.
+
+## Legal
+
+El sitio incluye `privacidad.html`, `terminos.html` y `cookies.html`, enlazadas desde el footer. Contenido completo: jurisdicción Argentina, Ley 25.326 de Protección de Datos Personales. OPSYN opera hoy como emprendimiento sin razón social registrada; si en el futuro se constituye una sociedad, actualizar el nombre legal en `privacidad.html` y `terminos.html`.
 
 ## Accesibilidad
 
@@ -273,6 +265,6 @@ git push origin main
 
 ---
 
-**Última actualización:** Julio 2026  
-**Versión:** 1.0.0  
+**Última actualización:** Agosto 2026  
+**Versión:** 1.3.0  
 **Mantenedor:** OPSYN Team

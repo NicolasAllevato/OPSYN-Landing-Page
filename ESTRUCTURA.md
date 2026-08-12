@@ -43,7 +43,7 @@ LÓGICA (JavaScript)
 ### Estructura de Componentes
 
 ```
-PAGE
+PAGE (index.html)
 ├── HEADER (navegación fija)
 ├── HERO (bienvenida)
 ├── SERVICES (4 tarjetas)
@@ -51,8 +51,17 @@ PAGE
 ├── PORTFOLIO (4 proyectos)
 ├── BLOG (3 artículos)
 ├── CONTACT (formulario)
-└── FOOTER (información)
+└── FOOTER (información, incl. sección Legal)
 ```
+
+### Páginas Secundarias
+
+Además de `index.html`, el sitio tiene páginas standalone que reutilizan el mismo header/footer y `css/styles.css`, pero **no** el sistema de traducción JS (son solo Español; el toggle ES/EN vive únicamente en `index.html`):
+
+- `privacidad.html`, `terminos.html`, `cookies.html` — usan la clase `.legal-main`/`.legal-content` (ver `css/styles.css`, bloque "PÁGINAS LEGALES / ERROR"). Contenido final, jurisdicción Argentina (Ley 25.326).
+- `404.html` — usa `.error-page`/`.error-code`; `robots` en `noindex, follow` porque no es contenido indexable.
+
+Ambos grupos comparten el mismo script inline `document.documentElement.classList.add('js')` que `index.html`, permitido por la CSP vía el hash SHA-256 ya existente (no requiere una entrada nueva porque el contenido del script es idéntico byte a byte).
 
 ---
 
@@ -493,16 +502,30 @@ const escaped = userInput
 #### 4. Clickjacking
 ✅ Usar header `X-Frame-Options: DENY`
 
-### Headers de Seguridad Recomendados
+### Headers de Seguridad (implementados en `vercel.json`)
+
+El sitio **no** usa `'unsafe-inline'` en `script-src` — cada `<script>` inline se permite mediante su hash SHA-256 exacto:
 
 ```
-Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' fonts.googleapis.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src fonts.gstatic.com; connect-src 'self'
+Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-...' 'sha256-...'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
 
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
-X-XSS-Protection: 1; mode=block
 Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
 ```
+
+**Importante — si agregás o editás un `<script>` inline** (ej. el JSON-LD `Organization` de `index.html`): la CSP lo bloquea salvo que su hash esté en `script-src`. Flujo para regenerar el hash:
+
+```javascript
+const crypto = require('crypto');
+const content = /* contenido EXACTO entre <script> y </script>, sin comillas */;
+const hash = crypto.createHash('sha256').update(content, 'utf8').digest('base64');
+// agregar 'sha256-' + hash a script-src en vercel.json
+```
+
+⚠️ Si el script tiene saltos de línea, el hash puede romperse por la conversión CRLF↔LF de Git en Windows (`core.autocrlf`) — el hash calculado en el checkout local (CRLF) no coincide con lo que Git sirve en producción (LF, que es como se guarda en el repo). Por eso el JSON-LD de `index.html` se escribió en **una sola línea** (sin `\n` internos): así el contenido es idéntico sin importar el final de línea del archivo.
 
 ### HTTPS
 

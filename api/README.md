@@ -11,7 +11,7 @@ Este directorio contiene la Serverless Function de Vercel que procesa el formula
 1. Crear una cuenta en https://resend.com
 2. Verificar un dominio propio (o usar el dominio de pruebas de Resend mientras se verifica el definitivo) en **Domains**.
 3. Generar una API Key en https://resend.com/api-keys.
-4. Ajustar el remitente (`from`) en `contact.js` para que use un dominio verificado en tu cuenta de Resend (por defecto está seteado a `OPSYN Landing <contacto@opsyn.dev>` — cambiarlo si el dominio verificado es otro).
+4. Ajustar el remitente (`from`) en `contact.js` para que use un dominio verificado en tu cuenta de Resend (por defecto está seteado a `OPSYN Landing <contacto@opsyn.dev>` — cambiarlo si el dominio verificado es otro). **Importante:** Resend exige verificar el dominio del `from` por DNS; no se puede usar un dominio de terceros (ej. `gmail.com`) como remitente. El email de destino (`CONTACT_TO_EMAIL`, ver abajo) sí puede ser cualquier casilla, incluida una de Gmail.
 
 ## Variables de entorno requeridas
 

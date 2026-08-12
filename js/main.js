@@ -48,6 +48,10 @@ const TRANSLATIONS = {
     footerTagline: 'Tu partner tecnológico integral.',
     footerLinksLabel: 'Secciones',
     footerContactLabel: 'Contacto',
+    footerLegalLabel: 'Legal',
+    footerPrivacy: 'Privacidad',
+    footerTerms: 'Términos y condiciones',
+    footerCookies: 'Cookies',
   },
   en: {
     tagline: '"we are an idea, we are a project, we are the solution for you"',
@@ -94,6 +98,10 @@ const TRANSLATIONS = {
     footerTagline: 'Your full-stack tech partner.',
     footerLinksLabel: 'Sections',
     footerContactLabel: 'Contact',
+    footerLegalLabel: 'Legal',
+    footerPrivacy: 'Privacy',
+    footerTerms: 'Terms & conditions',
+    footerCookies: 'Cookies',
   }
 };
 
