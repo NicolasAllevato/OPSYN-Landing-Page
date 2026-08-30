@@ -71,3 +71,6 @@ secrets.json
 .ignition/
 
 .vercel
+
+# Grafo de conocimiento generado (graphify)
+graphify-out/
