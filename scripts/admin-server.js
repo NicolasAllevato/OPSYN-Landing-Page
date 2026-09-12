@@ -14,6 +14,10 @@
 const http = require('node:http');
 const fs = require('node:fs/promises');
 const path = require('node:path');
+const { execFile } = require('node:child_process');
+const { promisify } = require('node:util');
+
+const execFileAsync = promisify(execFile);
 
 const HOST = '127.0.0.1';
 const PORT = 4321;
@@ -121,9 +125,51 @@ async function handlePutServiceItems(req, res) {
 
   try {
     await fs.writeFile(DATA_FILE, JSON.stringify(payload, null, 2) + '\n', 'utf8');
-    sendJson(res, 200, { ok: true });
   } catch (error) {
     sendJson(res, 500, { error: 'No se pudo escribir data/service-items.json: ' + error.message });
+    return;
+  }
+
+  const publishResult = await publishToGit();
+  sendJson(res, 200, { ok: true, ...publishResult });
+}
+
+// Publica el ítem guardado en producción: commitea y pushea SOLO
+// data/service-items.json (nunca otros archivos que puedas tener en curso
+// en el mismo repo, aunque estén "staged" en otra terminal). Vercel tiene
+// auto-deploy en push a master, así que esto es lo único que hace falta
+// para que el cambio llegue a la web — no hay paso manual de git.
+const DATA_PATHSPEC = 'data/service-items.json';
+const GIT_TIMEOUT_MS = 20000;
+
+async function runGit(args) {
+  return execFileAsync('git', args, { cwd: ROOT_DIR, timeout: GIT_TIMEOUT_MS });
+}
+
+async function publishToGit() {
+  try {
+    const { stdout: statusOut } = await runGit(['status', '--porcelain', '--', DATA_PATHSPEC]);
+    if (!statusOut.trim()) {
+      // Contenido idéntico al último commit (ej. abrir y guardar sin
+      // cambios reales) — no hay nada que publicar, no es un error.
+      return { published: false, reason: 'sin cambios' };
+    }
+
+    await runGit(['add', '--', DATA_PATHSPEC]);
+    // "git commit -- <pathspec>" commitea SOLO ese archivo aunque haya
+    // otros cambios staged por vos en otra terminal — no los toca.
+    await runGit([
+      'commit',
+      '-m',
+      'content: actualizar service-items.json (vía panel admin)',
+      '--',
+      DATA_PATHSPEC,
+    ]);
+    await runGit(['push']);
+    return { published: true };
+  } catch (error) {
+    const detail = (error.stderr && error.stderr.toString().trim()) || error.message;
+    return { published: false, error: detail };
   }
 }
 

@@ -235,8 +235,20 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(state.data),
       });
-      if (!response.ok) throw new Error('HTTP ' + response.status);
-      showStatus('Guardado en data/service-items.json ✓', 'success');
+      const data = await response.json().catch(() => null);
+      if (!response.ok) throw new Error(data?.error || 'HTTP ' + response.status);
+
+      if (data?.published) {
+        showStatus('Guardado y publicado en la web ✓ (Vercel deploya en ~1 min)', 'success');
+      } else if (data?.reason === 'sin cambios') {
+        showStatus('Guardado (sin cambios para publicar) ✓', 'success');
+      } else {
+        showStatus(
+          'Guardado localmente, pero no se publicó automáticamente. ' +
+            (data?.error || 'Revisá la terminal donde corre "npm run admin".'),
+          'warning'
+        );
+      }
     } catch (error) {
       showStatus(
         'No se pudo guardar. ¿Está corriendo "npm run admin"? (' + error.message + ')',
