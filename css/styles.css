@@ -1181,10 +1181,13 @@ select.form-input option {
     align-items: stretch;
     gap: 0;
     padding: var(--sp-4);
-    background: var(--header-bg);
+    /* Más opaco que --header-bg (0.85): el menú móvil tapa el hero que
+       queda detrás y con el fondo original se transparentaba demasiado. */
+    background: rgba(13, 3, 38, 0.97);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
     transform: translateY(-8px);
     opacity: 0;
     visibility: hidden;
@@ -1234,6 +1237,35 @@ select.form-input option {
 
   .footer-section {
     min-width: unset;
+  }
+
+  /* .circuit-bg es decoración del hero (vive dentro de .hero-background,
+     que ya es position:absolute) pero su propio position:fixed hace que
+     se vea "pegado" detrás de TODAS las secciones al hacer scroll, cortando
+     tarjetas con líneas gruesas fuera de contexto en pantallas angostas.
+     Al confinarlo a su contenedor queda solo detrás del hero, como se
+     ve en desktop. */
+  .circuit-bg {
+    position: absolute;
+  }
+
+  /* Tarjetas de servicio con acordeón: letra y espaciado más compactos
+     para que los sub-ítems no dominen la tarjeta en pantallas chicas. */
+  .service-items {
+    gap: var(--sp-2);
+    padding-top: var(--sp-2);
+  }
+
+  .service-item-title {
+    font-size: var(--fs-xs);
+  }
+
+  .service-item-desc {
+    font-size: 0.7rem;
+  }
+
+  .service-toggle-icon {
+    font-size: var(--fs-base);
   }
 }
 
@@ -1430,6 +1462,22 @@ select.form-input option {
 .service-icon svg {
   width: 32px;
   height: 32px;
+}
+
+@media (max-width: 768px) {
+  /* Los íconos de servicio ganan tamaño en mobile: en desktop compiten
+     con menos elementos alrededor, pero en una sola columna angosta
+     quedaban chicos en relación al resto de la tarjeta. */
+  .service-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+  }
+
+  .service-icon svg {
+    width: 26px;
+    height: 26px;
+  }
 }
 
 /* ========================================
