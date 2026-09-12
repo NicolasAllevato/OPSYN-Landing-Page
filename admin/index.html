@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>OPSYN · Panel de administración (local)</title>
+  <link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+  <header class="admin-header">
+    <h1>Panel de administración — OPSYN</h1>
+    <p class="admin-subtitle">
+      Herramienta local para agregar/editar los ítems desplegables de cada tarjeta de "Servicios"
+      (por ejemplo, los tipos de agente de IA). Solo corre en tu máquina con <code>npm run admin</code>.
+    </p>
+    <p id="status-banner" class="status-banner" hidden></p>
+  </header>
+
+  <main class="admin-main">
+    <nav class="tabs" id="tabs" aria-label="Servicios"></nav>
+
+    <section class="board">
+      <div class="board-header">
+        <h2 id="board-title">Servicio</h2>
+        <button type="button" class="btn btn-primary" id="add-item-btn">+ Agregar</button>
+      </div>
+      <div class="items-grid" id="items-grid"></div>
+      <p class="empty-state" id="empty-state" hidden>
+        Todavía no hay ítems cargados para este servicio. Agregá el primero con el botón "+ Agregar".
+      </p>
+    </section>
+  </main>
+
+  <dialog id="item-dialog" class="item-dialog">
+    <form method="dialog" id="item-form" class="item-form">
+      <h3 id="dialog-title">Nuevo ítem</h3>
+
+      <label>
+        Título (Español)
+        <input type="text" id="field-title-es" required>
+      </label>
+      <label>
+        Título (Inglés)
+        <input type="text" id="field-title-en" required>
+      </label>
+      <label>
+        Descripción (Español)
+        <textarea id="field-desc-es" rows="3" required></textarea>
+      </label>
+      <label>
+        Descripción (Inglés)
+        <textarea id="field-desc-en" rows="3" required></textarea>
+      </label>
+
+      <div class="dialog-actions">
+        <button type="button" class="btn" id="cancel-btn">Cancelar</button>
+        <button type="submit" class="btn btn-primary" id="save-btn">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="./admin.js"></script>
+</body>
+</html>

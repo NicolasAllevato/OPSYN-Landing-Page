@@ -1,0 +1,31 @@
+{
+  "service1": [],
+  "service2": [
+    {
+      "id": "agente-soporte",
+      "title": { "es": "Agente de soporte", "en": "Support agent" },
+      "desc": {
+        "es": "Responde consultas frecuentes y deriva casos complejos a un humano, 24/7.",
+        "en": "Answers common questions and hands off complex cases to a human, 24/7."
+      }
+    },
+    {
+      "id": "agente-ventas",
+      "title": { "es": "Agente de ventas", "en": "Sales agent" },
+      "desc": {
+        "es": "Califica leads, agenda reuniones y hace seguimiento automático por email o WhatsApp.",
+        "en": "Qualifies leads, books meetings, and follows up automatically over email or WhatsApp."
+      }
+    },
+    {
+      "id": "agente-automatizacion-interna",
+      "title": { "es": "Automatización interna", "en": "Internal automation" },
+      "desc": {
+        "es": "Conecta tus herramientas (planillas, CRM, mail) para eliminar tareas manuales repetitivas.",
+        "en": "Connects your tools (spreadsheets, CRM, email) to remove repetitive manual work."
+      }
+    }
+  ],
+  "service3": [],
+  "service4": []
+}

@@ -1,0 +1,4 @@
+# Panel de administración y su servidor: herramientas de uso exclusivamente
+# local (npm run admin). No deben quedar públicas en el despliegue de Vercel.
+admin/
+scripts/

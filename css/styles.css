@@ -573,6 +573,65 @@ section {
   margin: 0;
 }
 
+/* Tarjetas de servicio con desplegable (ítems cargados desde /admin) */
+.service-card.has-items {
+  cursor: pointer;
+}
+
+.service-card.has-items:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+.service-toggle-icon {
+  display: inline-block;
+  margin-top: calc(var(--sp-1) * -1);
+  font-size: var(--fs-sm);
+  line-height: 1;
+  color: var(--accent-text);
+  transition: transform 0.25s ease;
+}
+
+.service-toggle-icon::before {
+  content: '⌄';
+}
+
+.service-card.is-open .service-toggle-icon {
+  transform: rotate(180deg);
+}
+
+.service-items {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin-top: var(--sp-2);
+  padding-top: var(--sp-3);
+  border-top: 1px solid rgba(148, 52, 212, 0.25);
+  text-align: left;
+  animation: slideDown 0.3s ease both;
+}
+
+/* El atributo `hidden` que usa el JS del acordeón debe ganarle a `display:flex`
+   de arriba; si no, las tarjetas con ítems aparecen siempre abiertas. */
+.service-items[hidden] {
+  display: none;
+}
+
+.service-item-title {
+  font-family: var(--font-primary);
+  font-size: var(--fs-sm);
+  color: var(--text-light);
+  margin: 0;
+}
+
+.service-item-desc {
+  font-size: var(--fs-xs);
+  line-height: 1.45;
+  color: var(--text-subtle);
+  margin: var(--sp-1) 0 0;
+}
+
 /* ========================================
    NOSOTROS
    ======================================== */

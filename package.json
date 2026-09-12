@@ -5,6 +5,7 @@
   "main": "index.html",
   "scripts": {
     "start": "python -m http.server 8000",
+    "admin": "node scripts/admin-server.js",
     "build": "echo 'No build step needed - static site'",
     "test": "echo 'Usar Lighthouse en Chrome DevTools'",
     "deploy": "See deployment guide in README.md"

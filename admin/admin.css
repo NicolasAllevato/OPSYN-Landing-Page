@@ -1,0 +1,249 @@
+:root {
+  --bg: #0D0326;
+  --surface: rgba(56, 19, 124, 0.28);
+  --surface-2: rgba(56, 19, 124, 0.45);
+  --accent: #9434D4;
+  --accent-text: #C77DF0;
+  --cyan: #79FFFF;
+  --text: #FFFFFF;
+  --text-muted: rgba(255, 255, 255, 0.72);
+  --border: rgba(148, 52, 212, 0.3);
+  --danger: #F06868;
+  --success: #6BD98A;
+  --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --r-md: 12px;
+  --r-sm: 8px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  padding: 32px 24px 80px;
+}
+
+.admin-header h1 {
+  margin: 0 0 8px;
+  font-size: 1.6rem;
+}
+
+.admin-subtitle {
+  margin: 0 0 16px;
+  color: var(--text-muted);
+  max-width: 68ch;
+  line-height: 1.5;
+}
+
+.admin-subtitle code {
+  background: var(--surface-2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.status-banner {
+  padding: 10px 14px;
+  border-radius: var(--r-sm);
+  margin: 0 0 16px;
+  font-size: 0.9rem;
+}
+
+.status-banner.success {
+  background: rgba(107, 217, 138, 0.15);
+  border: 1px solid var(--success);
+  color: var(--success);
+}
+
+.status-banner.error {
+  background: rgba(240, 104, 104, 0.15);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+
+.admin-main {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.tab-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 10px 16px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.tab-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.board {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 24px;
+}
+
+.board-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.board-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 9px 16px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn:hover {
+  border-color: var(--accent);
+}
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn-danger {
+  color: var(--danger);
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.item-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item-card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.item-card .item-lang-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cyan);
+}
+
+.item-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.item-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.item-card-actions .btn {
+  flex: 1;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+}
+
+.empty-state {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 24px 0;
+}
+
+.item-dialog {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 24px;
+  max-width: 480px;
+  width: calc(100% - 32px);
+}
+
+.item-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.item-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.item-form h3 {
+  margin: 0 0 4px;
+}
+
+.item-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.item-form input,
+.item-form textarea {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--text);
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}

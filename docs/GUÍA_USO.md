@@ -193,6 +193,11 @@ En sección #servicios, editar cards:
 </div>
 ```
 
+> **Ítems desplegables (agentes, sub-servicios):** cada tarjeta de servicio puede
+> mostrar un menú desplegable con sub-ítems (por ejemplo, los tipos de agente dentro
+> de "Agentes de IA y automatización"). Esos ítems **no se editan a mano** — se cargan
+> desde el panel de administración local (`npm run admin`). Ver [`docs/ADMIN.md`](ADMIN.md).
+
 ---
 
 ## Cambio de Colores y Diseño {#diseño}
