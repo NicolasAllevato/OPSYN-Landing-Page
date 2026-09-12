@@ -45,6 +45,17 @@
         "es": "Conecta tus herramientas (planillas, CRM, mail) para eliminar tareas manuales repetitivas.",
         "en": "Connects your tools (spreadsheets, CRM, email) to remove repetitive manual work."
       }
+    },
+    {
+      "id": "asistente-personal",
+      "title": {
+        "es": "Asistente personal",
+        "en": "Personal assistant"
+      },
+      "desc": {
+        "es": "Capaz de ayudarte en el dia a dia, llevar tus finanzas, agendar tus citas,manejar tu negocio, etc",
+        "en": "Able to help you on a day-to-day basis, take care of your finances, schedule your appointments,manage your business, etc."
+      }
     }
   ],
   "service3": [
