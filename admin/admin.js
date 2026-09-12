@@ -7,6 +7,7 @@
 (function () {
   const API_URL = '/api/admin/service-items';
   const TRANSLATE_URL = '/api/admin/translate';
+  const ENHANCE_URL = '/api/admin/enhance-description';
 
   const SERVICES = [
     { id: 'service1', label: 'Desarrollo de software' },
@@ -41,6 +42,7 @@
   const saveBtn = document.getElementById('save-btn');
   const retranslateTitleBtn = document.getElementById('retranslate-title-btn');
   const retranslateDescBtn = document.getElementById('retranslate-desc-btn');
+  const enhanceDescBtn = document.getElementById('enhance-desc-btn');
 
   function showStatus(message, type) {
     statusBannerEl.textContent = message;
@@ -96,6 +98,45 @@
   retranslateDescBtn.addEventListener('click', () =>
     autoTranslateField(fieldDescEs, fieldDescEn, { force: true })
   );
+
+  // "✨ Mejorar": reescribe con IA (Gemini) el borrador que el usuario puso
+  // en Descripción (Español), en un tono más profesional. El resultado
+  // reemplaza el campo ES y queda editable como cualquier otro texto — y
+  // como cambió el contenido, se re-traduce el inglés para mantenerlo
+  // sincronizado (el usuario también puede editar el inglés a mano después).
+  async function enhanceDescription() {
+    const text = fieldDescEs.value.trim();
+    if (!text) {
+      showStatus('Escribí algo en la Descripción (Español) primero.', 'error');
+      return;
+    }
+
+    enhanceDescBtn.disabled = true;
+    const originalLabel = enhanceDescBtn.textContent;
+    enhanceDescBtn.textContent = 'Mejorando…';
+    fieldDescEs.classList.add('is-translating');
+
+    try {
+      const response = await fetch(ENHANCE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      });
+      const data = await response.json().catch(() => null);
+      if (!response.ok) throw new Error(data?.error || 'HTTP ' + response.status);
+
+      fieldDescEs.value = data.enhanced;
+      await autoTranslateField(fieldDescEs, fieldDescEn, { force: true });
+    } catch (error) {
+      showStatus('No se pudo mejorar el texto. (' + error.message + ')', 'error');
+    } finally {
+      enhanceDescBtn.disabled = false;
+      enhanceDescBtn.textContent = originalLabel;
+      fieldDescEs.classList.remove('is-translating');
+    }
+  }
+
+  enhanceDescBtn.addEventListener('click', enhanceDescription);
 
   function slugify(text) {
     return (text || 'item')

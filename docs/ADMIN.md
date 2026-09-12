@@ -17,16 +17,42 @@ Vercel en `.vercelignore`).
    ```
 2. Abrir en el navegador: `http://127.0.0.1:4321/admin`
 3. Elegir la pestaña del servicio (por ejemplo, "Agentes de IA y automatización").
-4. **Agregar**: botón "+ Agregar" → completar título y descripción en Español e Inglés → Guardar.
+4. **Agregar**: botón "+ Agregar" → completar solo **título y descripción en Español**
+   → el inglés se traduce solo al salir del campo (queda editable; botón "↻ Traducir"
+   para forzar una nueva traducción) → Guardar.
 5. **Editar/Eliminar**: usar los botones en cada tarjeta del tablero.
 
-Cada guardado escribe inmediatamente en `data/service-items.json`. Los cambios se ven
-al recargar `index.html` (local, con `npm start`, o en tu entorno de desarrollo).
+### "✨ Mejorar" — reescribir la descripción con IA (opcional)
+
+Junto al campo "Descripción (Español)" hay un botón **"✨ Mejorar"**: toma lo que
+escribiste (aunque sea una idea suelta o informal) y lo reescribe en un tono más
+profesional con IA (Google Gemini). El resultado reemplaza el campo y queda 100%
+editable — es un punto de partida, no un texto final obligatorio.
+
+Requiere una API key gratis de Google (nivel gratis, sin tarjeta de crédito):
+
+1. Andá a **https://aistudio.google.com/apikey** e iniciá sesión con tu cuenta de Google.
+2. Clic en "Create API key" / "Crear clave de API" y copiala.
+3. Creá un archivo `.env` en la raíz del proyecto (junto a `package.json` — mirá
+   `.env.example` como referencia) con esta línea:
+   ```
+   GEMINI_API_KEY=tu_clave_aquí
+   ```
+4. Reiniciá `npm run admin` para que tome la clave.
+
+`.env` ya está en `.gitignore` — la clave nunca se sube al repo ni se usa en producción.
+Sin esta clave configurada, el botón "✨ Mejorar" simplemente avisa con un mensaje claro
+(no rompe nada más del panel).
 
 ## Publicar los cambios
 
-`data/service-items.json` es un archivo versionado normal del repo. Para que los cambios
-lleguen a producción:
+Cada guardado escribe en `data/service-items.json` **y lo publica solo**: el servidor
+local corre automáticamente `git add` / `git commit` / `git push` de ese archivo (y
+solo de ese archivo — no toca otros cambios que tengas en curso en otra terminal).
+Como el repo tiene auto-deploy en Vercel, el cambio llega a la web en ~1 minuto sin que
+tengas que tocar git vos mismo. El panel te avisa con un banner si se publicó, si no
+había nada nuevo, o si algo falló (por ejemplo, sin conexión a internet) — en ese último
+caso podés publicarlo vos a mano:
 
 ```bash
 git add data/service-items.json
@@ -44,8 +70,11 @@ git push
   ítems, se ve exactamente igual que antes (sin flecha ni comportamiento de clic).
 - `admin/`: interfaz del panel (HTML/CSS/JS vanilla, sin dependencias).
 - `scripts/admin-server.js`: servidor Node sin dependencias externas, escucha solo en
-  `127.0.0.1:4321`, sirve `/admin` y expone `GET`/`PUT /api/admin/service-items` para
-  leer y escribir el JSON. No es una Vercel Function ni se expone en producción.
+  `127.0.0.1:4321`, sirve `/admin` y expone `GET`/`PUT /api/admin/service-items` (leer y
+  escribir el JSON, con auto-publish a git), `POST /api/admin/translate` (traducción
+  ES→EN vía MyMemory, gratis, sin key) y `POST /api/admin/enhance-description`
+  (reescritura con IA vía Gemini, requiere `GEMINI_API_KEY` en `.env`). No es una Vercel
+  Function ni se expone en producción.
 
 ## Agregar un quinto servicio (u otro) más adelante
 
