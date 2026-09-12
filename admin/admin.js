@@ -6,6 +6,7 @@
 
 (function () {
   const API_URL = '/api/admin/service-items';
+  const TRANSLATE_URL = '/api/admin/translate';
 
   const SERVICES = [
     { id: 'service1', label: 'Desarrollo de software' },
@@ -20,7 +21,10 @@
     editingItemId: null,
   };
 
+  const CHART_COLORS = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)'];
+
   const tabsEl = document.getElementById('tabs');
+  const statsGridEl = document.getElementById('stats-grid');
   const boardTitleEl = document.getElementById('board-title');
   const itemsGridEl = document.getElementById('items-grid');
   const emptyStateEl = document.getElementById('empty-state');
@@ -34,6 +38,9 @@
   const fieldTitleEn = document.getElementById('field-title-en');
   const fieldDescEs = document.getElementById('field-desc-es');
   const fieldDescEn = document.getElementById('field-desc-en');
+  const saveBtn = document.getElementById('save-btn');
+  const retranslateTitleBtn = document.getElementById('retranslate-title-btn');
+  const retranslateDescBtn = document.getElementById('retranslate-desc-btn');
 
   function showStatus(message, type) {
     statusBannerEl.textContent = message;
@@ -44,6 +51,51 @@
       statusBannerEl.hidden = true;
     }, 4000);
   }
+
+  async function translate(text) {
+    const response = await fetch(TRANSLATE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
+    });
+    const data = await response.json().catch(() => null);
+    if (!response.ok) {
+      throw new Error(data?.error || 'HTTP ' + response.status);
+    }
+    return data.translated;
+  }
+
+  // Traduce esField -> enField (ES -> EN). Por defecto no pisa una traducción
+  // ya cargada a mano (force:true la reemplaza igual, para el botón "↻ Traducir").
+  async function autoTranslateField(esField, enField, { force = false } = {}) {
+    const text = esField.value.trim();
+    if (!text) return;
+    if (!force && enField.value.trim()) return;
+
+    enField.classList.add('is-translating');
+    const previousPlaceholder = enField.placeholder;
+    enField.placeholder = 'Traduciendo…';
+    try {
+      enField.value = await translate(text);
+    } catch (error) {
+      showStatus(
+        'No se pudo traducir automáticamente. Completá el inglés a mano. (' + error.message + ')',
+        'error'
+      );
+    } finally {
+      enField.classList.remove('is-translating');
+      enField.placeholder = previousPlaceholder;
+    }
+  }
+
+  fieldTitleEs.addEventListener('blur', () => autoTranslateField(fieldTitleEs, fieldTitleEn));
+  fieldDescEs.addEventListener('blur', () => autoTranslateField(fieldDescEs, fieldDescEn));
+  retranslateTitleBtn.addEventListener('click', () =>
+    autoTranslateField(fieldTitleEs, fieldTitleEn, { force: true })
+  );
+  retranslateDescBtn.addEventListener('click', () =>
+    autoTranslateField(fieldDescEs, fieldDescEn, { force: true })
+  );
 
   function slugify(text) {
     return (text || 'item')
@@ -69,6 +121,44 @@
       });
       tabsEl.appendChild(btn);
     });
+    renderStats();
+  }
+
+  function renderStats() {
+    if (!statsGridEl) return;
+
+    const counts = SERVICES.map((service) => (state.data[service.id] || []).length);
+    const maxCount = Math.max(1, ...counts);
+
+    statsGridEl.innerHTML = '';
+
+    SERVICES.forEach((service, index) => {
+      const count = counts[index];
+      const percent = Math.round((count / maxCount) * 100);
+      const color = CHART_COLORS[index % CHART_COLORS.length];
+
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'stat-card' + (service.id === state.activeService ? ' is-active' : '');
+      card.style.setProperty('--chart-color', color);
+      card.setAttribute('aria-label', `${service.label}: ${count} ítem(s). Ver este servicio.`);
+      card.innerHTML = `
+        <div class="stat-card-top">
+          <span class="stat-card-label">${service.label}</span>
+          <span class="stat-card-dot" aria-hidden="true"></span>
+        </div>
+        <p class="stat-card-count">${count}<small>ítem${count === 1 ? '' : 's'}</small></p>
+        <div class="stat-bar-track">
+          <div class="stat-bar-fill" style="width: ${count === 0 ? 0 : Math.max(percent, 6)}%"></div>
+        </div>
+      `;
+      card.addEventListener('click', () => {
+        state.activeService = service.id;
+        renderTabs();
+        renderBoard();
+      });
+      statsGridEl.appendChild(card);
+    });
   }
 
   function renderBoard() {
@@ -83,18 +173,21 @@
       const card = document.createElement('article');
       card.className = 'item-card';
       card.innerHTML = `
-        <span class="item-lang-label">ES</span>
-        <h3></h3>
-        <p></p>
-        <span class="item-lang-label">EN</span>
-        <p class="item-en-title" style="color:#fff;font-weight:600;margin:0"></p>
-        <p></p>
+        <div class="item-card-lang">
+          <span class="item-lang-label">ES</span>
+          <h3 data-field="es-title"></h3>
+          <p data-field="es-desc"></p>
+        </div>
+        <div class="item-card-lang">
+          <span class="item-lang-label">EN</span>
+          <h3 data-field="en-title"></h3>
+          <p data-field="en-desc"></p>
+        </div>
       `;
-      const [esTitle, esDesc, , enTitle, enDesc] = card.querySelectorAll('h3, p');
-      esTitle.textContent = item.title?.es || '';
-      esDesc.textContent = item.desc?.es || '';
-      enTitle.textContent = item.title?.en || '';
-      enDesc.textContent = item.desc?.en || '';
+      card.querySelector('[data-field="es-title"]').textContent = item.title?.es || '';
+      card.querySelector('[data-field="es-desc"]').textContent = item.desc?.es || '';
+      card.querySelector('[data-field="en-title"]').textContent = item.title?.en || '';
+      card.querySelector('[data-field="en-desc"]').textContent = item.desc?.en || '';
 
       const actions = document.createElement('div');
       actions.className = 'item-card-actions';
@@ -164,15 +257,35 @@
     persist();
   }
 
-  itemFormEl.addEventListener('submit', (event) => {
+  itemFormEl.addEventListener('submit', async (event) => {
     event.preventDefault();
     const titleEs = fieldTitleEs.value.trim();
-    const titleEn = fieldTitleEn.value.trim();
     const descEs = fieldDescEs.value.trim();
+
+    if (!titleEs || !descEs) {
+      showStatus('Completá título y descripción en Español.', 'error');
+      return;
+    }
+
+    // Si el blur no llegó a disparar la traducción (ej. Enter para guardar
+    // apenas se completó el Español), la hacemos ahora antes de guardar.
+    if (!fieldTitleEn.value.trim() || !fieldDescEn.value.trim()) {
+      saveBtn.disabled = true;
+      const originalLabel = saveBtn.textContent;
+      saveBtn.textContent = 'Traduciendo…';
+      await Promise.all([
+        autoTranslateField(fieldTitleEs, fieldTitleEn),
+        autoTranslateField(fieldDescEs, fieldDescEn),
+      ]);
+      saveBtn.textContent = originalLabel;
+      saveBtn.disabled = false;
+    }
+
+    const titleEn = fieldTitleEn.value.trim();
     const descEn = fieldDescEn.value.trim();
 
-    if (!titleEs || !titleEn || !descEs || !descEn) {
-      showStatus('Completá los 4 campos (ES y EN) antes de guardar.', 'error');
+    if (!titleEn || !descEn) {
+      showStatus('No se pudo traducir automáticamente. Completá el inglés a mano y guardá de nuevo.', 'error');
       return;
     }
 

@@ -29,6 +29,9 @@ const MIME_TYPES = {
   '.css': 'text/css; charset=utf-8',
   '.js': 'application/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
+  '.png': 'image/png',
+  '.ico': 'image/x-icon',
+  '.svg': 'image/svg+xml',
 };
 
 function isBilingualText(value) {
@@ -124,6 +127,51 @@ async function handlePutServiceItems(req, res) {
   }
 }
 
+// Traducción ES -> EN automática de los campos del panel. Usa MyMemory
+// (https://mymemory.translated.net), API pública gratuita sin API key.
+// Solo se llama desde este servidor local, nunca desde producción.
+const TRANSLATE_MAX_CHARS = 500;
+
+async function handleTranslate(req, res) {
+  let payload;
+  try {
+    const raw = await readRequestBody(req);
+    payload = JSON.parse(raw);
+  } catch (error) {
+    sendJson(res, 400, { error: 'JSON inválido: ' + error.message });
+    return;
+  }
+
+  const text = typeof payload?.text === 'string' ? payload.text.trim() : '';
+  if (!text) {
+    sendJson(res, 400, { error: 'Falta "text" para traducir.' });
+    return;
+  }
+  if (text.length > TRANSLATE_MAX_CHARS) {
+    sendJson(res, 400, {
+      error: `Texto demasiado largo para traducir automáticamente (máx. ${TRANSLATE_MAX_CHARS} caracteres). Completá el inglés a mano.`,
+    });
+    return;
+  }
+
+  try {
+    const url =
+      'https://api.mymemory.translated.net/get?q=' +
+      encodeURIComponent(text) +
+      '&langpair=es|en';
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    const data = await response.json();
+    const translated = data?.responseData?.translatedText;
+    if (typeof translated !== 'string' || !translated) {
+      throw new Error('Respuesta de traducción vacía o inválida');
+    }
+    sendJson(res, 200, { translated });
+  } catch (error) {
+    sendJson(res, 502, { error: 'No se pudo traducir (servicio externo): ' + error.message });
+  }
+}
+
 async function serveStaticFile(res, filePath) {
   try {
     const data = await fs.readFile(filePath);
@@ -147,6 +195,16 @@ const server = http.createServer((req, res) => {
     }
     if (req.method === 'PUT') {
       handlePutServiceItems(req, res);
+      return;
+    }
+    res.writeHead(405, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('Método no permitido');
+    return;
+  }
+
+  if (pathname === '/api/admin/translate') {
+    if (req.method === 'POST') {
+      handleTranslate(req, res);
       return;
     }
     res.writeHead(405, { 'Content-Type': 'text/plain; charset=utf-8' });

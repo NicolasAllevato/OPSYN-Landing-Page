@@ -5,29 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title>OPSYN · Panel de administración (local)</title>
-  <link rel="stylesheet" href="./admin.css">
+  <link rel="icon" type="image/png" href="/admin/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="/admin/admin.css">
 </head>
 <body>
   <header class="admin-header">
-    <h1>Panel de administración — OPSYN</h1>
-    <p class="admin-subtitle">
-      Herramienta local para agregar/editar los ítems desplegables de cada tarjeta de "Servicios"
-      (por ejemplo, los tipos de agente de IA). Solo corre en tu máquina con <code>npm run admin</code>.
-    </p>
-    <p id="status-banner" class="status-banner" hidden></p>
+    <div class="admin-header-inner">
+      <p class="admin-eyebrow">Panel interno · solo local</p>
+      <h1>Administración de Servicios</h1>
+      <p class="admin-subtitle">
+        Agregá, editá o eliminá los ítems desplegables que se muestran dentro de cada tarjeta de
+        "Servicios" en la landing pública. Completá solo los campos en <strong>Español</strong> —
+        el inglés se traduce automáticamente (podés ajustarlo antes de guardar). Los cambios se
+        guardan directo en <code>data/service-items.json</code>. Corre solo en tu máquina con
+        <code>npm run admin</code>.
+      </p>
+    </div>
+    <p id="status-banner" class="status-banner" hidden role="status" aria-live="polite"></p>
   </header>
 
   <main class="admin-main">
+    <section class="stats-panel" aria-label="Resumen de ítems por servicio">
+      <div class="stats-panel-header">
+        <h2 class="stats-panel-title">Resumen</h2>
+        <p class="stats-panel-subtitle">Ítems cargados por servicio</p>
+      </div>
+      <div class="stats-grid" id="stats-grid"></div>
+    </section>
+
     <nav class="tabs" id="tabs" aria-label="Servicios"></nav>
 
     <section class="board">
       <div class="board-header">
-        <h2 id="board-title">Servicio</h2>
-        <button type="button" class="btn btn-primary" id="add-item-btn">+ Agregar</button>
+        <div class="board-header-text">
+          <p class="board-eyebrow">Servicio seleccionado</p>
+          <h2 id="board-title">Servicio</h2>
+        </div>
+        <button type="button" class="btn btn-primary" id="add-item-btn">
+          <span class="btn-icon" aria-hidden="true">+</span> Agregar ítem
+        </button>
       </div>
       <div class="items-grid" id="items-grid"></div>
       <p class="empty-state" id="empty-state" hidden>
-        Todavía no hay ítems cargados para este servicio. Agregá el primero con el botón "+ Agregar".
+        <span class="empty-state-icon" aria-hidden="true">◎</span>
+        Todavía no hay ítems cargados para este servicio.<br>
+        Agregá el primero con el botón <strong>"+ Agregar ítem"</strong>.
       </p>
     </section>
   </main>
@@ -36,30 +61,40 @@
     <form method="dialog" id="item-form" class="item-form">
       <h3 id="dialog-title">Nuevo ítem</h3>
 
-      <label>
-        Título (Español)
-        <input type="text" id="field-title-es" required>
-      </label>
-      <label>
-        Título (Inglés)
-        <input type="text" id="field-title-en" required>
-      </label>
-      <label>
-        Descripción (Español)
-        <textarea id="field-desc-es" rows="3" required></textarea>
-      </label>
-      <label>
-        Descripción (Inglés)
-        <textarea id="field-desc-en" rows="3" required></textarea>
-      </label>
+      <div class="field-group">
+        <label>
+          <span class="field-label">Título <span class="lang-tag">ES</span></span>
+          <input type="text" id="field-title-es" required>
+        </label>
+        <label>
+          <span class="field-label">
+            Título <span class="lang-tag">EN</span>
+            <button type="button" class="translate-btn" id="retranslate-title-btn" title="Volver a traducir desde el Título en Español">↻ Traducir</button>
+          </span>
+          <input type="text" id="field-title-en" placeholder="Se traduce solo al salir del campo en Español">
+        </label>
+      </div>
+      <div class="field-group">
+        <label>
+          <span class="field-label">Descripción <span class="lang-tag">ES</span></span>
+          <textarea id="field-desc-es" rows="3" required></textarea>
+        </label>
+        <label>
+          <span class="field-label">
+            Descripción <span class="lang-tag">EN</span>
+            <button type="button" class="translate-btn" id="retranslate-desc-btn" title="Volver a traducir desde la Descripción en Español">↻ Traducir</button>
+          </span>
+          <textarea id="field-desc-en" rows="3" placeholder="Se traduce sola al salir del campo en Español"></textarea>
+        </label>
+      </div>
 
       <div class="dialog-actions">
-        <button type="button" class="btn" id="cancel-btn">Cancelar</button>
+        <button type="button" class="btn btn-secondary" id="cancel-btn">Cancelar</button>
         <button type="submit" class="btn btn-primary" id="save-btn">Guardar</button>
       </div>
     </form>
   </dialog>
 
-  <script src="./admin.js"></script>
+  <script src="/admin/admin.js"></script>
 </body>
 </html>
