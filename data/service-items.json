@@ -47,6 +47,18 @@
       }
     }
   ],
-  "service3": [],
+  "service3": [
+    {
+      "id": "armado-de-base-de-datos",
+      "title": {
+        "es": "Armado de base de datos",
+        "en": "Database assembly"
+      },
+      "desc": {
+        "es": "Estructuramos y damos servicio de servidores locales y en la nube para que tu informacion este resguardada y no pierdas nada",
+        "en": "We structure and service local and cloud servers so that your information is protected and you don't lose anything"
+      }
+    }
+  ],
   "service4": []
 }
