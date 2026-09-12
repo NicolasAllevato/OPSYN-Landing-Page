@@ -1,9 +1,24 @@
 {
-  "service1": [],
+  "service1": [
+    {
+      "id": "crm-personalizados",
+      "title": {
+        "es": "CRM Personalizados",
+        "en": "Custom CRMs"
+      },
+      "desc": {
+        "es": "En base a tus necesidades se arma un sistema para que puedas tener el control 100% de tu negocio o tu empresa",
+        "en": "Based on your needs, a system is put together so that you can have 100% control of your business or your company"
+      }
+    }
+  ],
   "service2": [
     {
       "id": "agente-soporte",
-      "title": { "es": "Agente de soporte", "en": "Support agent" },
+      "title": {
+        "es": "Agente de soporte",
+        "en": "Support agent"
+      },
       "desc": {
         "es": "Responde consultas frecuentes y deriva casos complejos a un humano, 24/7.",
         "en": "Answers common questions and hands off complex cases to a human, 24/7."
@@ -11,7 +26,10 @@
     },
     {
       "id": "agente-ventas",
-      "title": { "es": "Agente de ventas", "en": "Sales agent" },
+      "title": {
+        "es": "Agente de ventas",
+        "en": "Sales agent"
+      },
       "desc": {
         "es": "Califica leads, agenda reuniones y hace seguimiento automático por email o WhatsApp.",
         "en": "Qualifies leads, books meetings, and follows up automatically over email or WhatsApp."
@@ -19,7 +37,10 @@
     },
     {
       "id": "agente-automatizacion-interna",
-      "title": { "es": "Automatización interna", "en": "Internal automation" },
+      "title": {
+        "es": "Automatización interna",
+        "en": "Internal automation"
+      },
       "desc": {
         "es": "Conecta tus herramientas (planillas, CRM, mail) para eliminar tareas manuales repetitivas.",
         "en": "Connects your tools (spreadsheets, CRM, email) to remove repetitive manual work."
