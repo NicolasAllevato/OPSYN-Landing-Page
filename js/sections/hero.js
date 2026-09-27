@@ -26,14 +26,40 @@
     }
   }
 
-  if (prefersReducedMotion || !isDesktop || !hasWebGL()) {
+  if (prefersReducedMotion || !isDesktop) {
     initCssTilt(wrap);
     return;
   }
 
-  init3D(wrap).catch(function () {
-    initCssTilt(wrap);
+  // La escena 3D es una mejora progresiva: el <picture> con el logo estático
+  // ya está visible. Se difiere a después del `load` y a un momento ocioso para
+  // que parsear three.js (~670 KB) y compilar shaders no compita con el primer
+  // render ni sume Total Blocking Time. hasWebGL() también va acá: crea un
+  // contexto WebGL solo para chequear soporte.
+  whenIdleAfterLoad(function () {
+    if (!hasWebGL()) {
+      initCssTilt(wrap);
+      return;
+    }
+    init3D(wrap).catch(function () {
+      initCssTilt(wrap);
+    });
   });
+
+  function whenIdleAfterLoad(callback) {
+    var schedule = function () {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(callback, { timeout: 2500 });
+      } else {
+        setTimeout(callback, 600);
+      }
+    };
+    if (document.readyState === 'complete') {
+      schedule();
+    } else {
+      window.addEventListener('load', schedule, { once: true });
+    }
+  }
 
   // ---- Fallback: tilt 2D con CSS custom properties sobre el <picture> ----
   function initCssTilt(el) {
