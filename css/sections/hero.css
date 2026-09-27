@@ -224,6 +224,15 @@
 .circuit-nodes circle:nth-child(2) { animation-delay: 1.8s, 2.9s; }
 .circuit-nodes circle:nth-child(3) { animation-delay: 1.8s, 3.4s; }
 .circuit-nodes circle:nth-child(4) { animation-delay: 1.8s, 3.9s; }
+.circuit-nodes circle:nth-child(n+5) { animation-delay: 2.6s, 3.1s; }
+.circuit-nodes circle:nth-child(3n+5) { animation-delay: 2.6s, 3.7s; }
+.circuit-nodes circle:nth-child(3n+6) { animation-delay: 2.6s, 4.3s; }
+
+/* Los trazos agregados se dibujan escalonados, después de los 4 principales */
+.circuit-bg g:first-child .circuit-trace:nth-child(n+5) { animation-delay: 0.6s; }
+.circuit-bg g:first-child .circuit-trace:nth-child(2n+6) { animation-delay: 1s; }
+.circuit-traces-thin { opacity: 0.7; }
+.circuit-traces-thin .circuit-trace { animation-delay: 1.2s; }
 
 @keyframes drawTrace {
   to { stroke-dashoffset: 0; }
@@ -266,6 +275,26 @@
 .circuit-pulses circle:nth-child(4) {
   offset-path: path('M1920 850 H1650 V550 H1300 V750');
   animation-delay: 6s;
+}
+
+.circuit-pulses circle:nth-child(5) {
+  offset-path: path('M0 80 H180 V320 H420');
+  animation-delay: 3s;
+}
+
+.circuit-pulses circle:nth-child(6) {
+  offset-path: path('M1920 60 H1720 V240 H1480 V120');
+  animation-delay: 4.2s;
+}
+
+.circuit-pulses circle:nth-child(7) {
+  offset-path: path('M0 560 H140 V800 H420 V900');
+  animation-delay: 5.4s;
+}
+
+.circuit-pulses circle:nth-child(8) {
+  offset-path: path('M800 1000 V880 H1100 V940 H1250');
+  animation-delay: 6.6s;
 }
 
 @keyframes circuitFlow {

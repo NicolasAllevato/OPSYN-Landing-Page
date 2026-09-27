@@ -92,12 +92,35 @@
             <path class="circuit-trace" d="M1920 300 H1600 V700 H1200 V400" />
             <path class="circuit-trace" d="M0 950 H250 V650 H650" />
             <path class="circuit-trace" d="M1920 850 H1650 V550 H1300 V750" />
+            <path class="circuit-trace" d="M0 80 H180 V320 H420" />
+            <path class="circuit-trace" d="M1920 60 H1720 V240 H1480 V120" />
+            <path class="circuit-trace" d="M0 560 H140 V800 H420 V900" />
+            <path class="circuit-trace" d="M800 1000 V880 H1100 V940 H1250" />
+            <path class="circuit-trace" d="M1920 520 H1760 V420 H1520" />
+            <path class="circuit-trace" d="M1920 980 H1500 V900 H1350" />
+          </g>
+          <!-- Trazos secundarios más finos: profundidad sin sumar ruido -->
+          <g class="circuit-traces-thin" stroke="currentColor" stroke-width="1" fill="none">
+            <path class="circuit-trace" d="M500 0 V120 H900 V60" />
+            <path class="circuit-trace" d="M1400 0 V160 H1100 V260" />
+            <path class="circuit-trace" d="M0 420 H90 V360 H220" />
+            <path class="circuit-trace" d="M1920 160 H1840 V400" />
           </g>
           <g class="circuit-nodes">
             <circle cx="300" cy="200" r="4" />
             <circle cx="700" cy="180" r="4" />
             <circle cx="1600" cy="700" r="4" />
             <circle cx="650" cy="650" r="4" />
+            <circle cx="420" cy="320" r="4" />
+            <circle cx="1480" cy="120" r="4" />
+            <circle cx="420" cy="900" r="4" />
+            <circle cx="1250" cy="940" r="4" />
+            <circle cx="1520" cy="420" r="4" />
+            <circle cx="1350" cy="900" r="4" />
+            <circle cx="900" cy="60" r="3" />
+            <circle cx="1100" cy="260" r="3" />
+            <circle cx="220" cy="360" r="3" />
+            <circle cx="1840" cy="400" r="3" />
           </g>
           <!-- Pulsos de luz recorriendo cada trazo en loop (CSS motion path) -->
           <g class="circuit-pulses">
@@ -105,6 +128,10 @@
             <circle class="circuit-pulse" r="3.5" />
             <circle class="circuit-pulse" r="3.5" />
             <circle class="circuit-pulse" r="3.5" />
+            <circle class="circuit-pulse" r="3" />
+            <circle class="circuit-pulse" r="3" />
+            <circle class="circuit-pulse" r="3" />
+            <circle class="circuit-pulse" r="3" />
           </g>
         </svg>
 
