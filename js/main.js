@@ -109,9 +109,15 @@ const TRANSLATIONS = {
 // INICIALIZACIÓN
 // ========================================
 
-let currentLang = ['es', 'en'].includes(localStorage.getItem('opsyn-lang'))
-  ? localStorage.getItem('opsyn-lang')
-  : 'es';
+function getStoredLang() {
+  try {
+    return localStorage.getItem('opsyn-lang');
+  } catch (e) {
+    return null; // almacenamiento bloqueado (navegación privada estricta, etc.)
+  }
+}
+
+let currentLang = ['es', 'en'].includes(getStoredLang()) ? getStoredLang() : 'es';
 
 document.addEventListener('DOMContentLoaded', () => {
   initLanguage();
@@ -135,7 +141,9 @@ function initLanguage() {
 
 function applyLanguage(lang) {
   currentLang = lang;
-  localStorage.setItem('opsyn-lang', lang);
+  try {
+    localStorage.setItem('opsyn-lang', lang);
+  } catch (e) { /* almacenamiento no disponible: no bloquea el cambio de idioma en pantalla */ }
   document.documentElement.setAttribute('lang', lang);
 
   document.querySelectorAll('[data-i18n]').forEach(el => {

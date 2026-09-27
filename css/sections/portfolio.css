@@ -1,0 +1,103 @@
+/* ========================================
+   PORTFOLIO
+   Las tarjetas muestran la métrica del resultado, no una captura:
+   el número es la prueba y evita 4 imágenes que competían con el LCP.
+   ======================================== */
+
+.portfolio {
+  padding: var(--sp-20) var(--sp-6);
+  max-width: var(--container);
+  margin: 0 auto;
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--sp-6);
+}
+
+.portfolio-card {
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border: 1px solid rgba(148, 52, 212, 0.25);
+  background: rgba(56, 19, 124, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--sp-2);
+  padding: var(--sp-6);
+  min-height: 180px;
+  justify-content: center;
+  transition: transform var(--dur-base) var(--ease-standard),
+              box-shadow var(--dur-base) ease,
+              border-color var(--dur-base) ease;
+}
+
+@media (hover: hover) {
+  .portfolio-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(148, 52, 212, 0.3);
+    border-color: var(--primary-accent);
+  }
+}
+
+.portfolio-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0;
+}
+
+.portfolio-metric {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: clamp(2.25rem, 4.5vw, 3rem);
+  line-height: 1;
+  letter-spacing: var(--ls-tight);
+  color: var(--cyan);
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.portfolio-unit {
+  font-size: 0.55em;
+  margin-left: 0.08em;
+  color: var(--teal);
+}
+
+.portfolio-label {
+  font-family: var(--font-secondary);
+  font-size: var(--fs-base);
+  font-weight: 500;
+  line-height: var(--lh-body);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+@media (min-width: 1025px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    gap: var(--sp-3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-card:hover {
+    transform: none;
+  }
+}

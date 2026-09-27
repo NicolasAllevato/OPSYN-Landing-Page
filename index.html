@@ -27,8 +27,21 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
-  <link rel="stylesheet" href="./css/styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=JetBrains+Mono:wght@500&display=swap">
+  <link rel="stylesheet" href="./css/tokens.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/utilities.css">
+  <link rel="stylesheet" href="./css/components/buttons.css">
+  <link rel="stylesheet" href="./css/components/forms.css">
+  <link rel="stylesheet" href="./css/layout/header.css">
+  <link rel="stylesheet" href="./css/layout/footer.css">
+  <link rel="stylesheet" href="./css/sections/hero.css">
+  <link rel="stylesheet" href="./css/sections/services.css">
+  <link rel="stylesheet" href="./css/sections/about.css">
+  <link rel="stylesheet" href="./css/sections/portfolio.css">
+  <link rel="stylesheet" href="./css/sections/blog.css">
+  <link rel="stylesheet" href="./css/sections/contact.css">
+  <link rel="stylesheet" href="./css/cookies.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -117,8 +130,9 @@
         <p class="hero-subtitle fade-in" data-i18n="heroSub">
           Somos el partner tecnológico integral que combina visión estratégica y ejecución técnica — sin capas corporativas, con trato directo. Desde digitalizar tu negocio desde cero hasta llevarlo al siguiente nivel con IA.
         </p>
-        <a href="#contacto" class="cta-button fade-in" data-i18n="heroCta">
+        <a href="#contacto" class="btn btn--primary cta-button fade-in" data-i18n="heroCta">
           Hablemos de tu proyecto
+          <span class="btn-arrow" aria-hidden="true">→</span>
         </a>
       </div>
     </section>
@@ -333,7 +347,7 @@
             <input id="f-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
           </div>
 
-          <button type="submit" class="form-submit">
+          <button type="submit" class="btn btn--primary form-submit">
             <span class="form-submit-text" data-i18n="formSubmit">Enviar mensaje</span>
             <span class="form-spinner" aria-hidden="true"></span>
           </button>
@@ -398,5 +412,6 @@
   <script src="./js/main.js"></script>
   <script src="./js/cookie-consent.js"></script>
   <script src="./js/service-items.js"></script>
+  <script src="./js/effects.js" defer></script>
 </body>
 </html>
