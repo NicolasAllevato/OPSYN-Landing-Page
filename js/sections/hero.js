@@ -117,7 +117,12 @@
       var textureLoader = new THREE.TextureLoader();
       var texture = textureLoader.load(
         '../../assets/logo-opsyn-icon-880.webp',
-        undefined,
+        function () {
+          // Recién con la textura lista se reemplaza el logo estático: si se
+          // activara antes, el canvas quedaría vacío unos instantes (parpadeo).
+          el.classList.add('has-3d');
+          container.classList.add('is-active');
+        },
         undefined,
         function () {
           // la textura no cargó (evento async): se aborta la escena y se cae al tilt CSS
@@ -205,9 +210,6 @@
         el.classList.remove('has-3d');
         container.classList.remove('is-active');
       }
-
-      el.classList.add('has-3d');
-      container.classList.add('is-active');
     });
   }
 })();
