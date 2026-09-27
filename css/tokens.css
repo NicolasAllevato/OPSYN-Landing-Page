@@ -1,0 +1,112 @@
+/* ========================================
+   DESIGN TOKENS
+   Única fuente de verdad para color, tipografía, espaciado,
+   radios y movimiento. No declarar valores nuevos fuera de acá:
+   si un componente necesita un color/tamaño que no existe,
+   se agrega un token, no un literal suelto.
+   ======================================== */
+
+:root {
+  /* --- Superficies (de más oscura a más clara, sensación de "capas") --- */
+  --primary-dark: #0D0326;                     /* fondo base */
+  --surface-mid: #170a35;                       /* paso intermedio entre el fondo y las tarjetas (ya usado en admin.css) */
+  --surface-tint: #38137C;                      /* violeta de superficie (antes rgba(56,19,124,x) sueltos) */
+  --surface-1: rgba(56, 19, 124, 0.20);
+  --surface-2: rgba(56, 19, 124, 0.40);
+  --header-bg: rgba(13, 3, 38, 0.85);
+
+  /* --- Acentos de marca --- */
+  --primary-accent: #9434D4;   /* solo fondos y gradientes (blanco encima = 5.67:1) */
+  --secondary-accent: #5A1CA1;
+  --accent-text: #C77DF0;      /* 7.02:1 sobre el fondo: texto y estados hover */
+  --accent-40: rgba(148, 52, 212, 0.40);
+  --accent-25: rgba(148, 52, 212, 0.25);
+
+  --cyan: #79FFFF;
+  --cyan-25: rgba(121, 255, 255, 0.25);
+  --cyan-10: rgba(121, 255, 255, 0.10);
+  --teal: #2D89AD;
+  --teal-40: rgba(45, 137, 173, 0.40);
+  --teal-18: rgba(45, 137, 173, 0.18);
+
+  /* Gradiente de marca "signature": combina los 4 acentos existentes
+     en un único elemento (hero, error-code, efectos de botón). */
+  --gradient-brand: linear-gradient(135deg, #9434D4, #5A1CA1, #2D89AD, #79FFFF);
+
+  /* --- Estado --- */
+  --error: #FF8A8A;             /* ~9:1 sobre --primary-dark, ya verificado en la auditoría UX */
+  --success: #6BD98A;
+  --warning: #E0A93A;
+
+  /* --- Texto (todos verificados >= 4.5:1 sobre --primary-dark) --- */
+  --text-light: #FFFFFF;
+  --text-muted: rgba(255, 255, 255, 0.75);
+  --text-subtle: rgba(255, 255, 255, 0.68);
+  --text-faint: rgba(255, 255, 255, 0.62);   /* 7.62:1 — reemplaza .45 y .40 */
+
+  /* Gris frío-violeta para texto secundario: mismo rol que --text-subtle
+     pero con matiz de marca en vez de blanco desaturado (a la Notion,
+     pero con temperatura fría en vez de cálida/ecru).
+     #8A82A8 sobre #0D0326 → luminancia relativa 0.242, contraste 5.52:1
+     (fórmula WCAG 2.1, cálculo manual verificado). Pasa AA con margen. */
+  --text-cool: #8A82A8;
+
+  --border-color: rgba(148, 52, 212, 0.25);
+  --glow-color: rgba(148, 52, 212, 0.45);
+
+  /* Bordes hairline: look "premium dark" sin sombras pesadas (Raycast/Notion) */
+  --border-hairline: rgba(255, 255, 255, 0.08);
+  --border-hairline-strong: rgba(255, 255, 255, 0.12);
+
+  /* Sombras: reservadas para elevar componentes puntuales, nunca decorativas grandes */
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.28);
+  --shadow-glow-accent: 0 0 24px var(--accent-40);
+  --shadow-glow-accent-lg: 0 0 38px rgba(148, 52, 212, 0.8);
+
+  /* --- Tipografía ---
+     Una sola familia variable (Inter, eje óptico "opsz" 14–32) cubre
+     titulares y cuerpo: a tamaños grandes Inter ajusta automáticamente
+     sus formas hacia una versión "display" sin cargar una segunda
+     familia de fuente. Ver <link> de Google Fonts en el <head>. */
+  --font-primary: 'Inter', system-ui, -apple-system, sans-serif;   /* titulares */
+  --font-secondary: 'Inter', system-ui, -apple-system, sans-serif; /* cuerpo/UI */
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace; /* eyebrows/métricas */
+
+  /* Escala tipográfica (ver auditoría UX, sección 2.2):
+     micro solo etiquetas, sm solo metadatos, base = piso de lectura. */
+  --fs-micro: 0.8125rem;   /* 13px */
+  --fs-sm: 0.875rem;       /* 14px */
+  --fs-base: 1rem;         /* 16px — piso mínimo de cuerpo e inputs */
+  --fs-lead: clamp(1.125rem, 1rem + 0.5vw, 1.25rem);   /* 18–20px */
+  --fs-h3: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);    /* 20–24px */
+  --fs-h2: clamp(2rem, 1.6rem + 1.6vw, 3rem);          /* 32–48px */
+  --fs-h1: clamp(3rem, 2.2rem + 3.2vw, 4.5rem);        /* 48–72px */
+
+  --ls-tight: -0.02em;
+  --ls-tighter: -0.03em;
+
+  --lh-tight: 1.12;
+  --lh-heading: 1.2;
+  --lh-body: 1.6;
+
+  /* --- Espaciado y radios --- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-10: 40px; --sp-12: 48px;
+  --sp-16: 64px; --sp-20: 80px;
+  --r-sm: 8px; --r-md: 12px; --r-lg: 20px; --r-pill: 999px;
+
+  --container: 1120px;
+  --measure: 68ch;
+  --header-h: 76px;
+
+  /* --- Movimiento ---
+     Duraciones y easings únicos: nada de `transition: all`, cada
+     componente lista sus propiedades explícitas usando estos tokens. */
+  --dur-instant: 80ms;    /* press */
+  --dur-fast: 150ms;      /* hover, focus */
+  --dur-base: 250ms;      /* expandir, revelar */
+  --dur-slow: 500ms;      /* entradas de sección, shimmer */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
