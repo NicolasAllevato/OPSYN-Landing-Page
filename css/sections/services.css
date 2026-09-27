@@ -15,8 +15,13 @@
 }
 
 .service-card {
-  background: linear-gradient(160deg, rgba(56, 19, 124, 0.4), rgba(13, 3, 38, 0.6));
-  border: 1px solid rgba(148, 52, 212, 0.3);
+  /* Fondo base + capa de gradiente de borde (--serv-border-a/b) que se
+     activa en hover; ambas capas conviven vía background-origin. */
+  --serv-border-a: rgba(148, 52, 212, 0.3);
+  --serv-border-b: rgba(148, 52, 212, 0.3);
+  background: linear-gradient(160deg, rgba(56, 19, 124, 0.4), rgba(13, 3, 38, 0.6)) padding-box,
+              linear-gradient(135deg, var(--serv-border-a), var(--serv-border-b)) border-box;
+  border: 1px solid transparent;
   border-radius: var(--r-md);
   padding: var(--sp-6) var(--sp-4);
   display: flex;
@@ -26,15 +31,33 @@
   gap: var(--sp-2);
   transition: transform var(--dur-base) var(--ease-standard),
               box-shadow var(--dur-base) ease,
-              border-color var(--dur-base) ease;
+              background var(--dur-base) ease;
+  /* Perspectiva del tilt 3D (js/sections/services.js escribe --tilt-x/--tilt-y) */
+  perspective: 800px;
+  transform-style: preserve-3d;
 }
 
 @media (hover: hover) {
   .service-card:hover {
-    border-color: var(--primary-accent);
+    --serv-border-a: var(--primary-accent);
+    --serv-border-b: var(--cyan);
     box-shadow: var(--shadow-md);
-    transform: translateY(-4px);
   }
+}
+
+/* Tilt 3D: solo se activa en puntero fino sin reduced-motion (ver JS) */
+.service-card.tilt-active {
+  transform: translateY(-4px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 80ms linear, box-shadow var(--dur-base) ease, background var(--dur-base) ease;
+}
+
+.service-visual {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .service-icon {
@@ -51,6 +74,44 @@
 .service-icon svg {
   width: 32px;
   height: 32px;
+}
+
+/* Slot de imagen 3D: se apoya SOBRE el ícono (fallback visible si la imagen
+   no existe todavía o falla). js/sections/services.js oculta el <img> roto
+   agregando .img-slot--broken al <picture>. */
+.service-media {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.service-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.service-media.img-slot--broken {
+  display: none;
+}
+
+.service-soon {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  background: var(--cyan-10);
+  border: 1px solid var(--cyan-25);
+  border-radius: var(--r-pill);
+  padding: 2px var(--sp-3);
+  margin: 0;
+}
+
+.service-consult-btn {
+  margin-top: auto;
+  padding-top: var(--sp-2);
 }
 
 .service-card h3 {
@@ -111,6 +172,37 @@
   display: none;
 }
 
+.service-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+}
+
+.service-item-media {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-sm);
+  background: var(--cyan-10);
+  overflow: hidden;
+}
+
+.service-item-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.service-item-media.img-slot--broken {
+  display: none;
+}
+
+.service-item-text {
+  flex: 1;
+  min-width: 0;
+}
+
 .service-item-title {
   font-family: var(--font-primary);
   font-size: var(--fs-sm);
@@ -145,6 +237,11 @@
   /* Los íconos de servicio ganan tamaño en mobile: en desktop compiten
      con menos elementos alrededor, pero en una sola columna angosta
      quedaban chicos en relación al resto de la tarjeta. */
+  .service-visual {
+    width: 76px;
+    height: 76px;
+  }
+
   .service-icon {
     width: 48px;
     height: 48px;
@@ -191,6 +288,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .service-card:hover {
+    transform: none;
+  }
+
+  .service-card.tilt-active {
     transform: none;
   }
 }

@@ -17,6 +17,7 @@
 }
 
 .portfolio-card {
+  position: relative;
   border-radius: var(--r-md);
   overflow: hidden;
   border: 1px solid rgba(148, 52, 212, 0.25);
@@ -39,6 +40,68 @@
     transform: translateY(-4px);
     box-shadow: 0 10px 24px rgba(148, 52, 212, 0.3);
     border-color: var(--primary-accent);
+  }
+}
+
+/* Slot de mockup 3D por caso: fondo degradé de fallback si la imagen
+   todavía no existe o falla (js/sections/portfolio.js agrega
+   .img-slot--broken cuando el <img> dispara `error`). */
+.portfolio-media {
+  display: block;
+  width: 100%;
+  max-width: 160px;
+  aspect-ratio: 10 / 7;
+  border-radius: var(--r-sm);
+  background: linear-gradient(135deg, var(--surface-2), var(--teal-18));
+}
+
+.portfolio-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.portfolio-media.img-slot--broken img {
+  display: none;
+}
+
+/* Rótulo "caso ilustrativo": deja explícito que la métrica es de ejemplo,
+   no un resultado auditado de un cliente real. */
+.portfolio-sample {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+  margin: 0;
+}
+
+/* Detalle que se revela en hover/focus (o siempre visible en touch, ver
+   media query pointer:coarse más abajo). */
+.portfolio-detail {
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+  color: var(--text-subtle);
+  margin: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height var(--dur-base) var(--ease-standard),
+              opacity var(--dur-base) ease;
+}
+
+@media (hover: hover) {
+  .portfolio-card:hover .portfolio-detail,
+  .portfolio-card:focus-within .portfolio-detail {
+    max-height: 120px;
+    opacity: 1;
+  }
+}
+
+@media (hover: none) {
+  .portfolio-detail {
+    max-height: 120px;
+    opacity: 1;
   }
 }
 

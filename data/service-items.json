@@ -9,7 +9,8 @@
       "desc": {
         "es": "Diseñamos sistemas personalizados que le otorgan control total sobre la gestión de su negocio.",
         "en": "We design customized systems that give you full control over the management of your business."
-      }
+      },
+      "image": "assets/3d/item-crm-personalizados.webp"
     }
   ],
   "service2": [
@@ -22,7 +23,8 @@
       "desc": {
         "es": "Responde consultas frecuentes y deriva casos complejos a un humano, 24/7.",
         "en": "Answers common questions and hands off complex cases to a human, 24/7."
-      }
+      },
+      "image": "assets/3d/item-agente-soporte.webp"
     },
     {
       "id": "agente-ventas",
@@ -33,7 +35,8 @@
       "desc": {
         "es": "Califica leads, agenda reuniones y hace seguimiento automático por email o WhatsApp.",
         "en": "Qualifies leads, books meetings, and follows up automatically over email or WhatsApp."
-      }
+      },
+      "image": "assets/3d/item-agente-ventas.webp"
     },
     {
       "id": "agente-automatizacion-interna",
@@ -44,7 +47,8 @@
       "desc": {
         "es": "Conecta tus herramientas (planillas, CRM, mail) para eliminar tareas manuales repetitivas.",
         "en": "Connects your tools (spreadsheets, CRM, email) to remove repetitive manual work."
-      }
+      },
+      "image": "assets/3d/item-agente-automatizacion-interna.webp"
     },
     {
       "id": "asistente-personal",
@@ -55,7 +59,8 @@
       "desc": {
         "es": "Capaz de ayudarte en el dia a dia, llevar tus finanzas, agendar tus citas,manejar tu negocio, etc",
         "en": "Able to help you on a day-to-day basis, take care of your finances, schedule your appointments,manage your business, etc."
-      }
+      },
+      "image": "assets/3d/item-asistente-personal.webp"
     }
   ],
   "service3": [
@@ -68,7 +73,8 @@
       "desc": {
         "es": "Diseñamos e implementamos soluciones de servidores locales y en la nube. Esto garantiza la seguridad y disponibilidad de su información.",
         "en": "We design and implement on-premises and cloud server solutions. This ensures the security and availability of your information."
-      }
+      },
+      "image": "assets/3d/item-armado-de-base-de-datos.webp"
     }
   ],
   "service4": []

@@ -24,15 +24,35 @@
     return field[lang] || field.es || '';
   }
 
+  function renderItemMedia(item) {
+    if (!item.image) return '';
+    // img-slot: si el asset todavía no existe (Fase 3), el <img> dispara
+    // `error` y el listener de más abajo oculta el slot sin romper el layout.
+    return `
+      <div class="service-item-media img-slot">
+        <img src="${escapeHtml(item.image)}" alt="" width="48" height="48" loading="lazy" decoding="async">
+      </div>
+    `;
+  }
+
   function renderItems(itemsEl, items, lang) {
     itemsEl.innerHTML = items
       .map((item) => `
         <div class="service-item">
-          <h4 class="service-item-title">${escapeHtml(pickText(item.title, lang))}</h4>
-          <p class="service-item-desc">${escapeHtml(pickText(item.desc, lang))}</p>
+          ${renderItemMedia(item)}
+          <div class="service-item-text">
+            <h4 class="service-item-title">${escapeHtml(pickText(item.title, lang))}</h4>
+            <p class="service-item-desc">${escapeHtml(pickText(item.desc, lang))}</p>
+          </div>
         </div>
       `)
       .join('');
+
+    itemsEl.querySelectorAll('.service-item-media img').forEach((img) => {
+      img.addEventListener('error', () => {
+        img.closest('.service-item-media').classList.add('img-slot--broken');
+      });
+    });
   }
 
   function toggleCard(card, itemsEl) {
