@@ -47,6 +47,7 @@
   <link rel="stylesheet" href="./css/sections/contact.css">
   <link rel="stylesheet" href="./css/backgrounds.css">
   <link rel="stylesheet" href="./css/cookies.css">
+  <link rel="stylesheet" href="./css/components/contact-links.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -575,6 +576,9 @@
             <button type="button" class="btn btn--ghost btn--sm form-success-reset" data-i18n="formSuccessReset">Enviar otro mensaje</button>
           </div>
         </div>
+
+        <!-- Canal alternativo: lo completa js/site-config.js solo si hay número de WhatsApp cargado -->
+        <p class="contact-whatsapp" data-contact-whatsapp hidden></p>
       </div>
     </section>
 
@@ -652,9 +656,9 @@
 
         <div class="footer-section">
           <h2 data-i18n="footerContactLabel">Contacto</h2>
-          <ul>
+          <ul data-contact-links>
             <li><a href="mailto:hola@opsyn.com">hola@opsyn.com</a></li>
-            <li><a href="https://instagram.com/opsyn" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li data-social="instagram"><a href="https://instagram.com/opsyn" target="_blank" rel="noopener noreferrer">Instagram</a></li>
           </ul>
         </div>
 
@@ -677,6 +681,7 @@
   <script src="./js/assets.js"></script>
   <script src="./js/main.js"></script>
   <script src="./js/cookie-consent.js"></script>
+  <script src="./js/site-config.js"></script>
   <script src="./js/service-items.js"></script>
   <script src="./js/effects.js" defer></script>
   <script src="./js/sections/process.js" defer></script>

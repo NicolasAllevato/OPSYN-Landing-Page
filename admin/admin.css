@@ -700,6 +700,143 @@ code {
 }
 
 /* ========================================
+   VISTAS: SERVICIOS / CONTACTO Y REDES
+   ======================================== */
+
+/* .admin-main tiene display:flex: sin esto, `hidden` no oculta la vista
+   inactiva y se verían las dos a la vez. */
+.admin-main[hidden] {
+  display: none;
+}
+
+.view-switch {
+  display: inline-flex;
+  gap: var(--sp-1);
+  margin-top: var(--sp-4);
+  padding: 4px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-pill);
+}
+
+.view-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  padding: 8px var(--sp-4);
+  border-radius: var(--r-pill);
+  font-family: var(--font-secondary);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.view-btn:hover {
+  color: var(--text-light);
+}
+
+.view-btn.active {
+  background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+  color: var(--text-light);
+}
+
+.view-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--cyan-25);
+}
+
+.contact-config {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.config-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  background: linear-gradient(160deg, var(--surface-1), rgba(13, 3, 38, 0.5));
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-lg);
+  padding: var(--sp-6);
+}
+
+.config-card-header h2 {
+  margin: 0 0 var(--sp-1);
+  font-size: var(--fs-md);
+}
+
+.config-card-header p,
+.config-note {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.config-note code {
+  color: var(--cyan);
+}
+
+.contact-config label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.contact-config input,
+.contact-config textarea {
+  background: var(--surface-1);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-sm);
+  color: var(--text-light);
+  padding: 9px 11px;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  resize: vertical;
+  transition: var(--transition-fast);
+}
+
+.contact-config input:focus-visible,
+.contact-config textarea:focus-visible {
+  outline: none;
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px var(--cyan-25);
+}
+
+.contact-config input::placeholder,
+.contact-config textarea::placeholder {
+  color: var(--text-faint);
+}
+
+.contact-config textarea.is-translating {
+  border-color: var(--cyan-25);
+  background: var(--cyan-10);
+  color: var(--text-faint);
+}
+
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-3);
+}
+
+.wa-preview a {
+  color: var(--cyan);
+}
+
+.wa-preview.is-error {
+  color: var(--warning);
+}
+
+.config-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ========================================
    RESPONSIVE
    ======================================== */
 
@@ -726,8 +863,17 @@ code {
     width: 100%;
   }
 
-  .field-group {
+  .field-group,
+  .social-grid {
     grid-template-columns: 1fr;
+  }
+
+  .config-card {
+    padding: var(--sp-4);
+  }
+
+  .config-actions .btn {
+    width: 100%;
   }
 }
 

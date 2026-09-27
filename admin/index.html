@@ -15,19 +15,22 @@
   <header class="admin-header">
     <div class="admin-header-inner">
       <p class="admin-eyebrow">Panel interno · solo local</p>
-      <h1>Administración de Servicios</h1>
+      <h1>Administración del sitio</h1>
       <p class="admin-subtitle">
-        Agregá, editá o eliminá los ítems desplegables que se muestran dentro de cada tarjeta de
-        "Servicios" en la landing pública. Completá solo los campos en <strong>Español</strong> —
-        el inglés se traduce automáticamente (podés ajustarlo antes de guardar). Los cambios se
-        guardan directo en <code>data/service-items.json</code>. Corre solo en tu máquina con
-        <code>npm run admin</code>.
+        Editá los ítems de "Servicios" y los datos de contacto de la landing pública. Completá
+        solo los campos en <strong>Español</strong> — el inglés se traduce automáticamente
+        (podés ajustarlo antes de guardar). Al guardar, el cambio se publica solo en la web.
+        Corre solo en tu máquina con <code>npm run admin</code>.
       </p>
+      <nav class="view-switch" aria-label="Secciones del panel">
+        <button type="button" class="view-btn active" data-view="services" aria-pressed="true">Servicios</button>
+        <button type="button" class="view-btn" data-view="contact" aria-pressed="false">Contacto y redes</button>
+      </nav>
     </div>
     <p id="status-banner" class="status-banner" hidden role="status" aria-live="polite"></p>
   </header>
 
-  <main class="admin-main">
+  <main class="admin-main" id="view-services">
     <section class="stats-panel" aria-label="Resumen de ítems por servicio">
       <div class="stats-panel-header">
         <h2 class="stats-panel-title">Resumen</h2>
@@ -55,6 +58,67 @@
         Agregá el primero con el botón <strong>"+ Agregar ítem"</strong>.
       </p>
     </section>
+  </main>
+
+  <main class="admin-main" id="view-contact" hidden>
+    <form class="contact-config" id="contact-form" novalidate>
+      <section class="config-card">
+        <div class="config-card-header">
+          <h2>Email de contacto</h2>
+          <p>Se muestra en el pie de página y en las páginas legales.</p>
+        </div>
+        <label>
+          <span class="field-label">Email</span>
+          <input type="email" id="cfg-email" required autocomplete="off" placeholder="hola@opsyn.com">
+        </label>
+        <p class="config-note">
+          Ojo: esto cambia el email que <em>se ve</em> en la web. Los mensajes del formulario de
+          contacto llegan a la casilla configurada en Vercel (<code>CONTACT_TO_EMAIL</code>).
+        </p>
+      </section>
+
+      <section class="config-card">
+        <div class="config-card-header">
+          <h2>WhatsApp</h2>
+          <p>Si cargás un número, aparece un botón flotante de WhatsApp en todo el sitio, un link en
+            el pie y un "¿Preferís WhatsApp?" debajo del formulario. Vacío = no se muestra nada.</p>
+        </div>
+        <label>
+          <span class="field-label">Número (con código de país)</span>
+          <input type="tel" id="cfg-wa-number" inputmode="numeric" autocomplete="off" placeholder="5491122334455">
+        </label>
+        <p class="config-note">
+          Formato internacional, solo números: país + área + número. Para celulares de Argentina:
+          <strong>549</strong> + código de área sin 0 + número sin 15 (ej. <code>5491122334455</code>).
+          <span id="cfg-wa-preview" class="wa-preview"></span>
+        </p>
+        <div class="field-group">
+          <label>
+            <span class="field-label">Mensaje inicial <span class="lang-tag">ES</span></span>
+            <textarea id="cfg-wa-msg-es" rows="2" maxlength="300" placeholder="Hola OPSYN, quiero hacer una consulta."></textarea>
+          </label>
+          <label>
+            <span class="field-label">
+              Mensaje inicial <span class="lang-tag">EN</span>
+              <button type="button" class="translate-btn" id="cfg-wa-retranslate" title="Volver a traducir desde el Español">↻ Traducir</button>
+            </span>
+            <textarea id="cfg-wa-msg-en" rows="2" maxlength="300" placeholder="Se traduce solo al salir del campo en Español"></textarea>
+          </label>
+        </div>
+      </section>
+
+      <section class="config-card">
+        <div class="config-card-header">
+          <h2>Redes sociales</h2>
+          <p>Pegá el link completo del perfil. Las que dejes vacías no se muestran.</p>
+        </div>
+        <div class="social-grid" id="social-grid"></div>
+      </section>
+
+      <div class="config-actions">
+        <button type="submit" class="btn btn-primary" id="cfg-save-btn">Guardar y publicar</button>
+      </div>
+    </form>
   </main>
 
   <dialog id="item-dialog" class="item-dialog">
@@ -99,5 +163,6 @@
   </dialog>
 
   <script src="/admin/admin.js"></script>
+  <script src="/admin/admin-contact.js"></script>
 </body>
 </html>

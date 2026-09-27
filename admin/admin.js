@@ -90,6 +90,9 @@
     }
   }
 
+  // Compartido con admin-contact.js (vista "Contacto y redes").
+  window.opsynAdmin = { showStatus, autoTranslateField };
+
   fieldTitleEs.addEventListener('blur', () => autoTranslateField(fieldTitleEs, fieldTitleEn));
   fieldDescEs.addEventListener('blur', () => autoTranslateField(fieldDescEs, fieldDescEn));
   retranslateTitleBtn.addEventListener('click', () =>

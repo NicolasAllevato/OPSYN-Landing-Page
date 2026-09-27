@@ -1,0 +1,63 @@
+/* ========================================
+   ACCESOS DE CONTACTO (js/site-config.js)
+   Botón flotante de WhatsApp y canal alternativo
+   junto al formulario. Solo aparecen si hay un
+   número cargado desde el panel admin.
+   ======================================== */
+
+.wa-float {
+  --wa-green: #25D366; /* verde de WhatsApp: reconocible al instante */
+  position: fixed;
+  right: max(var(--sp-4), env(safe-area-inset-right));
+  bottom: max(var(--sp-4), env(safe-area-inset-bottom));
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--wa-green);
+  color: #0B3D1F;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  transition: transform var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+
+.wa-float svg {
+  width: 28px;
+  height: 28px;
+}
+
+@media (hover: hover) {
+  .wa-float:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+  }
+}
+
+.wa-float:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+.contact-whatsapp {
+  margin: var(--sp-6) 0 0;
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.contact-whatsapp[hidden] {
+  display: none;
+}
+
+.contact-whatsapp a {
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-float {
+    transition: none;
+  }
+}

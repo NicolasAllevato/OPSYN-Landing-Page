@@ -44,9 +44,38 @@ Requiere una API key gratis de Google (nivel gratis, sin tarjeta de crédito):
 Sin esta clave configurada, el botón "✨ Mejorar" simplemente avisa con un mensaje claro
 (no rompe nada más del panel).
 
+## Contacto y redes
+
+Arriba del panel hay dos vistas: **Servicios** (lo de arriba) y **Contacto y redes**.
+En esta última se edita `data/site-config.json`:
+
+- **Email de contacto**: el que se ve en el pie de página y en las páginas legales.
+  No cambia adónde llegan los mensajes del formulario: eso es la variable
+  `CONTACT_TO_EMAIL` configurada en Vercel.
+- **WhatsApp**: número en formato internacional, solo dígitos (país + área + número).
+  Para celulares de Argentina: `549` + código de área sin 0 + número sin 15
+  (ej. `5491122334455`). Podés pegarlo con `+`, espacios o guiones: se limpia solo.
+  El link "(probar)" abre `wa.me` para verificarlo antes de guardar. Con número cargado
+  aparecen: un botón flotante en todo el sitio, un link en el pie y un "¿Preferís
+  WhatsApp?" debajo del formulario. El **mensaje inicial** (ES/EN) es el texto que
+  aparece ya escrito en el chat; el inglés se traduce solo. Número vacío = no se
+  muestra nada de WhatsApp.
+- **Redes sociales**: Instagram, LinkedIn, Facebook, TikTok, X y YouTube. Link completo
+  del perfil; las vacías no se muestran.
+
+Validación: el servidor rechaza emails mal formados, números de WhatsApp de menos de 10
+o más de 15 dígitos y links de redes que no sean `https://` del dominio de esa red (por
+ejemplo, en Instagram solo se acepta `instagram.com`). La landing vuelve a validar al
+leer el archivo (`js/site-config.js`), así que un valor inválido nunca llega a ser un link.
+
+**Limitación conocida:** el bloque JSON-LD de `index.html` (datos para Google: `email` y
+`sameAs`) es estático, porque su hash está fijado en la CSP de `vercel.json`. Si cambiás
+el email o las redes de forma permanente, conviene actualizarlo también a mano y
+regenerar el hash (ver `docs/ESTRUCTURA.md`, sección Seguridad).
+
 ## Publicar los cambios
 
-Cada guardado escribe en `data/service-items.json` **y lo publica solo**: el servidor
+Cada guardado escribe en `data/service-items.json` o `data/site-config.json` **y lo publica solo**: el servidor
 local corre automáticamente `git add` / `git commit` / `git push` de ese archivo (y
 solo de ese archivo — no toca otros cambios que tengas en curso en otra terminal).
 Como el repo tiene auto-deploy en Vercel, el cambio llega a la web en ~1 minuto sin que

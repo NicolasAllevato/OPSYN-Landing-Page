@@ -1,0 +1,20 @@
+{
+  "contact": {
+    "email": "hola@opsyn.com",
+    "whatsapp": {
+      "number": "",
+      "message": {
+        "es": "Hola OPSYN, quiero hacer una consulta.",
+        "en": "Hi OPSYN, I'd like to ask a question."
+      }
+    }
+  },
+  "social": {
+    "instagram": "https://instagram.com/opsyn",
+    "linkedin": "",
+    "facebook": "",
+    "tiktok": "",
+    "x": "",
+    "youtube": ""
+  }
+}

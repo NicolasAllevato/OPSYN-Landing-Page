@@ -25,6 +25,7 @@ const PORT = 4321;
 const ROOT_DIR = path.join(__dirname, '..');
 const ADMIN_DIR = path.join(ROOT_DIR, 'admin');
 const DATA_FILE = path.join(ROOT_DIR, 'data', 'service-items.json');
+const SITE_CONFIG_FILE = path.join(ROOT_DIR, 'data', 'site-config.json');
 const MAX_BODY_BYTES = 1024 * 1024; // 1 MB, de sobra para este JSON
 
 // Carga variables de entorno desde .env (raíz del proyecto) al process.env,
@@ -102,6 +103,67 @@ function isValidServiceItemsPayload(data) {
   });
 }
 
+// ---- Contacto y redes (data/site-config.json) ----
+// Misma tabla que js/site-config.js: la landing vuelve a validar al leer.
+const SOCIAL_NETWORKS = {
+  instagram: ['instagram.com'],
+  linkedin: ['linkedin.com'],
+  facebook: ['facebook.com', 'fb.com'],
+  tiktok: ['tiktok.com'],
+  x: ['x.com', 'twitter.com'],
+  youtube: ['youtube.com', 'youtu.be'],
+};
+const EMAIL_RE = /^[^\s@<>"'()]+@[^\s@<>"'()]+\.[a-z]{2,}$/i;
+const WA_MESSAGE_MAX = 300;
+
+function isAllowedSocialUrl(network, value) {
+  if (value === '') return true;
+  try {
+    const url = new URL(value);
+    if (url.protocol !== 'https:') return false;
+    const host = url.hostname.replace(/^www\./, '');
+    return SOCIAL_NETWORKS[network].some((h) => host === h || host.endsWith('.' + h));
+  } catch {
+    return false;
+  }
+}
+
+// Devuelve { config } normalizado o { error } con un mensaje para el panel.
+function normalizeSiteConfig(data) {
+  if (!data || typeof data !== 'object' || Array.isArray(data)) {
+    return { error: 'Estructura inválida.' };
+  }
+  const email = typeof data.contact?.email === 'string' ? data.contact.email.trim() : '';
+  if (!EMAIL_RE.test(email)) return { error: 'El email de contacto no es válido.' };
+
+  const wa = data.contact?.whatsapp || {};
+  const number = String(wa.number || '').replace(/\D/g, '');
+  if (number && (number.length < 10 || number.length > 15)) {
+    return { error: 'El número de WhatsApp debe tener entre 10 y 15 dígitos (con código de país).' };
+  }
+  const message = { es: '', en: '' };
+  for (const lang of ['es', 'en']) {
+    const text = typeof wa.message?.[lang] === 'string' ? wa.message[lang].trim() : '';
+    if (text.length > WA_MESSAGE_MAX) {
+      return { error: `El mensaje de WhatsApp (${lang.toUpperCase()}) supera ${WA_MESSAGE_MAX} caracteres.` };
+    }
+    message[lang] = text;
+  }
+
+  const social = {};
+  for (const network of Object.keys(SOCIAL_NETWORKS)) {
+    const value = typeof data.social?.[network] === 'string' ? data.social[network].trim() : '';
+    if (!isAllowedSocialUrl(network, value)) {
+      return {
+        error: `El link de ${network} no es válido: tiene que empezar con https:// y ser de ${SOCIAL_NETWORKS[network].join(' o ')}.`,
+      };
+    }
+    social[network] = value;
+  }
+
+  return { config: { contact: { email, whatsapp: { number, message } }, social } };
+}
+
 function sendJson(res, statusCode, payload) {
   const body = JSON.stringify(payload);
   res.writeHead(statusCode, {
@@ -165,40 +227,75 @@ async function handlePutServiceItems(req, res) {
     return;
   }
 
-  const publishResult = await publishToGit();
+  const publishResult = await publishToGit('data/service-items.json');
   sendJson(res, 200, { ok: true, ...publishResult });
 }
 
-// Publica el ítem guardado en producción: commitea y pushea SOLO
-// data/service-items.json (nunca otros archivos que puedas tener en curso
-// en el mismo repo, aunque estén "staged" en otra terminal). Vercel tiene
+async function handleGetSiteConfig(res) {
+  try {
+    const raw = await fs.readFile(SITE_CONFIG_FILE, 'utf8');
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(raw);
+  } catch (error) {
+    sendJson(res, 500, { error: 'No se pudo leer data/site-config.json: ' + error.message });
+  }
+}
+
+async function handlePutSiteConfig(req, res) {
+  let payload;
+  try {
+    payload = JSON.parse(await readRequestBody(req));
+  } catch (error) {
+    sendJson(res, 400, { error: 'JSON inválido: ' + error.message });
+    return;
+  }
+
+  const { config, error } = normalizeSiteConfig(payload);
+  if (error) {
+    sendJson(res, 400, { error });
+    return;
+  }
+
+  try {
+    await fs.writeFile(SITE_CONFIG_FILE, JSON.stringify(config, null, 2) + '\n', 'utf8');
+  } catch (writeError) {
+    sendJson(res, 500, { error: 'No se pudo escribir data/site-config.json: ' + writeError.message });
+    return;
+  }
+
+  const publishResult = await publishToGit('data/site-config.json');
+  sendJson(res, 200, { ok: true, config, ...publishResult });
+}
+
+// Publica lo guardado en producción: commitea y pushea SOLO el archivo de
+// datos indicado (nunca otros archivos que puedas tener en curso en el
+// mismo repo, aunque estén "staged" en otra terminal). Vercel tiene
 // auto-deploy en push a master, así que esto es lo único que hace falta
 // para que el cambio llegue a la web — no hay paso manual de git.
-const DATA_PATHSPEC = 'data/service-items.json';
 const GIT_TIMEOUT_MS = 20000;
 
 async function runGit(args) {
   return execFileAsync('git', args, { cwd: ROOT_DIR, timeout: GIT_TIMEOUT_MS });
 }
 
-async function publishToGit() {
+async function publishToGit(pathspec) {
   try {
-    const { stdout: statusOut } = await runGit(['status', '--porcelain', '--', DATA_PATHSPEC]);
+    const { stdout: statusOut } = await runGit(['status', '--porcelain', '--', pathspec]);
     if (!statusOut.trim()) {
       // Contenido idéntico al último commit (ej. abrir y guardar sin
       // cambios reales) — no hay nada que publicar, no es un error.
       return { published: false, reason: 'sin cambios' };
     }
 
-    await runGit(['add', '--', DATA_PATHSPEC]);
+    await runGit(['add', '--', pathspec]);
     // "git commit -- <pathspec>" commitea SOLO ese archivo aunque haya
     // otros cambios staged por vos en otra terminal — no los toca.
     await runGit([
       'commit',
       '-m',
-      'content: actualizar service-items.json (vía panel admin)',
+      `content: actualizar ${path.basename(pathspec)} (vía panel admin)`,
       '--',
-      DATA_PATHSPEC,
+      pathspec,
     ]);
     await runGit(['push']);
     return { published: true };
@@ -374,6 +471,20 @@ const server = http.createServer((req, res) => {
     }
     if (req.method === 'PUT') {
       handlePutServiceItems(req, res);
+      return;
+    }
+    res.writeHead(405, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('Método no permitido');
+    return;
+  }
+
+  if (pathname === '/api/admin/site-config') {
+    if (req.method === 'GET') {
+      handleGetSiteConfig(res);
+      return;
+    }
+    if (req.method === 'PUT') {
+      handlePutSiteConfig(req, res);
       return;
     }
     res.writeHead(405, { 'Content-Type': 'text/plain; charset=utf-8' });
