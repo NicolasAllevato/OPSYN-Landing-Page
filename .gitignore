@@ -74,3 +74,6 @@ secrets.json
 
 # Grafo de conocimiento generado (graphify)
 graphify-out/
+
+# Acceso directo local al panel admin (rutas absolutas de cada máquina)
+*.lnk

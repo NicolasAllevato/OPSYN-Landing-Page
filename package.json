@@ -8,7 +8,9 @@
     "admin": "node scripts/admin-server.js",
     "build": "echo 'No build step needed - static site'",
     "test": "echo 'Usar Lighthouse en Chrome DevTools'",
-    "deploy": "See deployment guide in README.md"
+    "deploy": "See deployment guide in README.md",
+    "admin:icon": "node scripts/build-admin-icon.js",
+    "admin:shortcut": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/create-admin-shortcut.ps1"
   },
   "keywords": [
     "opsyn",

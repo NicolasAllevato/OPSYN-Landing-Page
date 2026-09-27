@@ -2,3 +2,6 @@
 # local (npm run admin). No deben quedar públicas en el despliegue de Vercel.
 admin/
 scripts/
+
+# Acceso directo local al panel admin
+*.lnk

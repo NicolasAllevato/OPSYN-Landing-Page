@@ -11,6 +11,19 @@ Vercel en `.vercelignore`).
 
 ## Cómo usarlo
 
+**Forma rápida:** doble clic en **`Panel OPSYN`** (el acceso directo con el logo, en la
+raíz del proyecto). Levanta el servidor en segundo plano si no está corriendo y abre el
+navegador directo en el panel. Podés arrastrarlo al escritorio o anclarlo a la barra de
+tareas. El servidor queda corriendo en segundo plano (solo escucha en tu máquina); para
+cortarlo, cerrá el proceso `node` desde el Administrador de tareas o reiniciá la PC.
+Si falla, el log está en `%TEMP%\opsyn-admin-error.log`.
+
+El acceso directo guarda rutas de esta computadora, así que no se sube a git. Para
+recrearlo (en otra PC o si movés la carpeta): `npm run admin:shortcut`. Para regenerar el
+ícono desde el logo: `npm run admin:icon`.
+
+**Forma manual:**
+
 1. Levantar el servidor local del panel:
    ```bash
    npm run admin
