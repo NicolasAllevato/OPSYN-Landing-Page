@@ -35,5 +35,8 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "devDependencies": {
+    "sharp": "^0.35.5"
+  }
 }

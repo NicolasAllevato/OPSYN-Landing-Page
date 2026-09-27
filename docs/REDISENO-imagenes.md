@@ -1,6 +1,10 @@
 # Imágenes 3D — Rediseño OPSYN (Fase 3)
 
-Este documento lista los assets de imagen 3D que se generarán en la Fase 3 (requiere OK del usuario). Todos los slots ya están en el HTML/CSS con fallback visual (ícono SVG o gradiente) si el archivo todavía no existe o falla la carga.
+Este documento lista los assets de imagen 3D de la Fase 3. Todos los slots están en el HTML/CSS con fallback visual (ícono SVG o gradiente) si el archivo falta o falla la carga.
+
+**Estado (27 sep 2026): las 19 generadas** con `node scripts/generate-images.js` (Gemini `gemini-3-pro-image` para og/servicios, `gemini-3.1-flash-image` para el resto, WebP vía `sharp`). Los prompts vigentes son los del manifiesto de ese script (más un sufijo de estilo común); las tablas de abajo quedan como referencia del uso de cada archivo. Los archivos se guardan a 2x del tamaño mostrado. Además existe `assets/3d/og-image.jpg` (JPG para previsualizaciones en redes que no aceptan WebP), que es el que usan `og:image`/`twitter:image`.
+
+Para regenerar una: `node scripts/generate-images.js --only <nombre> --force` (requiere `GEMINI_API_KEY` en `.env`, que pisa la variable de sistema, en un proyecto de Google con facturación activa).
 
 ## Hero y compartir en redes
 
