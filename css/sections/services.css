@@ -4,7 +4,8 @@
 
 .services {
   padding: var(--sp-20) var(--sp-6);
-  max-width: var(--container);
+  /* Un poco más ancho que el resto: 4 columnas con texto cómodo */
+  max-width: calc(var(--container) + var(--sp-20));
   margin: 0 auto;
 }
 
@@ -12,6 +13,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--sp-6);
+  /* Sin estirar: al abrir el acordeón de una tarjeta, las demás de la fila
+     no crecen con ella. La alineación entre tarjetas cerradas la dan las
+     alturas mínimas de título y descripción (ver más abajo). */
+  align-items: start;
 }
 
 .service-card {
@@ -23,7 +28,8 @@
               linear-gradient(135deg, var(--serv-border-a), var(--serv-border-b)) border-box;
   border: 1px solid transparent;
   border-radius: var(--r-md);
-  padding: var(--sp-6) var(--sp-4);
+  padding: var(--sp-8) var(--sp-6) var(--sp-6);
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -96,7 +102,12 @@
   display: none;
 }
 
+/* Etiqueta en la esquina: no ocupa lugar en el flujo, así el título y la
+   descripción de esta tarjeta quedan a la misma altura que las demás. */
 .service-soon {
+  position: absolute;
+  top: var(--sp-3);
+  right: var(--sp-3);
   font-family: var(--font-mono);
   font-size: var(--fs-micro);
   letter-spacing: 0.06em;
@@ -111,20 +122,29 @@
 
 .service-consult-btn {
   margin-top: auto;
-  padding-top: var(--sp-2);
 }
 
+/* Título en una caja fija de 2 renglones, centrado verticalmente: los que
+   entran en 1 renglón ("Marketing digital") quedan alineados con los de 2,
+   y las descripciones arrancan todas a la misma altura. */
 .service-card h3 {
   font-family: var(--font-primary);
-  font-size: var(--fs-h3);
-  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  min-height: 2.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: var(--sp-2) 0 0;
+  text-wrap: balance;
 }
 
 .service-card p {
-  font-size: var(--fs-base);
-  line-height: 1.45;
+  font-size: 0.9375rem; /* 15px: legible en columnas de ~230px */
+  line-height: 1.55;
   color: var(--text-cool);
-  margin: 0;
+  margin: 0 0 var(--sp-4);
+  text-wrap: pretty;
 }
 
 /* Tarjetas de servicio con desplegable (ítems cargados desde /admin) */
@@ -244,6 +264,11 @@
     gap: var(--sp-3);
   }
 
+  /* Una sola columna: no hay nada con qué alinear, sin caja fija */
+  .service-card h3 {
+    min-height: 0;
+  }
+
   /* Los íconos de servicio ganan tamaño en mobile: en desktop compiten
      con menos elementos alrededor, pero en una sola columna angosta
      quedaban chicos en relación al resto de la tarjeta. */
@@ -284,15 +309,32 @@
   }
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
-  .services-grid {
-    grid-template-columns: repeat(2, 1fr);
+/* Con varias columnas: la tarjeta sin acordeón (Marketing) reserva el
+   lugar del chevron (32px + gap − margen negativo) para que su botón quede
+   a la misma altura que el de las demás. */
+@media (min-width: 769px) {
+  .service-card:not(.has-items) .service-consult-btn {
+    margin-bottom: calc(32px + var(--sp-2) - var(--sp-1));
   }
 }
 
-@media (min-width: 1025px) {
+@media (min-width: 769px) and (max-width: 1199px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .service-card p:not(.service-soon) {
+    min-height: calc(1.55em * 3);
+  }
+}
+
+@media (min-width: 1200px) {
   .services-grid {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  .service-card p:not(.service-soon) {
+    min-height: calc(1.55em * 4);
   }
 }
 
