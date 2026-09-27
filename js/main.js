@@ -5,9 +5,42 @@
 const TRANSLATIONS = {
   es: {
     tagline: '"somos una idea, somos un proyecto, somos la solución para vos"',
-    heroTitle: 'Pensamos tu negocio antes de programar, y te acompañamos de cerca en cada paso.',
+    heroTitlePre: 'Pensamos ',
+    heroTitleHighlight: 'tu negocio',
+    heroTitlePost: ' antes de programar, y te acompañamos de cerca en cada paso.',
     heroSub: 'Somos el partner tecnológico integral que combina visión estratégica y ejecución técnica — sin capas corporativas, con trato directo. Desde digitalizar tu negocio desde cero hasta llevarlo al siguiente nivel con IA.',
     heroCta: 'Hablemos de tu proyecto',
+    heroCta2: 'Ver cómo trabajamos',
+    procLabel: 'Cómo lo hacemos',
+    procTitle: 'Somos una idea, somos un proyecto, somos la solución para vos',
+    procSubtitle: 'Así pasa tu negocio de una necesidad difusa a algo que funciona.',
+    procWhatWeDo: 'Qué hacemos',
+    procWhatWeNeed: 'Qué necesitamos de vos',
+    procWhatYouGet: 'Qué te llevás',
+    procStep1Title: 'Idea',
+    procStep1Promise: 'Ordenamos lo que tenés en la cabeza.',
+    procStep1Do: 'Una charla directa para entender cómo funciona tu negocio y a dónde querés llegar. Diagnóstico honesto, sin jerga.',
+    procStep1Need: 'Contarnos qué te frena hoy.',
+    procStep1Get: 'Un diagnóstico claro y un plan priorizado.',
+    procStep1Cta: 'Contanos tu idea',
+    procStep2Title: 'Proyecto',
+    procStep2Promise: 'Lo diseñamos y lo construimos con vos.',
+    procStep2Do: 'Definimos el alcance, armamos la solución y te mostramos avances cortos para decidir juntos.',
+    procStep2Need: 'Feedback rápido en cada avance.',
+    procStep2Get: 'Algo funcionando que podés probar, no un documento.',
+    procStep3Title: 'Solución',
+    procStep3Promise: 'Funciona, se usa y sigue funcionando.',
+    procStep3Do: 'Lo ponemos en marcha, medimos el resultado, lo sostenemos y lo comunicamos.',
+    procStep3Need: 'Usarlo y contarnos qué mejora.',
+    procStep3Get: 'Tu operación funcionando y un canal directo para seguir.',
+    procExampleLabel: 'Así se ve en la práctica',
+    procExampleIdeaTag: 'Idea:',
+    procExampleIdea: '"Atender consultas por WhatsApp nos lleva medio día."',
+    procExampleProjectTag: 'Proyecto:',
+    procExampleProject: 'Un agente de IA que responde lo repetitivo y deriva lo complejo a una persona.',
+    procExampleSolutionTag: 'Solución:',
+    procExampleSolution: 'Tiempo de respuesta −60%.',
+    procCtaFinal: 'Contanos tu idea',
     servicesLabel: 'Servicios',
     servicesTitle: 'Todo bajo un mismo techo',
     service1Title: 'Desarrollo de software',
@@ -18,6 +51,8 @@ const TRANSLATIONS = {
     service3Desc: 'Diagnóstico honesto de dónde estás y hacia dónde conviene moverte con tecnología.',
     service4Title: 'Marketing digital',
     service4Desc: 'Estrategia y gestión de redes y contenido para que tu marca se vea tan bien como funciona.',
+    servConsultCta: 'Consultar por esto',
+    servComingSoon: 'Próximamente',
     aboutLabel: 'Nosotros',
     aboutTitle: 'Una agencia boutique, con visión de socio',
     aboutBody1: 'OPSYN nació para cerrar la brecha entre las agencias tradicionales, lentas y con capas de gestión, y el freelancer suelto que resuelve tareas puntuales sin mirar el negocio completo.',
@@ -28,8 +63,15 @@ const TRANSLATIONS = {
     aboutPoint2Desc: 'Hablás directo con quien construye, sin intermediarios.',
     aboutPoint3Title: 'Ejecución técnica real',
     aboutPoint3Desc: 'Lo que diseñamos, lo construimos y lo sostenemos.',
+    aboutBadge1: '4 áreas de servicio',
+    aboutBadge2: 'ES / EN',
     portfolioLabel: 'Portfolio',
     portfolioTitle: 'Casos de éxito',
+    portfolioSample: 'Caso ilustrativo',
+    portfolioDetail1: 'Rediseño de checkout y catálogo, con foco en velocidad de carga y conversión móvil.',
+    portfolioDetail2: 'Agente conversacional que resuelve consultas frecuentes y deriva casos complejos a un humano.',
+    portfolioDetail3: 'App a medida que centraliza tareas administrativas dispersas en planillas y mensajes.',
+    portfolioDetail4: 'Identidad visual renovada y calendario de contenido consistente en todas las redes.',
     blogLabel: 'Recursos',
     blogTitle: 'Blog',
     contactLabel: 'Contacto',
@@ -39,12 +81,27 @@ const TRANSLATIONS = {
     formEmail: 'Email',
     formServiceLabel: 'Tipo de servicio de interés',
     formServicePlaceholder: 'Elegí una opción',
+    formServiceSoftware: 'Desarrollo de software',
+    formServiceIA: 'Agentes de IA y automatización',
+    formServiceConsulting: 'Consultoría tecnológica',
+    formServiceMarketing: 'Marketing digital',
     formMessage: 'Contanos sobre tu proyecto',
     formSubmit: 'Enviar mensaje',
     formSuccess: '¡Gracias! Te contactaremos pronto.',
     formErrorGeneric: 'Hubo un error al enviar tu mensaje. Probá de nuevo en un momento.',
     formErrorValidation: 'Revisá los datos del formulario e intentá de nuevo.',
     formErrorRateLimit: 'Ya enviaste varios mensajes. Esperá unos minutos antes de volver a intentar.',
+    formSuccessTitle: '¡Mensaje enviado!',
+    formSuccessReset: 'Enviar otro mensaje',
+    formErrorNameRequired: 'Ingresá tu nombre.',
+    formErrorNameMax: 'El nombre no puede superar los 100 caracteres.',
+    formErrorEmailRequired: 'Ingresá tu email.',
+    formErrorEmailMax: 'El email no puede superar los 254 caracteres.',
+    formErrorEmailInvalid: 'Ingresá un email válido.',
+    formErrorServiceRequired: 'Elegí un tipo de servicio.',
+    formErrorMessageRequired: 'Contanos brevemente tu proyecto.',
+    formErrorMessageMin: 'El mensaje debe tener al menos 10 caracteres.',
+    formErrorMessageMax: 'El mensaje no puede superar los 5000 caracteres.',
     footerTagline: 'Tu partner tecnológico integral.',
     footerLinksLabel: 'Secciones',
     footerContactLabel: 'Contacto',
@@ -55,9 +112,42 @@ const TRANSLATIONS = {
   },
   en: {
     tagline: '"we are an idea, we are a project, we are the solution for you"',
-    heroTitle: 'We think through your business before we write a line of code — and stay close every step of the way.',
+    heroTitlePre: 'We think through ',
+    heroTitleHighlight: 'your business',
+    heroTitlePost: ' before we write a line of code — and stay close every step of the way.',
     heroSub: 'We\'re the full-stack tech partner that blends strategic vision with technical execution — no corporate layers, straight talk. From digitizing your business from scratch to leveling it up with AI.',
     heroCta: "Let's talk about your project",
+    heroCta2: 'See how we work',
+    procLabel: 'How we do it',
+    procTitle: 'We are an idea, we are a project, we are the solution for you',
+    procSubtitle: 'This is how your business goes from a vague need to something that works.',
+    procWhatWeDo: 'What we do',
+    procWhatWeNeed: 'What we need from you',
+    procWhatYouGet: 'What you get',
+    procStep1Title: 'Idea',
+    procStep1Promise: 'We sort out what\'s in your head.',
+    procStep1Do: 'A straight conversation to understand how your business runs and where you want to go. An honest, jargon-free diagnosis.',
+    procStep1Need: 'Tell us what\'s holding you back today.',
+    procStep1Get: 'A clear diagnosis and a prioritized plan.',
+    procStep1Cta: 'Tell us your idea',
+    procStep2Title: 'Project',
+    procStep2Promise: 'We design and build it with you.',
+    procStep2Do: 'We define the scope, build the solution, and show you short progress cycles so we can decide together.',
+    procStep2Need: 'Quick feedback on every update.',
+    procStep2Get: 'Something working you can try, not a document.',
+    procStep3Title: 'Solution',
+    procStep3Promise: 'It works, it\'s used, and it keeps working.',
+    procStep3Do: 'We launch it, measure the result, keep it running, and communicate it.',
+    procStep3Need: 'Use it and tell us what to improve.',
+    procStep3Get: 'Your operation running, and a direct channel to keep going.',
+    procExampleLabel: 'Here\'s what it looks like in practice',
+    procExampleIdeaTag: 'Idea:',
+    procExampleIdea: '"Answering WhatsApp inquiries takes us half a day."',
+    procExampleProjectTag: 'Project:',
+    procExampleProject: 'An AI agent that handles the repetitive questions and routes complex ones to a person.',
+    procExampleSolutionTag: 'Solution:',
+    procExampleSolution: 'Response time −60%.',
+    procCtaFinal: 'Tell us your idea',
     servicesLabel: 'Services',
     servicesTitle: 'Everything under one roof',
     service1Title: 'Software development',
@@ -68,6 +158,8 @@ const TRANSLATIONS = {
     service3Desc: 'An honest read on where you stand and where technology should take you next.',
     service4Title: 'Digital marketing',
     service4Desc: 'Social strategy and content management so your brand looks as good as it runs.',
+    servConsultCta: 'Ask about this',
+    servComingSoon: 'Coming soon',
     aboutLabel: 'About us',
     aboutTitle: 'A boutique agency, with a partner\'s mindset',
     aboutBody1: 'OPSYN exists to close the gap between slow traditional agencies buried in management layers, and lone freelancers who solve one-off tasks without seeing the whole business.',
@@ -78,8 +170,15 @@ const TRANSLATIONS = {
     aboutPoint2Desc: 'You talk directly with the people building it, no middlemen.',
     aboutPoint3Title: 'Real technical execution',
     aboutPoint3Desc: 'What we design, we build and maintain.',
+    aboutBadge1: '4 service areas',
+    aboutBadge2: 'ES / EN',
     portfolioLabel: 'Portfolio',
     portfolioTitle: 'Success stories',
+    portfolioSample: 'Illustrative case',
+    portfolioDetail1: 'Checkout and catalog redesign focused on load speed and mobile conversion.',
+    portfolioDetail2: 'Conversational agent that resolves common questions and hands off complex cases to a human.',
+    portfolioDetail3: 'Custom app that centralizes admin tasks scattered across spreadsheets and messages.',
+    portfolioDetail4: 'Refreshed visual identity and a consistent content calendar across every channel.',
     blogLabel: 'Resources',
     blogTitle: 'Blog',
     contactLabel: 'Contact',
@@ -89,12 +188,27 @@ const TRANSLATIONS = {
     formEmail: 'Email',
     formServiceLabel: 'Service you\'re interested in',
     formServicePlaceholder: 'Pick an option',
+    formServiceSoftware: 'Software development',
+    formServiceIA: 'AI agents & automation',
+    formServiceConsulting: 'Tech consulting',
+    formServiceMarketing: 'Digital marketing',
     formMessage: 'Tell us about your project',
     formSubmit: 'Send message',
     formSuccess: 'Thanks! We\'ll be in touch soon.',
     formErrorGeneric: 'Something went wrong sending your message. Please try again shortly.',
     formErrorValidation: 'Please check the form fields and try again.',
     formErrorRateLimit: 'You\'ve sent several messages already. Wait a few minutes before trying again.',
+    formSuccessTitle: 'Message sent!',
+    formSuccessReset: 'Send another message',
+    formErrorNameRequired: 'Enter your name.',
+    formErrorNameMax: 'Name can\'t be longer than 100 characters.',
+    formErrorEmailRequired: 'Enter your email.',
+    formErrorEmailMax: 'Email can\'t be longer than 254 characters.',
+    formErrorEmailInvalid: 'Enter a valid email address.',
+    formErrorServiceRequired: 'Pick a service.',
+    formErrorMessageRequired: 'Tell us a bit about your project.',
+    formErrorMessageMin: 'Message must be at least 10 characters long.',
+    formErrorMessageMax: 'Message can\'t be longer than 5000 characters.',
     footerTagline: 'Your full-stack tech partner.',
     footerLinksLabel: 'Sections',
     footerContactLabel: 'Contact',
@@ -122,12 +236,10 @@ let currentLang = ['es', 'en'].includes(getStoredLang()) ? getStoredLang() : 'es
 document.addEventListener('DOMContentLoaded', () => {
   initLanguage();
   initScrollReveal();
-  initContactForm();
   initLangSwitcher();
   initNavToggle();
   initActiveNavObserver();
   initHeaderScrollState();
-  initParallax();
   updateCopyright();
 });
 
@@ -296,93 +408,8 @@ function initActiveNavObserver() {
 }
 
 // ========================================
-// PARALLAX EN HERO (rAF-throttled, respeta reduced-motion)
-// ========================================
-
-function initParallax() {
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const circuitBg = document.querySelector('.circuit-bg');
-  if (!circuitBg || prefersReducedMotion) return;
-
-  let ticking = false;
-
-  const update = () => {
-    const scrolled = window.scrollY;
-    if (scrolled < window.innerHeight) {
-      circuitBg.style.transform = `translateY(${scrolled * 0.3}px)`;
-    }
-    ticking = false;
-  };
-
-  window.addEventListener('scroll', () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(update);
-  }, { passive: true });
-}
-
-// ========================================
-// FORMULARIO DE CONTACTO
-// ========================================
-
-function initContactForm() {
-  const form = document.getElementById('contactForm');
-  if (!form) return;
-
-  const submitBtn = form.querySelector('.form-submit');
-  const feedback = form.querySelector('.form-feedback');
-
-  const setFeedback = (message, state) => {
-    if (!feedback) return;
-    feedback.textContent = message;
-    feedback.dataset.state = state || '';
-  };
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    if (submitBtn?.disabled) return;
-
-    const payload = {
-      nombre: form.querySelector('#f-nombre')?.value.trim() || '',
-      email: form.querySelector('#f-email')?.value.trim() || '',
-      servicio: form.querySelector('#f-servicio')?.value || '',
-      mensaje: form.querySelector('#f-mensaje')?.value.trim() || '',
-      _gotcha: form.querySelector('#f-gotcha')?.value || ''
-    };
-
-    submitBtn?.setAttribute('disabled', 'true');
-    setFeedback('', '');
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      const result = await response.json().catch(() => ({}));
-
-      if (response.ok && result.success) {
-        setFeedback(TRANSLATIONS[currentLang].formSuccess, 'success');
-        form.reset();
-      } else if (response.status === 429) {
-        setFeedback(TRANSLATIONS[currentLang].formErrorRateLimit, 'error');
-      } else if (response.status === 400) {
-        setFeedback(TRANSLATIONS[currentLang].formErrorValidation, 'error');
-      } else {
-        setFeedback(TRANSLATIONS[currentLang].formErrorGeneric, 'error');
-      }
-    } catch {
-      setFeedback(TRANSLATIONS[currentLang].formErrorGeneric, 'error');
-    } finally {
-      submitBtn?.removeAttribute('disabled');
-    }
-  });
-}
-
-// ========================================
 // SMOOTH SCROLL PARA ENLACES
+// (El formulario de contacto se maneja en js/sections/contact.js)
 // ========================================
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {

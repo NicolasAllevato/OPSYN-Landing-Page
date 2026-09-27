@@ -36,11 +36,13 @@
   <link rel="stylesheet" href="./css/layout/header.css">
   <link rel="stylesheet" href="./css/layout/footer.css">
   <link rel="stylesheet" href="./css/sections/hero.css">
+  <link rel="stylesheet" href="./css/sections/process.css">
   <link rel="stylesheet" href="./css/sections/services.css">
   <link rel="stylesheet" href="./css/sections/about.css">
   <link rel="stylesheet" href="./css/sections/portfolio.css">
   <link rel="stylesheet" href="./css/sections/blog.css">
   <link rel="stylesheet" href="./css/sections/contact.css">
+  <link rel="stylesheet" href="./css/backgrounds.css">
   <link rel="stylesheet" href="./css/cookies.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -82,20 +84,20 @@
 
     <main id="main">
     <!-- HERO -->
-    <section id="inicio" class="hero">
+    <section id="inicio" class="hero" data-bg="aurora">
       <div class="hero-background">
         <svg class="circuit-bg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1920 1000" aria-hidden="true">
           <g stroke="currentColor" stroke-width="1.5" fill="none">
             <path class="circuit-trace" d="M0 200 H300 V500 H700 V180" />
             <path class="circuit-trace" d="M1920 300 H1600 V700 H1200 V400" />
-            <path class="circuit-trace" d="M0 900 H250 V1200 H600" />
-            <path class="circuit-trace" d="M1920 1100 H1650 V1500 H1300 V1800" />
+            <path class="circuit-trace" d="M0 950 H250 V650 H650" />
+            <path class="circuit-trace" d="M1920 850 H1650 V550 H1300 V750" />
           </g>
           <g class="circuit-nodes">
             <circle cx="300" cy="200" r="4" />
             <circle cx="700" cy="180" r="4" />
             <circle cx="1600" cy="700" r="4" />
-            <circle cx="600" cy="1200" r="4" />
+            <circle cx="650" cy="650" r="4" />
           </g>
           <!-- Pulsos de luz recorriendo cada trazo en loop (CSS motion path) -->
           <g class="circuit-pulses">
@@ -112,32 +114,151 @@
       </div>
 
       <div class="hero-content">
-        <span class="hero-logo-wrap fade-in">
+        <span class="hero-logo-wrap fade-in" data-tilt>
           <picture>
             <source srcset="./assets/logo-opsyn-icon-440.webp 440w, ./assets/logo-opsyn-icon-880.webp 880w"
-                    sizes="min(220px, 50vw)" type="image/webp">
+                    sizes="min(360px, 70vw)" type="image/webp">
             <img src="./assets/logo-opsyn-icon-440.png" alt="OPSYN"
                  width="440" height="391" class="hero-logo" fetchpriority="high" decoding="async">
           </picture>
+          <!-- Contenedor de la escena 3D (three.js), inyectada por js/sections/hero.js
+               solo si hay WebGL, pantalla >=768px y sin prefers-reduced-motion.
+               Si no aplica, queda oculto y se usa el <picture> de arriba con tilt CSS. -->
+          <div class="hero-logo-3d" aria-hidden="true"></div>
         </span>
         <p class="hero-tagline fade-in" data-i18n="tagline">
           "somos una idea, somos un proyecto, somos la solución para vos"
         </p>
-        <h1 class="hero-title fade-in" data-i18n="heroTitle">
-          Pensamos tu negocio antes de programar, y te acompañamos de cerca en cada paso.
+        <h1 class="hero-title fade-in">
+          <span data-i18n="heroTitlePre">Pensamos </span><span class="text-gradient" data-i18n="heroTitleHighlight">tu negocio</span><span data-i18n="heroTitlePost"> antes de programar, y te acompañamos de cerca en cada paso.</span>
         </h1>
         <p class="hero-subtitle fade-in" data-i18n="heroSub">
           Somos el partner tecnológico integral que combina visión estratégica y ejecución técnica — sin capas corporativas, con trato directo. Desde digitalizar tu negocio desde cero hasta llevarlo al siguiente nivel con IA.
         </p>
-        <a href="#contacto" class="btn btn--primary cta-button fade-in" data-i18n="heroCta">
-          Hablemos de tu proyecto
-          <span class="btn-arrow" aria-hidden="true">→</span>
-        </a>
+        <div class="hero-cta-group fade-in">
+          <a href="#contacto" class="btn btn--primary cta-button" data-i18n="heroCta">
+            Hablemos de tu proyecto
+            <span class="btn-arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="#proceso" class="btn btn--secondary" data-i18n="heroCta2">
+            Ver cómo trabajamos
+          </a>
+        </div>
       </div>
     </section>
 
-    <!-- CÓMO LO HACEMOS (Idea → Proyecto → Solución) — contenido en Fase 2 -->
-    <section id="proceso" class="process" aria-labelledby="proceso-title">
+    <!-- CÓMO LO HACEMOS (Idea → Proyecto → Solución) -->
+    <section id="proceso" class="process" aria-labelledby="proceso-title" data-bg="aurora">
+      <div class="section-header">
+        <p class="section-label" data-i18n="procLabel">Cómo lo hacemos</p>
+        <h2 id="proceso-title" class="section-title" data-i18n="procTitle">Somos una idea, somos un proyecto, somos la solución para vos</h2>
+        <p class="section-subtitle" data-i18n="procSubtitle">Así pasa tu negocio de una necesidad difusa a algo que funciona.</p>
+      </div>
+
+      <div class="process-track">
+        <svg class="process-line process-line--horizontal" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path class="process-line-bg" d="M8,5 L92,5" pathLength="1"></path>
+          <path class="process-line-progress" d="M8,5 L92,5" pathLength="1"></path>
+        </svg>
+        <svg class="process-line process-line--vertical" viewBox="0 0 10 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path class="process-line-bg" d="M5,4 L5,96" pathLength="1"></path>
+          <path class="process-line-progress" d="M5,4 L5,96" pathLength="1"></path>
+        </svg>
+
+        <ol class="process-steps">
+          <li class="process-step" data-step="1">
+            <span class="process-node" aria-hidden="true"><span class="process-node-num">1</span></span>
+            <div class="process-card">
+              <div class="process-card-media img-slot" data-icon="idea" aria-hidden="true">
+                <img src="./assets/3d/proceso-idea.webp" alt="" width="120" height="120" loading="lazy">
+              </div>
+              <h3 data-i18n="procStep1Title">Idea</h3>
+              <p class="process-step-promise" data-i18n="procStep1Promise">Ordenamos lo que tenés en la cabeza.</p>
+              <dl class="process-step-details">
+                <div>
+                  <dt data-i18n="procWhatWeDo">Qué hacemos</dt>
+                  <dd data-i18n="procStep1Do">Una charla directa para entender cómo funciona tu negocio y a dónde querés llegar. Diagnóstico honesto, sin jerga.</dd>
+                </div>
+                <div>
+                  <dt data-i18n="procWhatWeNeed">Qué necesitamos de vos</dt>
+                  <dd data-i18n="procStep1Need">Contarnos qué te frena hoy.</dd>
+                </div>
+                <div>
+                  <dt data-i18n="procWhatYouGet">Qué te llevás</dt>
+                  <dd data-i18n="procStep1Get">Un diagnóstico claro y un plan priorizado.</dd>
+                </div>
+              </dl>
+              <a class="process-step-cta" href="#contacto" data-i18n="procStep1Cta">Contanos tu idea</a>
+            </div>
+          </li>
+
+          <li class="process-step" data-step="2">
+            <span class="process-node" aria-hidden="true"><span class="process-node-num">2</span></span>
+            <div class="process-card">
+              <div class="process-card-media img-slot" data-icon="proyecto" aria-hidden="true">
+                <img src="./assets/3d/proceso-proyecto.webp" alt="" width="120" height="120" loading="lazy">
+              </div>
+              <h3 data-i18n="procStep2Title">Proyecto</h3>
+              <p class="process-step-promise" data-i18n="procStep2Promise">Lo diseñamos y lo construimos con vos.</p>
+              <dl class="process-step-details">
+                <div>
+                  <dt data-i18n="procWhatWeDo">Qué hacemos</dt>
+                  <dd data-i18n="procStep2Do">Definimos el alcance, armamos la solución y te mostramos avances cortos para decidir juntos.</dd>
+                </div>
+                <div>
+                  <dt data-i18n="procWhatWeNeed">Qué necesitamos de vos</dt>
+                  <dd data-i18n="procStep2Need">Feedback rápido en cada avance.</dd>
+                </div>
+                <div>
+                  <dt data-i18n="procWhatYouGet">Qué te llevás</dt>
+                  <dd data-i18n="procStep2Get">Algo funcionando que podés probar, no un documento.</dd>
+                </div>
+              </dl>
+            </div>
+          </li>
+
+          <li class="process-step" data-step="3">
+            <span class="process-node" aria-hidden="true"><span class="process-node-num">3</span></span>
+            <div class="process-card">
+              <div class="process-card-media img-slot" data-icon="solucion" aria-hidden="true">
+                <img src="./assets/3d/proceso-solucion.webp" alt="" width="120" height="120" loading="lazy">
+              </div>
+              <h3 data-i18n="procStep3Title">Solución</h3>
+              <p class="process-step-promise" data-i18n="procStep3Promise">Funciona, se usa y sigue funcionando.</p>
+              <dl class="process-step-details">
+                <div>
+                  <dt data-i18n="procWhatWeDo">Qué hacemos</dt>
+                  <dd data-i18n="procStep3Do">Lo ponemos en marcha, medimos el resultado, lo sostenemos y lo comunicamos.</dd>
+                </div>
+                <div>
+                  <dt data-i18n="procWhatWeNeed">Qué necesitamos de vos</dt>
+                  <dd data-i18n="procStep3Need">Usarlo y contarnos qué mejora.</dd>
+                </div>
+                <div>
+                  <dt data-i18n="procWhatYouGet">Qué te llevás</dt>
+                  <dd data-i18n="procStep3Get">Tu operación funcionando y un canal directo para seguir.</dd>
+                </div>
+              </dl>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="process-example">
+        <p class="process-example-label" data-i18n="procExampleLabel">Así se ve en la práctica</p>
+        <div class="process-example-grid">
+          <p><strong data-i18n="procExampleIdeaTag">Idea:</strong> <span data-i18n="procExampleIdea">"Atender consultas por WhatsApp nos lleva medio día."</span></p>
+          <p><strong data-i18n="procExampleProjectTag">Proyecto:</strong> <span data-i18n="procExampleProject">Un agente de IA que responde lo repetitivo y deriva lo complejo a una persona.</span></p>
+          <p><strong data-i18n="procExampleSolutionTag">Solución:</strong> <span data-i18n="procExampleSolution">Tiempo de respuesta −60%.</span></p>
+        </div>
+      </div>
+
+      <div class="process-cta">
+        <a class="btn btn--primary" href="#contacto">
+          <span data-i18n="procCtaFinal">Contanos tu idea</span>
+          <span class="btn-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
     </section>
 
     <!-- SERVICIOS -->
@@ -148,40 +269,80 @@
       </div>
 
       <div class="services-grid">
-        <div class="service-card reveal-on-scroll" style="--i:0" data-service-id="service1">
-          <div class="service-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6M16 6l6 6-6 6"/></svg>
+        <div class="service-card reveal-on-scroll" style="--i:0" data-service-id="service1" data-service-value="software">
+          <div class="service-visual">
+            <div class="service-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6M16 6l6 6-6 6"/></svg>
+            </div>
+            <picture class="service-media img-slot">
+              <source srcset="./assets/3d/servicio-software.webp" type="image/webp">
+              <img src="./assets/3d/servicio-software.webp" alt="" width="160" height="160" loading="lazy" decoding="async">
+            </picture>
           </div>
           <h3 data-i18n="service1Title">Desarrollo de software</h3>
           <p data-i18n="service1Desc">Apps web y móviles a medida, pensadas para tu operación real, no para una plantilla genérica.</p>
           <div class="service-items" hidden></div>
+          <a href="#contacto" class="btn btn--ghost btn--sm service-consult-btn" data-service-value="software">
+            <span data-i18n="servConsultCta">Consultar por esto</span>
+            <span class="btn-arrow" aria-hidden="true">→</span>
+          </a>
         </div>
 
-        <div class="service-card reveal-on-scroll" style="--i:1" data-service-id="service2">
-          <div class="service-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M12 4v4M9 14h.01M15 14h.01M2 13h2M20 13h2"/></svg>
+        <div class="service-card reveal-on-scroll" style="--i:1" data-service-id="service2" data-service-value="ia">
+          <div class="service-visual">
+            <div class="service-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M12 4v4M9 14h.01M15 14h.01M2 13h2M20 13h2"/></svg>
+            </div>
+            <picture class="service-media img-slot">
+              <source srcset="./assets/3d/servicio-agentes-ia.webp" type="image/webp">
+              <img src="./assets/3d/servicio-agentes-ia.webp" alt="" width="160" height="160" loading="lazy" decoding="async">
+            </picture>
           </div>
           <h3 data-i18n="service2Title">Agentes de IA y automatización</h3>
           <p data-i18n="service2Desc">Bots, agentes y flujos automáticos que te devuelven horas de trabajo manual.</p>
           <div class="service-items" hidden></div>
+          <a href="#contacto" class="btn btn--ghost btn--sm service-consult-btn" data-service-value="ia">
+            <span data-i18n="servConsultCta">Consultar por esto</span>
+            <span class="btn-arrow" aria-hidden="true">→</span>
+          </a>
         </div>
 
-        <div class="service-card reveal-on-scroll" style="--i:2" data-service-id="service3">
-          <div class="service-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.1 5.4-5.4 2.1 2.1-5.4z"/></svg>
+        <div class="service-card reveal-on-scroll" style="--i:2" data-service-id="service3" data-service-value="consulting">
+          <div class="service-visual">
+            <div class="service-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.1 5.4-5.4 2.1 2.1-5.4z"/></svg>
+            </div>
+            <picture class="service-media img-slot">
+              <source srcset="./assets/3d/servicio-consultoria.webp" type="image/webp">
+              <img src="./assets/3d/servicio-consultoria.webp" alt="" width="160" height="160" loading="lazy" decoding="async">
+            </picture>
           </div>
           <h3 data-i18n="service3Title">Consultoría tecnológica</h3>
           <p data-i18n="service3Desc">Diagnóstico honesto de dónde estás y hacia dónde conviene moverte con tecnología.</p>
           <div class="service-items" hidden></div>
+          <a href="#contacto" class="btn btn--ghost btn--sm service-consult-btn" data-service-value="consulting">
+            <span data-i18n="servConsultCta">Consultar por esto</span>
+            <span class="btn-arrow" aria-hidden="true">→</span>
+          </a>
         </div>
 
-        <div class="service-card reveal-on-scroll" style="--i:3" data-service-id="service4">
-          <div class="service-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-7v16l-18-7z"/><path d="M7 12.5V19a1 1 0 0 0 1 1h2"/></svg>
+        <div class="service-card reveal-on-scroll" style="--i:3" data-service-id="service4" data-service-value="marketing">
+          <div class="service-visual">
+            <div class="service-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-7v16l-18-7z"/><path d="M7 12.5V19a1 1 0 0 0 1 1h2"/></svg>
+            </div>
+            <picture class="service-media img-slot">
+              <source srcset="./assets/3d/servicio-marketing.webp" type="image/webp">
+              <img src="./assets/3d/servicio-marketing.webp" alt="" width="160" height="160" loading="lazy" decoding="async">
+            </picture>
           </div>
           <h3 data-i18n="service4Title">Marketing digital</h3>
           <p data-i18n="service4Desc">Estrategia y gestión de redes y contenido para que tu marca se vea tan bien como funciona.</p>
-          <div class="service-items" hidden></div>
+          <p class="service-soon" data-i18n="servComingSoon">Próximamente</p>
+          <a href="#contacto" class="btn btn--ghost btn--sm service-consult-btn" data-service-value="marketing">
+            <span data-i18n="servConsultCta">Consultar por esto</span>
+            <span class="btn-arrow" aria-hidden="true">→</span>
+          </a>
         </div>
       </div>
     </section>
@@ -195,69 +356,114 @@
 
       <div class="portfolio-grid">
         <article class="portfolio-card reveal-on-scroll" style="--i:0">
+          <picture class="portfolio-media img-slot">
+            <source srcset="./assets/3d/portfolio-1.webp" type="image/webp">
+            <img src="./assets/3d/portfolio-1.webp" alt="" width="200" height="140" loading="lazy" decoding="async">
+          </picture>
           <p class="portfolio-eyebrow">Proyecto E-commerce</p>
-          <p class="portfolio-metric">+40<span class="portfolio-unit">%</span></p>
+          <p class="portfolio-metric" data-count-prefix="+" data-count-target="40" data-count-suffix="%">+40<span class="portfolio-unit">%</span></p>
           <h3 class="portfolio-label">en ventas</h3>
+          <p class="portfolio-sample" data-i18n="portfolioSample">Caso ilustrativo</p>
+          <p class="portfolio-detail" data-i18n="portfolioDetail1">Rediseño de checkout y catálogo, con foco en velocidad de carga y conversión móvil.</p>
         </article>
 
         <article class="portfolio-card reveal-on-scroll" style="--i:1">
+          <picture class="portfolio-media img-slot">
+            <source srcset="./assets/3d/portfolio-2.webp" type="image/webp">
+            <img src="./assets/3d/portfolio-2.webp" alt="" width="200" height="140" loading="lazy" decoding="async">
+          </picture>
           <p class="portfolio-eyebrow">Agente IA de soporte</p>
-          <p class="portfolio-metric">&minus;60<span class="portfolio-unit">%</span></p>
+          <p class="portfolio-metric" data-count-prefix="&minus;" data-count-target="60" data-count-suffix="%">&minus;60<span class="portfolio-unit">%</span></p>
           <h3 class="portfolio-label">tiempo de respuesta</h3>
+          <p class="portfolio-sample" data-i18n="portfolioSample">Caso ilustrativo</p>
+          <p class="portfolio-detail" data-i18n="portfolioDetail2">Agente conversacional que resuelve consultas frecuentes y deriva casos complejos a un humano.</p>
         </article>
 
         <article class="portfolio-card reveal-on-scroll" style="--i:2">
+          <picture class="portfolio-media img-slot">
+            <source srcset="./assets/3d/portfolio-3.webp" type="image/webp">
+            <img src="./assets/3d/portfolio-3.webp" alt="" width="200" height="140" loading="lazy" decoding="async">
+          </picture>
           <p class="portfolio-eyebrow">App de gestión interna</p>
-          <p class="portfolio-metric">15<span class="portfolio-unit">hs</span></p>
+          <p class="portfolio-metric" data-count-target="15" data-count-suffix="hs">15<span class="portfolio-unit">hs</span></p>
           <h3 class="portfolio-label">ahorradas por semana</h3>
+          <p class="portfolio-sample" data-i18n="portfolioSample">Caso ilustrativo</p>
+          <p class="portfolio-detail" data-i18n="portfolioDetail3">App a medida que centraliza tareas administrativas dispersas en planillas y mensajes.</p>
         </article>
 
         <article class="portfolio-card reveal-on-scroll" style="--i:3">
+          <picture class="portfolio-media img-slot">
+            <source srcset="./assets/3d/portfolio-4.webp" type="image/webp">
+            <img src="./assets/3d/portfolio-4.webp" alt="" width="200" height="140" loading="lazy" decoding="async">
+          </picture>
           <p class="portfolio-eyebrow">Rebranding + redes</p>
-          <p class="portfolio-metric">3<span class="portfolio-unit">&times;</span></p>
+          <p class="portfolio-metric" data-count-target="3" data-count-suffix="&times;">3<span class="portfolio-unit">&times;</span></p>
           <h3 class="portfolio-label">más engagement</h3>
+          <p class="portfolio-sample" data-i18n="portfolioSample">Caso ilustrativo</p>
+          <p class="portfolio-detail" data-i18n="portfolioDetail4">Identidad visual renovada y calendario de contenido consistente en todas las redes.</p>
         </article>
       </div>
     </section>
 
     <!-- NOSOTROS -->
-    <section id="nosotros" class="about">
-      <div class="about-content">
-        <div class="section-header">
-          <p class="section-label" data-i18n="aboutLabel">Nosotros</p>
-          <h2 class="section-title" data-i18n="aboutTitle">Una agencia boutique, con visión de socio</h2>
-        </div>
-
-        <div class="about-text">
-          <p data-i18n="aboutBody1">
-            OPSYN nació para cerrar la brecha entre las agencias tradicionales, lentas y con capas de gestión, y el freelancer suelto que resuelve tareas puntuales sin mirar el negocio completo.
-          </p>
-          <p data-i18n="aboutBody2">
-            Nosotros pensamos primero tu negocio — cómo funciona, a dónde querés llegar — y recién después programamos. Trabajamos codo a codo con vos, con respuestas rápidas y decisiones compartidas, ya sea tu primer paso digital o tu salto hacia la IA.
-          </p>
-        </div>
-
-        <div class="about-points">
-          <div class="about-card reveal-on-scroll" style="--i:0">
-            <h4 data-i18n="aboutPoint1Title">Visión estratégica</h4>
-            <p data-i18n="aboutPoint1Desc">No empezamos por el código, empezamos por tu negocio.</p>
+    <section id="nosotros" class="about" data-bg="grid">
+      <div class="about-layout">
+        <div class="about-content">
+          <div class="section-header">
+            <p class="section-label" data-i18n="aboutLabel">Nosotros</p>
+            <h2 class="section-title" data-i18n="aboutTitle">Una agencia boutique, con visión de socio</h2>
           </div>
 
-          <div class="about-card reveal-on-scroll" style="--i:1">
-            <h4 data-i18n="aboutPoint2Title">Trato cercano</h4>
-            <p data-i18n="aboutPoint2Desc">Hablás directo con quien construye, sin intermediarios.</p>
+          <div class="about-text">
+            <p data-i18n="aboutBody1">
+              OPSYN nació para cerrar la brecha entre las agencias tradicionales, lentas y con capas de gestión, y el freelancer suelto que resuelve tareas puntuales sin mirar el negocio completo.
+            </p>
+            <p data-i18n="aboutBody2">
+              Nosotros pensamos primero tu negocio — cómo funciona, a dónde querés llegar — y recién después programamos. Trabajamos codo a codo con vos, con respuestas rápidas y decisiones compartidas, ya sea tu primer paso digital o tu salto hacia la IA.
+            </p>
           </div>
 
-          <div class="about-card reveal-on-scroll" style="--i:2">
-            <h4 data-i18n="aboutPoint3Title">Ejecución técnica real</h4>
-            <p data-i18n="aboutPoint3Desc">Lo que diseñamos, lo construimos y lo sostenemos.</p>
+          <div class="about-points">
+            <div class="about-card reveal-on-scroll" style="--i:0">
+              <div class="about-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+              </div>
+              <h4 data-i18n="aboutPoint1Title">Visión estratégica</h4>
+              <p data-i18n="aboutPoint1Desc">No empezamos por el código, empezamos por tu negocio.</p>
+            </div>
+
+            <div class="about-card reveal-on-scroll" style="--i:1">
+              <div class="about-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              </div>
+              <h4 data-i18n="aboutPoint2Title">Trato cercano</h4>
+              <p data-i18n="aboutPoint2Desc">Hablás directo con quien construye, sin intermediarios.</p>
+            </div>
+
+            <div class="about-card reveal-on-scroll" style="--i:2">
+              <div class="about-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m14.7 6.3-1.6 1.6M12 22a9 9 0 1 1 9-9c0 2-1 3-2 4l-2.5 2.5c-.3.3-.5.7-.5 1.1V21"/><circle cx="12" cy="9" r="1"/></svg>
+              </div>
+              <h4 data-i18n="aboutPoint3Title">Ejecución técnica real</h4>
+              <p data-i18n="aboutPoint3Desc">Lo que diseñamos, lo construimos y lo sostenemos.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-visual">
+          <div class="about-visual-media img-slot" data-icon="nosotros" aria-hidden="true">
+            <img src="./assets/3d/nosotros.webp" alt="" width="320" height="320" loading="lazy">
+          </div>
+          <div class="about-badges">
+            <span class="about-badge" data-i18n="aboutBadge1">4 áreas de servicio</span>
+            <span class="about-badge" data-i18n="aboutBadge2">ES / EN</span>
           </div>
         </div>
       </div>
     </section>
 
     <!-- CONTACTO -->
-    <section id="contacto" class="contact">
+    <section id="contacto" class="contact" data-bg="aurora">
       <div class="contact-content">
         <div class="section-header">
           <p class="section-label" data-i18n="contactLabel">Contacto</p>
@@ -267,50 +473,78 @@
           </p>
         </div>
 
-        <form class="contact-form" id="contactForm" novalidate>
-          <div class="form-row">
-            <div class="form-field">
-              <label for="f-nombre" class="form-label" data-i18n="formName">Nombre</label>
-              <input id="f-nombre" name="nombre" type="text" autocomplete="name"
-                     maxlength="100" required class="form-input">
+        <div class="contact-form-wrap">
+          <form class="contact-form" id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="form-field">
+                <input id="f-nombre" name="nombre" type="text" autocomplete="name"
+                       maxlength="100" required class="form-input" placeholder=" "
+                       aria-invalid="false" aria-describedby="f-nombre-error">
+                <label for="f-nombre" class="form-label" data-i18n="formName">Nombre</label>
+                <p class="form-error" id="f-nombre-error" role="alert"></p>
+              </div>
+              <div class="form-field">
+                <input id="f-email" name="email" type="email" autocomplete="email"
+                       maxlength="254" required class="form-input" placeholder=" "
+                       aria-invalid="false" aria-describedby="f-email-error">
+                <label for="f-email" class="form-label" data-i18n="formEmail">Email</label>
+                <p class="form-error" id="f-email-error" role="alert"></p>
+              </div>
             </div>
-            <div class="form-field">
-              <label for="f-email" class="form-label" data-i18n="formEmail">Email</label>
-              <input id="f-email" name="email" type="email" autocomplete="email"
-                     maxlength="254" required class="form-input">
+
+            <div class="form-field form-field--select">
+              <label for="f-servicio" class="form-label" data-i18n="formServiceLabel">Tipo de servicio de interés</label>
+              <select id="f-servicio" name="servicio" required class="form-input"
+                      aria-invalid="false" aria-describedby="f-servicio-error">
+                <option value="" data-i18n="formServicePlaceholder">Elegí una opción</option>
+                <option value="software" data-i18n="formServiceSoftware">Desarrollo de software</option>
+                <option value="ia" data-i18n="formServiceIA">Agentes de IA y automatización</option>
+                <option value="consulting" data-i18n="formServiceConsulting">Consultoría tecnológica</option>
+                <option value="marketing" data-i18n="formServiceMarketing">Marketing digital</option>
+              </select>
+              <p class="form-error" id="f-servicio-error" role="alert"></p>
             </div>
+
+            <div class="form-field">
+              <textarea id="f-mensaje" name="mensaje" rows="5" minlength="10" maxlength="5000"
+                        required class="form-input" placeholder=" "
+                        aria-invalid="false" aria-describedby="f-mensaje-error f-mensaje-count"></textarea>
+              <label for="f-mensaje" class="form-label" data-i18n="formMessage">Contanos sobre tu proyecto</label>
+              <div class="form-field-meta">
+                <p class="form-error" id="f-mensaje-error" role="alert"></p>
+                <p class="form-count" id="f-mensaje-count" aria-hidden="true"><span class="form-count-current">0</span>/5000</p>
+              </div>
+            </div>
+
+            <div class="form-progress" aria-hidden="true">
+              <div class="form-progress-bar" id="formProgressBar"></div>
+            </div>
+
+            <!-- Honeypot anti-spam: oculto para personas, tentador para bots. No borrar. -->
+            <div class="form-honeypot" aria-hidden="true">
+              <label for="f-gotcha">No completar este campo</label>
+              <input id="f-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+            </div>
+
+            <button type="submit" class="btn btn--primary form-submit">
+              <span class="form-submit-text" data-i18n="formSubmit">Enviar mensaje</span>
+              <span class="form-spinner" aria-hidden="true"></span>
+            </button>
+
+            <p class="form-feedback" role="status" aria-live="polite"></p>
+          </form>
+
+          <div class="form-success" id="formSuccess" tabindex="-1" hidden>
+            <div class="form-success-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <p class="form-success-title" data-i18n="formSuccessTitle">¡Mensaje enviado!</p>
+            <p class="form-success-text" data-i18n="formSuccess">¡Gracias! Te contactaremos pronto.</p>
+            <button type="button" class="btn btn--ghost btn--sm form-success-reset" data-i18n="formSuccessReset">Enviar otro mensaje</button>
           </div>
-
-          <div class="form-field">
-            <label for="f-servicio" class="form-label" data-i18n="formServiceLabel">Tipo de servicio de interés</label>
-            <select id="f-servicio" name="servicio" required class="form-input">
-              <option value="" data-i18n="formServicePlaceholder">Elegí una opción</option>
-              <option value="software">Desarrollo de software</option>
-              <option value="ia">Agentes de IA y automatización</option>
-              <option value="consulting">Consultoría tecnológica</option>
-              <option value="marketing">Marketing digital</option>
-            </select>
-          </div>
-
-          <div class="form-field">
-            <label for="f-mensaje" class="form-label" data-i18n="formMessage">Contanos sobre tu proyecto</label>
-            <textarea id="f-mensaje" name="mensaje" rows="5" minlength="10" maxlength="5000"
-                      required class="form-input"></textarea>
-          </div>
-
-          <!-- Honeypot anti-spam: oculto para personas, tentador para bots. No borrar. -->
-          <div class="form-honeypot" aria-hidden="true">
-            <label for="f-gotcha">No completar este campo</label>
-            <input id="f-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
-          </div>
-
-          <button type="submit" class="btn btn--primary form-submit">
-            <span class="form-submit-text" data-i18n="formSubmit">Enviar mensaje</span>
-            <span class="form-spinner" aria-hidden="true"></span>
-          </button>
-
-          <p class="form-feedback" role="status" aria-live="polite"></p>
-        </form>
+        </div>
       </div>
     </section>
 
@@ -415,5 +649,11 @@
   <script src="./js/cookie-consent.js"></script>
   <script src="./js/service-items.js"></script>
   <script src="./js/effects.js" defer></script>
+  <script src="./js/sections/process.js" defer></script>
+  <script src="./js/sections/backgrounds.js" defer></script>
+  <script src="./js/sections/hero.js" defer></script>
+  <script src="./js/sections/contact.js" defer></script>
+  <script src="./js/sections/services.js" defer></script>
+  <script src="./js/sections/portfolio.js" defer></script>
 </body>
 </html>

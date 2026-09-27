@@ -1,0 +1,70 @@
+/* ========================================
+   FONDOS DINÁMICOS GLOBALES
+   Sistema reutilizable por cualquier sección del sitio vía el
+   atributo data-bg en el <section> (o contenedor) que lo necesite:
+
+     data-bg="aurora"  → malla de auroras animada (radiales de marca
+                          violeta/cian), sutil y en loop lento.
+     data-bg="grid"     → grilla fina tipo Vercel, 4–5% de opacidad,
+                          con máscara radial para que se apague en los bordes.
+     data-bg="plain"    → sin efecto (declaración explícita: la sección
+                          usa su propio fondo, sin capa dinámica encima).
+
+   Uso: <section id="x" class="..." data-bg="aurora"> — nada más.
+   El elemento con data-bg pasa a position:relative + isolation:isolate
+   para alojar el pseudo-elemento sin alterar su layout interno ni
+   filtrar z-index hacia afuera.
+
+   Solo se anima transform/opacity (compositor, no reflow/repaint).
+   Ambos efectos se apagan por completo con prefers-reduced-motion.
+   ======================================== */
+
+[data-bg="aurora"],
+[data-bg="grid"] {
+  position: relative;
+  isolation: isolate;
+}
+
+/* ---- AURORA: dos radiales de marca en deriva lenta ---- */
+[data-bg="aurora"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(45% 55% at 20% 25%, rgba(148, 52, 212, 0.35), transparent 70%),
+    radial-gradient(50% 60% at 80% 75%, rgba(121, 255, 255, 0.22), transparent 70%);
+  background-repeat: no-repeat;
+  animation: auroraDrift 22s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+
+@keyframes auroraDrift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0.85; }
+  50%  { transform: translate3d(2%, -3%, 0) scale(1.08); opacity: 1; }
+  100% { transform: translate3d(-2%, 2%, 0) scale(1.02); opacity: 0.9; }
+}
+
+/* ---- GRID: grilla sutil tipo Vercel ---- */
+[data-bg="grid"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-bg="aurora"]::before {
+    animation: none;
+    transform: none;
+    opacity: 0.9;
+  }
+}
