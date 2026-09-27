@@ -2,19 +2,25 @@
    FORMULARIO — CAMPOS, LABELS, ESTADOS
    Componente reusable (el contenedor de la sección de contacto
    vive en css/sections/contact.css).
+   Label flotante real (label asociado con for/id, no placeholder):
+   arranca superpuesto al valor y sube cuando el campo tiene foco
+   o contenido (:not(:placeholder-shown)). El <select> usa un label
+   estático porque no soporta :placeholder-shown.
    ======================================== */
 
 .form-field {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-2);
+  gap: var(--sp-1);
 }
 
 .form-label {
   font-family: var(--font-secondary);
-  font-size: var(--fs-sm);
+  font-size: var(--fs-base);
   font-weight: 500;
-  color: var(--text-muted);
+  color: var(--text-faint);
+  pointer-events: none;
 }
 
 .form-input {
@@ -26,7 +32,7 @@
   font-size: var(--fs-base); /* 16px en todos los anchos: evita el zoom de iOS al enfocar */
   font-family: inherit;
   width: 100%;
-  transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
 }
 
 .form-input:focus-visible {
@@ -34,6 +40,37 @@
   outline: 2px solid var(--cyan);
   outline-offset: 2px;
   box-shadow: 0 0 0 4px var(--cyan-10);
+}
+
+/* --- Label flotante: text/email/textarea --- */
+.form-field:not(.form-field--select) .form-input {
+  padding-top: 22px;
+  padding-bottom: 8px;
+}
+
+.form-field:not(.form-field--select) .form-label {
+  position: absolute;
+  left: 17px;
+  top: 16px;
+  font-size: var(--fs-base);
+  color: var(--text-faint);
+  transform-origin: left top;
+  transition: transform var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+
+.form-field:not(.form-field--select) .form-input:focus + .form-label,
+.form-field:not(.form-field--select) .form-input:not(:placeholder-shown) + .form-label {
+  transform: translateY(-9px) scale(0.8);
+  color: var(--cyan);
+}
+
+.form-field:not(.form-field--select) .form-input.is-invalid:not(:placeholder-shown) + .form-label {
+  color: var(--error);
+}
+
+/* --- Label estático: select (no soporta :placeholder-shown) --- */
+.form-field--select .form-label {
+  order: -1;
 }
 
 textarea.form-input {
@@ -54,6 +91,66 @@ select.form-input:invalid {
 select.form-input option {
   background: var(--primary-dark);
   color: var(--text-light);
+}
+
+/* --- Estados de validación (aplicados por js/sections/contact.js) --- */
+.form-input.is-invalid {
+  border-color: var(--error);
+}
+
+.form-input.is-invalid:focus-visible {
+  border-color: var(--error);
+  outline-color: var(--error);
+  box-shadow: 0 0 0 4px rgba(255, 138, 138, 0.15);
+}
+
+.form-input.is-valid {
+  border-color: var(--success);
+}
+
+.form-error {
+  min-height: 1.3em;
+  margin: 0;
+  font-family: var(--font-secondary);
+  font-size: var(--fs-micro);
+  color: var(--error);
+}
+
+.form-field-meta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-2);
+}
+
+.form-count {
+  flex-shrink: 0;
+  margin: 0;
+  padding-top: 2px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-faint);
+}
+
+/* --- Indicador sutil de progreso de completitud --- */
+.form-progress {
+  height: 3px;
+  border-radius: var(--r-pill);
+  background: var(--border-hairline);
+  overflow: hidden;
+}
+
+.form-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--gradient-brand);
+  transition: width var(--dur-base) var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-progress-bar {
+    transition: none;
+  }
 }
 
 /* Honeypot: oculto visualmente y para navegación por teclado, pero
@@ -77,6 +174,10 @@ select.form-input option {
   width: 100%;
 }
 
+.form-submit.is-loading .form-submit-text {
+  opacity: 0.6;
+}
+
 .form-spinner {
   width: 16px;
   height: 16px;
@@ -88,6 +189,12 @@ select.form-input option {
 
 @keyframes spin-form-btn {
   to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-spinner {
+    animation-duration: 1.4s;
+  }
 }
 
 .form-feedback {
