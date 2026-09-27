@@ -55,12 +55,15 @@
     });
   }
 
-  function toggleCard(card, itemsEl) {
+  function toggleCard(card, toggleBtn, itemsEl) {
     const isOpen = card.classList.toggle('is-open');
-    card.setAttribute('aria-expanded', String(isOpen));
+    toggleBtn.setAttribute('aria-expanded', String(isOpen));
     itemsEl.hidden = !isOpen;
   }
 
+  // El control accesible es un <button> real (el chevron), no la tarjeta:
+  // la tarjeta contiene el link "Consultar por esto", y un role="button"
+  // con controles adentro rompe lectores de pantalla y el Enter de ese link.
   function setupCard(card, items) {
     const itemsEl = card.querySelector('.service-items');
     if (!itemsEl || !Array.isArray(items) || items.length === 0) return;
@@ -71,26 +74,26 @@
     registrations.push({ itemsEl, items });
 
     card.classList.add('has-items');
-    card.setAttribute('role', 'button');
-    card.setAttribute('tabindex', '0');
-    card.setAttribute('aria-expanded', 'false');
-    card.setAttribute('aria-controls', itemsEl.id);
 
-    const chevron = document.createElement('span');
-    chevron.className = 'service-toggle-icon';
-    chevron.setAttribute('aria-hidden', 'true');
-    card.appendChild(chevron);
+    const title = card.querySelector('h3');
+    const toggleBtn = document.createElement('button');
+    toggleBtn.type = 'button';
+    toggleBtn.className = 'service-toggle-icon';
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn.setAttribute('aria-controls', itemsEl.id);
+    if (title) {
+      title.id = title.id || serviceId + '-title';
+      // Nombre accesible = título de la tarjeta; se actualiza solo con el i18n.
+      toggleBtn.setAttribute('aria-labelledby', title.id);
+    }
+    card.appendChild(toggleBtn);
 
+    toggleBtn.addEventListener('click', () => toggleCard(card, toggleBtn, itemsEl));
+
+    // Atajo con mouse: clic en cualquier parte "vacía" de la tarjeta.
     card.addEventListener('click', (event) => {
-      if (event.target.closest('.service-items')) return;
-      toggleCard(card, itemsEl);
-    });
-
-    card.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        toggleCard(card, itemsEl);
-      }
+      if (event.target.closest('.service-items, a, button')) return;
+      toggleCard(card, toggleBtn, itemsEl);
     });
   }
 

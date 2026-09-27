@@ -55,7 +55,7 @@
   margin: 0;
 }
 
-.footer-section > h4 {
+.footer-section > h2 {
   font-size: var(--fs-micro);
   color: var(--text-faint);
   text-transform: uppercase;
