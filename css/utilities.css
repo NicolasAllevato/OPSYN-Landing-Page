@@ -1,0 +1,72 @@
+/* ========================================
+   UTILIDADES
+   ======================================== */
+
+.hidden {
+  display: none !important;
+}
+
+.img-failed {
+  visibility: hidden;
+}
+
+/* ========================================
+   SCROLL REVEAL + STAGGER
+   Sistema único: sin JS, el contenido es visible desde el primer
+   render (progresivo, ver html:not(.js)). Con JS, IntersectionObserver
+   agrega .is-visible. (Antes había un segundo sistema por @keyframes
+   fadeIn/slideInUp que competía con este y dejaba código muerto
+   — .revealed nunca se aplicaba porque el JS solo agrega .is-visible.)
+   ======================================== */
+
+html:not(.js) .reveal-on-scroll,
+html:not(.js) .fade-in {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--dur-slow) var(--ease-out),
+              transform var(--dur-slow) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--dur-slow) var(--ease-out),
+              transform var(--dur-slow) var(--ease-out);
+}
+
+.fade-in.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ========================================
+   MOVIMIENTO REDUCIDO (OBLIGATORIO)
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal-on-scroll,
+  .fade-in {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,0 +1,106 @@
+/* ========================================
+   FOOTER
+   ======================================== */
+
+.footer {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid rgba(148, 52, 212, 0.25);
+  padding: 48px 24px 32px;
+  background: rgba(13, 3, 38, 0.3);
+}
+
+.footer-content {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 150px;
+}
+
+.footer-section:first-child {
+  max-width: 280px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.footer-logo img {
+  height: 32px;
+  width: 32px;
+  object-fit: contain;
+}
+
+.footer-logo span {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.footer-section > p {
+  font-size: var(--fs-sm);
+  color: var(--text-subtle);
+  margin: 0;
+}
+
+.footer-section > h4 {
+  font-size: var(--fs-micro);
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.footer-section ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-section a {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+/* Mismo bug que en .nav-link:hover: --primary-accent solo es para
+   fondos/gradientes (3.5:1 sobre el fondo, falla AA). --accent-text pasa 7:1. */
+.footer-section a:hover {
+  color: var(--accent-text);
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(148, 52, 212, 0.1);
+}
+
+.footer-bottom p {
+  font-size: var(--fs-micro);
+  color: var(--text-faint);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    gap: 16px;
+    flex-direction: column;
+  }
+
+  .footer-section {
+    min-width: unset;
+  }
+}

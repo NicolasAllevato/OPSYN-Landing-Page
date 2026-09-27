@@ -1,0 +1,184 @@
+/* ========================================
+   BOTONES — SISTEMA .btn
+   Variantes: --primary (relleno, un solo por pantalla),
+   --secondary (borde con gradiente), --ghost (enlace terciario).
+   Tamaños: base, --sm, --lg.
+   Efectos: brillo que sigue al cursor (--mx/--my, ver js/effects.js),
+   shimmer en hover, flecha desplazable (.btn-arrow), magnetismo leve
+   solo con puntero fino (también en effects.js). Todo se apaga con
+   prefers-reduced-motion. Transiciones con propiedades explícitas:
+   nunca `transition: all`.
+   ======================================== */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 48px;
+  padding: 0 var(--sp-6);
+  border-radius: var(--r-pill);
+  border: 1px solid transparent;
+  font-family: var(--font-secondary);
+  font-weight: 600;
+  font-size: var(--fs-base);
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  color: var(--text-light);
+  transition: transform var(--dur-fast) var(--ease-out),
+              box-shadow var(--dur-fast) var(--ease-out),
+              border-color var(--dur-fast) var(--ease-out),
+              background-color var(--dur-fast) var(--ease-out),
+              opacity var(--dur-fast) var(--ease-out);
+}
+
+.btn--sm {
+  min-height: 40px;
+  padding: 0 var(--sp-4);
+  font-size: var(--fs-sm);
+}
+
+.btn--lg {
+  min-height: 52px;
+  padding: 0 var(--sp-8);
+  font-size: var(--fs-lead);
+}
+
+/* --- Brillo que sigue al cursor (radial-gradient posicionado con --mx/--my) --- */
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: radial-gradient(140px circle at var(--mx, 50%) var(--my, 50%),
+              rgba(255, 255, 255, 0.35), transparent 70%);
+  transition: opacity var(--dur-fast) var(--ease-out);
+  pointer-events: none;
+}
+
+/* --- Shimmer: barrido diagonal al hacer hover --- */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(115deg, transparent 20%, rgba(255, 255, 255, 0.22) 50%, transparent 80%);
+  transform: translateX(-120%);
+  transition: transform var(--dur-slow) var(--ease-out);
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .btn:hover::before { opacity: 1; }
+  .btn:hover::after { transform: translateX(120%); }
+}
+
+/* --- Flecha desplazable (solo en botones que la incluyan, ej. CTA del hero) --- */
+.btn-arrow {
+  display: inline-block;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .btn:hover .btn-arrow {
+    transform: translateX(4px);
+  }
+}
+
+/* --- Variante primaria: relleno con gradiente de marca --- */
+.btn--primary {
+  background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: var(--shadow-glow-accent);
+}
+
+@media (hover: hover) {
+  .btn--primary:hover {
+    box-shadow: var(--shadow-glow-accent-lg);
+    transform: translateY(-2px);
+  }
+}
+
+.btn--primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: var(--shadow-glow-accent);
+}
+
+/* --- Variante secundaria: borde con gradiente sobre fondo oscuro --- */
+.btn--secondary {
+  background: linear-gradient(var(--primary-dark), var(--primary-dark)) padding-box,
+              var(--gradient-brand) border-box;
+  border: 1px solid transparent;
+  color: var(--text-light);
+}
+
+@media (hover: hover) {
+  .btn--secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+.btn--secondary:active {
+  transform: translateY(0);
+}
+
+/* --- Variante ghost: terciaria, tipo enlace con borde hairline --- */
+.btn--ghost {
+  background: transparent;
+  border-color: var(--border-hairline-strong);
+  color: var(--accent-text);
+}
+
+@media (hover: hover) {
+  .btn--ghost:hover {
+    border-color: var(--accent-text);
+    background: rgba(199, 125, 240, 0.08);
+  }
+}
+
+/* --- Estados --- */
+.btn:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px var(--cyan-10);
+}
+
+.btn[disabled],
+.btn.is-disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn[disabled]::before,
+.btn[disabled]::after {
+  display: none;
+}
+
+/* Cargando: reutiliza el spinner que ya trae el botón de envío del formulario */
+.btn .form-spinner {
+  display: none;
+}
+
+.btn[disabled] .form-spinner {
+  display: inline-block;
+}
+
+.btn.is-success {
+  background: linear-gradient(135deg, var(--success), var(--teal));
+  border-color: transparent;
+}
+
+/* --- Magnetismo leve: solo con puntero fino, JS setea --mx/--my y transform --- */
+@media (pointer: coarse) {
+  .btn {
+    transform: none !important;
+  }
+}

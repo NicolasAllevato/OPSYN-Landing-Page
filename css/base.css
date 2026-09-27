@@ -1,0 +1,125 @@
+/* ========================================
+   RESET Y BASE
+   ======================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--primary-dark);
+  color: var(--text-light);
+  font-family: var(--font-secondary);
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--primary-accent);
+  color: var(--text-light);
+}
+
+.page-container {
+  position: relative;
+  background: var(--primary-dark);
+  color: var(--text-light);
+  min-height: 100vh;
+}
+
+/* ========================================
+   TIPOGRAFÍA
+   ======================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  line-height: var(--lh-heading);
+}
+
+a {
+  color: var(--cyan);
+  text-decoration: none;
+  transition: color var(--dur-fast) ease;
+}
+
+/* Antes había dos declaraciones seguidas (--accent-text y luego
+   --primary-accent pisándola): el hover quedaba en ~3.5:1, falla AA.
+   --accent-text da 7.02:1 y es el color pensado para texto. */
+a:hover {
+  color: var(--accent-text);
+}
+
+/* ========================================
+   SECCIONES — ESTRUCTURA COMPARTIDA
+   ======================================== */
+
+section {
+  position: relative;
+  z-index: 1;
+  scroll-margin-top: calc(var(--header-h) + var(--sp-4));
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.section-label {
+  color: var(--cyan);
+  font-family: var(--font-primary);
+  font-size: var(--fs-micro);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.section-title {
+  font-size: var(--fs-h2);
+  letter-spacing: var(--ls-tight);
+  margin: 0;
+}
+
+.section-subtitle {
+  font-size: var(--fs-lead);
+  color: var(--text-muted);
+  max-width: 560px;
+}
+
+/* ========================================
+   ACCESIBILIDAD — FOCO Y SKIP LINK
+   ======================================== */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--sp-4);
+  z-index: 1000;
+  padding: var(--sp-3) var(--sp-6);
+  background: var(--cyan);
+  color: var(--primary-dark);
+  font-family: var(--font-secondary);
+  font-weight: 600;
+  border-radius: var(--r-sm);
+  transition: top var(--dur-base) ease;
+}
+
+.skip-link:focus {
+  top: var(--sp-4);
+}
+
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
