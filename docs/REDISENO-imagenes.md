@@ -2,6 +2,14 @@
 
 Este documento lista los assets de imagen 3D que se generarán en la Fase 3 (requiere OK del usuario). Todos los slots ya están en el HTML/CSS con fallback visual (ícono SVG o gradiente) si el archivo todavía no existe o falla la carga.
 
+## Hero y compartir en redes
+
+El hero usa `logo-opsyn-icon-880.webp` existente como textura 3D (sin asset nuevo). Falta solo la imagen para compartir en redes, que hoy reusa el logo:
+
+| Archivo | Tamaño | Uso | Prompt (inglés) |
+|---|---|---|---|
+| `assets/3d/og-image.webp` | 1200×630 | `og:image`/`twitter:image` (reemplaza el logo reusado en `index.html:15,20`) | 3D glass/neon rendering of the OPSYN impossible-triangle logo (lion, fish, cosmic swirl) floating in a dark cosmic scene, violet #9434D4 + cyan #79FFFF aurora glow, dark #0D0326 background, soft studio lighting, isometric, centered, wide 1200x630 composition with clean space for a headline overlay |
+
 ## Servicios (`css/sections/services.css`, `js/sections/services.js`)
 
 | Archivo | Tamaño | Uso | Prompt (inglés) |
