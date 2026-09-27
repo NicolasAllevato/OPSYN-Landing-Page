@@ -61,9 +61,23 @@
     }
   }
 
+  // Normaliza la posición del puntero respecto de un rect a [-0.5, 0.5]:
+  // sin el tope, con el mouse lejos del logo el giro crecía sin límite.
+  function relativePointer(event, rect) {
+    var clamp = function (v) { return Math.max(-0.5, Math.min(0.5, v)); };
+    return {
+      x: clamp((event.clientX - rect.left) / rect.width - 0.5),
+      y: clamp((event.clientY - rect.top) / rect.height - 0.5),
+    };
+  }
+
   // ---- Fallback: tilt 2D con CSS custom properties sobre el <picture> ----
   function initCssTilt(el) {
-    if (!hasFinePointer) return; // en táctil no aporta y consume batería
+    if (!hasFinePointer) {
+      // Táctil: inclinación sutil con el giroscopio (sin animación continua).
+      if (!prefersReducedMotion) initGyroTilt(el);
+      return;
+    }
     var img = el.querySelector('.hero-logo');
     if (!img) return;
 
@@ -73,11 +87,9 @@
     var applyFrame = function () {
       raf = null;
       if (!pendingEvent) return;
-      var rect = el.getBoundingClientRect();
-      var px = (pendingEvent.clientX - rect.left) / rect.width - 0.5;
-      var py = (pendingEvent.clientY - rect.top) / rect.height - 0.5;
-      img.style.setProperty('--hero-tilt-y', (px * 14).toFixed(2) + 'deg');
-      img.style.setProperty('--hero-tilt-x', (py * -14).toFixed(2) + 'deg');
+      var p = relativePointer(pendingEvent, el.getBoundingClientRect());
+      img.style.setProperty('--hero-tilt-y', (p.x * 10).toFixed(2) + 'deg');
+      img.style.setProperty('--hero-tilt-x', (p.y * -10).toFixed(2) + 'deg');
     };
 
     el.addEventListener('pointermove', function (event) {
@@ -95,6 +107,56 @@
       img.style.setProperty('--hero-tilt-x', '0deg');
       img.style.setProperty('--hero-tilt-y', '0deg');
     });
+  }
+
+  // ---- Celular/tablet: tilt CSS con el giroscopio ----
+  // Máximo ±6° y referencia que se re-centra sola: sigue la forma en que la
+  // persona sostiene el teléfono y solo reacciona a movimientos de la mano.
+  function initGyroTilt(el) {
+    // Constante local: esta función se invoca desde arriba del IIFE, antes de
+    // que corra cualquier `var` declarada más abajo (valdría undefined → NaN).
+    var GYRO_MAX_DEG = 6;
+    var img = el.querySelector('.hero-logo');
+    if (!img || !('DeviceOrientationEvent' in window)) return;
+
+    var base = null;
+    var raf = null;
+    var tilt = { x: 0, y: 0 };
+
+    var apply = function () {
+      raf = null;
+      img.style.setProperty('--hero-tilt-y', tilt.y.toFixed(2) + 'deg');
+      img.style.setProperty('--hero-tilt-x', tilt.x.toFixed(2) + 'deg');
+    };
+
+    var onOrientation = function (event) {
+      if (event.gamma == null || event.beta == null) return;
+      if (!base) base = { beta: event.beta, gamma: event.gamma };
+      // Re-centrado lento hacia la postura actual
+      base.beta += (event.beta - base.beta) * 0.005;
+      base.gamma += (event.gamma - base.gamma) * 0.005;
+      var clamp = function (v) { return Math.max(-1, Math.min(1, v)); };
+      tilt.y = clamp((event.gamma - base.gamma) / 30) * GYRO_MAX_DEG;
+      tilt.x = clamp((event.beta - base.beta) / 30) * -GYRO_MAX_DEG;
+      if (!raf) raf = requestAnimationFrame(apply);
+    };
+
+    var start = function () {
+      window.addEventListener('deviceorientation', onOrientation, { passive: true });
+    };
+
+    // iOS 13+ exige permiso explícito tras un gesto del usuario: se pide
+    // solo si la persona toca el logo (nunca con un diálogo sorpresa).
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+      el.addEventListener('click', function askOnce() {
+        el.removeEventListener('click', askOnce);
+        DeviceOrientationEvent.requestPermission()
+          .then(function (state) { if (state === 'granted') start(); })
+          .catch(function () { /* sin permiso: el logo queda estático */ });
+      });
+    } else {
+      start();
+    }
   }
 
   // ---- Escena 3D con three.js (import dinámico) ----
@@ -152,20 +214,20 @@
       var currentRotX = 0;
       var currentRotY = 0;
 
+      // Giro máximo ±0.25 rad (~14°): antes era ±0.5 rad sin tope y con el
+      // mouse lejos del logo llegaba a ~40°.
       function onPointerMove(event) {
-        var rect = container.getBoundingClientRect();
-        var px = (event.clientX - rect.left) / rect.width - 0.5;
-        var py = (event.clientY - rect.top) / rect.height - 0.5;
-        targetRotY = px * 0.5;
-        targetRotX = -py * 0.5;
+        var p = relativePointer(event, container.getBoundingClientRect());
+        targetRotY = p.x * 0.5;
+        targetRotX = -p.y * 0.5;
       }
 
       // Giroscopio suave (tablets/notebooks con sensor): pequeño rango
       // para que el efecto sea sutil, igual que el tilt del mouse.
       function onOrientation(event) {
         if (event.gamma == null || event.beta == null) return;
-        targetRotY = THREE.MathUtils.clamp(event.gamma / 45, -1, 1) * 0.35;
-        targetRotX = THREE.MathUtils.clamp((event.beta - 45) / 45, -1, 1) * 0.35;
+        targetRotY = THREE.MathUtils.clamp(event.gamma / 45, -1, 1) * 0.15;
+        targetRotX = THREE.MathUtils.clamp((event.beta - 45) / 45, -1, 1) * 0.15;
       }
 
       window.addEventListener('pointermove', onPointerMove, { passive: true });

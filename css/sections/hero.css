@@ -176,6 +176,8 @@
   align-items: center;
   justify-content: center;
   gap: var(--sp-4, 16px);
+  /* Un renglón de aire entre el subtítulo y los CTA */
+  margin-top: var(--sp-10);
 }
 
 @media (prefers-reduced-motion: reduce) {
