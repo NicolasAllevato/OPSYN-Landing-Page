@@ -1,0 +1,326 @@
+/* ========================================
+   CÓMO LO HACEMOS (Idea → Proyecto → Solución)
+   Tarjetas de vidrio conectadas por una línea que se dibuja al
+   scrollear (stroke-dashoffset) con nodos que pulsan en el paso
+   activo. Horizontal en desktop, vertical en móvil.
+   ======================================== */
+
+.process {
+  padding: var(--sp-20) var(--sp-6);
+  position: relative;
+}
+
+.process .section-header {
+  max-width: var(--measure);
+  margin-inline: auto;
+  text-align: center;
+}
+
+.process .section-subtitle {
+  color: var(--text-cool);
+  font-size: var(--fs-base);
+  margin-top: var(--sp-2);
+}
+
+/* --- Track: contiene la línea SVG + los pasos --- */
+.process-track {
+  position: relative;
+  max-width: var(--container);
+  margin: var(--sp-12) auto 0;
+}
+
+.process-line {
+  position: absolute;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.process-line-bg,
+.process-line-progress {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.process-line-bg {
+  stroke: var(--border-hairline-strong);
+  stroke-width: 0.6;
+}
+
+.process-line-progress {
+  stroke: var(--cyan);
+  stroke-width: 0.6;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 6px var(--cyan-25));
+}
+
+/* Línea horizontal: visible desde 900px, ubicada a la altura de los nodos */
+.process-line--horizontal {
+  display: none;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  top: -34px;
+}
+
+.process-line--vertical {
+  display: block;
+  left: 19px;
+  top: 0;
+  width: 10px;
+  height: 100%;
+}
+
+@media (min-width: 900px) {
+  .process-line--horizontal { display: block; }
+  .process-line--vertical { display: none; }
+}
+
+/* --- Pasos --- */
+.process-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-12);
+}
+
+@media (min-width: 900px) {
+  .process-steps {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--sp-6);
+  }
+}
+
+.process-step {
+  position: relative;
+  display: flex;
+  gap: var(--sp-4);
+}
+
+@media (min-width: 900px) {
+  .process-step {
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* --- Nodo numerado --- */
+.process-node {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-mid);
+  border: 1.5px solid var(--border-hairline-strong);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  z-index: 1;
+  transition: border-color var(--dur-base) var(--ease-standard),
+              box-shadow var(--dur-base) var(--ease-standard),
+              transform var(--dur-base) var(--ease-standard);
+}
+
+.process-step.is-active .process-node {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  box-shadow: 0 0 0 6px var(--cyan-10), 0 0 20px var(--cyan-25);
+  animation: process-pulse 1.8s var(--ease-standard) infinite;
+}
+
+@keyframes process-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+/* --- Tarjeta de vidrio --- */
+.process-card {
+  flex: 1;
+  background: color-mix(in srgb, var(--surface-mid) 65%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--r-lg);
+  padding: var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.process-card h3 {
+  font-family: var(--font-primary);
+  font-size: var(--fs-h3);
+  margin: 0;
+  color: var(--text-light);
+}
+
+.process-step-promise {
+  color: var(--accent-text);
+  font-weight: 600;
+  margin: 0 0 var(--sp-2);
+}
+
+.process-card-media {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--r-md);
+  margin: 0 auto var(--sp-2);
+  overflow: hidden;
+}
+
+@media (min-width: 900px) {
+  .process-card-media { margin-inline: auto; }
+}
+
+.process-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Fallback visual cuando no hay imagen 3D todavía (o el archivo falla) */
+.img-slot {
+  background: radial-gradient(circle at 30% 30%, var(--accent-25), transparent 70%),
+              linear-gradient(135deg, var(--surface-tint), var(--surface-mid));
+  position: relative;
+}
+
+.img-slot::before {
+  content: '';
+  position: absolute;
+  inset: 22%;
+  border: 1.5px solid var(--border-hairline-strong);
+  border-radius: var(--r-sm);
+  opacity: 0.6;
+}
+
+.img-slot.img-slot--broken img {
+  display: none;
+}
+
+.process-step-details {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  text-align: left;
+}
+
+.process-step-details dt {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+  margin-bottom: 2px;
+}
+
+.process-step-details dd {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  color: var(--text-subtle);
+}
+
+/* "Qué necesitamos de vos" se expande con hover/foco; siempre visible en táctil */
+.process-step-details div:nth-child(2) dd {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height var(--dur-base) var(--ease-standard),
+              opacity var(--dur-base) var(--ease-standard);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .process-card:hover .process-step-details div:nth-child(2) dd,
+  .process-card:focus-within .process-step-details div:nth-child(2) dd {
+    max-height: 200px;
+    opacity: 1;
+  }
+}
+
+@media (pointer: coarse), (hover: none) {
+  .process-step-details div:nth-child(2) dd {
+    max-height: none;
+    opacity: 1;
+  }
+}
+
+.process-step-cta {
+  margin-top: var(--sp-2);
+  align-self: flex-start;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--cyan);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.process-step-cta:hover,
+.process-step-cta:focus-visible {
+  border-color: var(--cyan);
+}
+
+/* --- Ejemplo didáctico --- */
+.process-example {
+  max-width: var(--container);
+  margin: var(--sp-12) auto 0;
+  padding: var(--sp-6);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--r-lg);
+  background: var(--surface-1);
+}
+
+.process-example-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+  margin: 0 0 var(--sp-4);
+}
+
+.process-example-grid {
+  display: grid;
+  gap: var(--sp-3);
+}
+
+@media (min-width: 700px) {
+  .process-example-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.process-example-grid p {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--text-subtle);
+  line-height: var(--lh-body);
+}
+
+.process-example-grid strong {
+  color: var(--text-light);
+}
+
+.process-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--sp-10);
+}
+
+/* --- Reduced motion: línea completa, nodos activos sin animación --- */
+@media (prefers-reduced-motion: reduce) {
+  .process-node.is-active,
+  .process-node {
+    animation: none !important;
+  }
+}
