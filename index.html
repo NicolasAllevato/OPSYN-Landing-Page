@@ -68,9 +68,8 @@
         <nav class="nav-menu" id="nav-menu" aria-label="Navegación principal">
           <a href="#inicio" class="nav-link">Inicio</a>
           <a href="#servicios" class="nav-link">Servicios</a>
-          <a href="#nosotros" class="nav-link">Nosotros</a>
           <a href="#portfolio" class="nav-link">Portfolio</a>
-          <a href="#blog" class="nav-link">Blog</a>
+          <a href="#nosotros" class="nav-link">Nosotros</a>
           <a href="#contacto" class="nav-link">Contacto</a>
         </nav>
 
@@ -137,6 +136,10 @@
       </div>
     </section>
 
+    <!-- CÓMO LO HACEMOS (Idea → Proyecto → Solución) — contenido en Fase 2 -->
+    <section id="proceso" class="process" aria-labelledby="proceso-title">
+    </section>
+
     <!-- SERVICIOS -->
     <section id="servicios" class="services">
       <div class="section-header">
@@ -183,42 +186,6 @@
       </div>
     </section>
 
-    <!-- NOSOTROS -->
-    <section id="nosotros" class="about">
-      <div class="about-content">
-        <div class="section-header">
-          <p class="section-label" data-i18n="aboutLabel">Nosotros</p>
-          <h2 class="section-title" data-i18n="aboutTitle">Una agencia boutique, con visión de socio</h2>
-        </div>
-
-        <div class="about-text">
-          <p data-i18n="aboutBody1">
-            OPSYN nació para cerrar la brecha entre las agencias tradicionales, lentas y con capas de gestión, y el freelancer suelto que resuelve tareas puntuales sin mirar el negocio completo.
-          </p>
-          <p data-i18n="aboutBody2">
-            Nosotros pensamos primero tu negocio — cómo funciona, a dónde querés llegar — y recién después programamos. Trabajamos codo a codo con vos, con respuestas rápidas y decisiones compartidas, ya sea tu primer paso digital o tu salto hacia la IA.
-          </p>
-        </div>
-
-        <div class="about-points">
-          <div class="about-card reveal-on-scroll" style="--i:0">
-            <h4 data-i18n="aboutPoint1Title">Visión estratégica</h4>
-            <p data-i18n="aboutPoint1Desc">No empezamos por el código, empezamos por tu negocio.</p>
-          </div>
-
-          <div class="about-card reveal-on-scroll" style="--i:1">
-            <h4 data-i18n="aboutPoint2Title">Trato cercano</h4>
-            <p data-i18n="aboutPoint2Desc">Hablás directo con quien construye, sin intermediarios.</p>
-          </div>
-
-          <div class="about-card reveal-on-scroll" style="--i:2">
-            <h4 data-i18n="aboutPoint3Title">Ejecución técnica real</h4>
-            <p data-i18n="aboutPoint3Desc">Lo que diseñamos, lo construimos y lo sostenemos.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- PORTFOLIO -->
     <section id="portfolio" class="portfolio">
       <div class="section-header">
@@ -253,49 +220,39 @@
       </div>
     </section>
 
-    <!-- BLOG -->
-    <section id="blog" class="blog">
-      <div class="section-header">
-        <p class="section-label" data-i18n="blogLabel">Recursos</p>
-        <h2 class="section-title" data-i18n="blogTitle">Blog</h2>
-      </div>
+    <!-- NOSOTROS -->
+    <section id="nosotros" class="about">
+      <div class="about-content">
+        <div class="section-header">
+          <p class="section-label" data-i18n="aboutLabel">Nosotros</p>
+          <h2 class="section-title" data-i18n="aboutTitle">Una agencia boutique, con visión de socio</h2>
+        </div>
 
-      <div class="blog-grid">
-        <article class="blog-card reveal-on-scroll" style="--i:0">
-          <div class="blog-image">
-            <img src="./assets/blog-1-placeholder.svg" data-cdn="images/blog/blog-1.webp"
-                 alt="" width="400" height="250" loading="lazy" decoding="async">
-          </div>
-          <div class="blog-info">
-            <span class="blog-date">12 jul 2026</span>
-            <h3>IA para pymes: por dónde empezar</h3>
-            <p>Los primeros pasos reales para sumar IA sin perder de vista tu negocio.</p>
-          </div>
-        </article>
+        <div class="about-text">
+          <p data-i18n="aboutBody1">
+            OPSYN nació para cerrar la brecha entre las agencias tradicionales, lentas y con capas de gestión, y el freelancer suelto que resuelve tareas puntuales sin mirar el negocio completo.
+          </p>
+          <p data-i18n="aboutBody2">
+            Nosotros pensamos primero tu negocio — cómo funciona, a dónde querés llegar — y recién después programamos. Trabajamos codo a codo con vos, con respuestas rápidas y decisiones compartidas, ya sea tu primer paso digital o tu salto hacia la IA.
+          </p>
+        </div>
 
-        <article class="blog-card reveal-on-scroll" style="--i:1">
-          <div class="blog-image">
-            <img src="./assets/blog-2-placeholder.svg" data-cdn="images/blog/blog-2.webp"
-                 alt="" width="400" height="250" loading="lazy" decoding="async">
+        <div class="about-points">
+          <div class="about-card reveal-on-scroll" style="--i:0">
+            <h4 data-i18n="aboutPoint1Title">Visión estratégica</h4>
+            <p data-i18n="aboutPoint1Desc">No empezamos por el código, empezamos por tu negocio.</p>
           </div>
-          <div class="blog-info">
-            <span class="blog-date">28 jun 2026</span>
-            <h3>Automatizar sin perder el toque humano</h3>
-            <p>Cómo elegir qué automatizar y qué dejar en manos de personas.</p>
-          </div>
-        </article>
 
-        <article class="blog-card reveal-on-scroll" style="--i:2">
-          <div class="blog-image">
-            <img src="./assets/blog-3-placeholder.svg" data-cdn="images/blog/blog-3.webp"
-                 alt="" width="400" height="250" loading="lazy" decoding="async">
+          <div class="about-card reveal-on-scroll" style="--i:1">
+            <h4 data-i18n="aboutPoint2Title">Trato cercano</h4>
+            <p data-i18n="aboutPoint2Desc">Hablás directo con quien construye, sin intermediarios.</p>
           </div>
-          <div class="blog-info">
-            <span class="blog-date">10 jun 2026</span>
-            <h3>Transformación digital paso a paso</h3>
-            <p>Una hoja de ruta simple para digitalizar tu negocio sin caos.</p>
+
+          <div class="about-card reveal-on-scroll" style="--i:2">
+            <h4 data-i18n="aboutPoint3Title">Ejecución técnica real</h4>
+            <p data-i18n="aboutPoint3Desc">Lo que diseñamos, lo construimos y lo sostenemos.</p>
           </div>
-        </article>
+        </div>
       </div>
     </section>
 
@@ -356,6 +313,52 @@
         </form>
       </div>
     </section>
+
+    <!-- BLOG (oculto hasta tener artículos reales) -->
+    <section id="blog" class="blog" hidden>
+      <div class="section-header">
+        <p class="section-label" data-i18n="blogLabel">Recursos</p>
+        <h2 class="section-title" data-i18n="blogTitle">Blog</h2>
+      </div>
+
+      <div class="blog-grid">
+        <article class="blog-card reveal-on-scroll" style="--i:0">
+          <div class="blog-image">
+            <img src="./assets/blog-1-placeholder.svg" data-cdn="images/blog/blog-1.webp"
+                 alt="" width="400" height="250" loading="lazy" decoding="async">
+          </div>
+          <div class="blog-info">
+            <span class="blog-date">12 jul 2026</span>
+            <h3>IA para pymes: por dónde empezar</h3>
+            <p>Los primeros pasos reales para sumar IA sin perder de vista tu negocio.</p>
+          </div>
+        </article>
+
+        <article class="blog-card reveal-on-scroll" style="--i:1">
+          <div class="blog-image">
+            <img src="./assets/blog-2-placeholder.svg" data-cdn="images/blog/blog-2.webp"
+                 alt="" width="400" height="250" loading="lazy" decoding="async">
+          </div>
+          <div class="blog-info">
+            <span class="blog-date">28 jun 2026</span>
+            <h3>Automatizar sin perder el toque humano</h3>
+            <p>Cómo elegir qué automatizar y qué dejar en manos de personas.</p>
+          </div>
+        </article>
+
+        <article class="blog-card reveal-on-scroll" style="--i:2">
+          <div class="blog-image">
+            <img src="./assets/blog-3-placeholder.svg" data-cdn="images/blog/blog-3.webp"
+                 alt="" width="400" height="250" loading="lazy" decoding="async">
+          </div>
+          <div class="blog-info">
+            <span class="blog-date">10 jun 2026</span>
+            <h3>Transformación digital paso a paso</h3>
+            <p>Una hoja de ruta simple para digitalizar tu negocio sin caos.</p>
+          </div>
+        </article>
+      </div>
+    </section>
     </main>
 
     <!-- FOOTER -->
@@ -377,9 +380,8 @@
           <ul>
             <li><a href="#inicio">Inicio</a></li>
             <li><a href="#servicios">Servicios</a></li>
-            <li><a href="#nosotros">Nosotros</a></li>
             <li><a href="#portfolio">Portfolio</a></li>
-            <li><a href="#blog">Blog</a></li>
+            <li><a href="#nosotros">Nosotros</a></li>
             <li><a href="#contacto">Contacto</a></li>
           </ul>
         </div>
