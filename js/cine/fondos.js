@@ -64,10 +64,14 @@
       var X = ((L.x0 - D * L.par) % FR + FR) % FR - 190;
       var boost = 1 + 1.2 * Math.exp(-Math.pow(X - sx, 2) / 39200);
       var a = Math.min(1, L.a * A * (0.72 + 0.28 * Math.sin(t * L.fr + L.f)) * boost);
-      var y0 = L.yc - L.h, y1 = L.yc + L.h, g = x.createLinearGradient(0, y0, 0, y1);
-      g.addColorStop(0, 'rgba(' + L.col + ',0)'); g.addColorStop(0.5, 'rgba(' + L.col + ',' + a.toFixed(3) + ')'); g.addColorStop(1, 'rgba(' + L.col + ',0)');
-      x.fillStyle = g; x.fillRect(X - L.w / 2, y0, L.w, y1 - y0);
+      var y0 = L.yc - L.h, y1 = L.yc + L.h;
+      if (!L.g) { // se crea una vez: el brillo va por globalAlpha
+        L.g = x.createLinearGradient(0, y0, 0, y1);
+        L.g.addColorStop(0, 'rgba(' + L.col + ',0)'); L.g.addColorStop(0.5, 'rgba(' + L.col + ',1)'); L.g.addColorStop(1, 'rgba(' + L.col + ',0)');
+      }
+      x.globalAlpha = a; x.fillStyle = L.g; x.fillRect(X - L.w / 2, y0, L.w, y1 - y0);
     });
+    x.globalAlpha = 1;
     polvo(st, x, W, H, t);
   }
 
@@ -179,8 +183,11 @@
     it.cv.width = Math.round(w * DPR); it.cv.height = Math.round(h * DPR);
   }
 
+  var FRAME_MS = 1000 / 30, last = 0; // fondos a 30 fps: ritmo de cine y la mitad de costo
   function frame(now) {
     raf = 0;
+    if (now - last < FRAME_MS - 2) { raf = requestAnimationFrame(frame); return; }
+    last = now;
     var t = (now - t0) / 1000, any = false;
     items.forEach(function (it) {
       if (!it.vis) return;
@@ -203,5 +210,20 @@
     if (!('IntersectionObserver' in window) || !document.createElement('canvas').getContext) return;
     document.querySelectorAll('[data-cine]').forEach(mount);
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+  // Diferido: los fondos son decorativos y no deben competir con la carga (TBT/LCP)
+  function whenIdleAfterLoad(cb) {
+    var go = function () { 'requestIdleCallback' in window ? requestIdleCallback(cb, { timeout: 2500 }) : setTimeout(cb, 600); };
+    if (document.readyState === 'complete') go(); else window.addEventListener('load', go, { once: true });
+  }
+  // Arranca con la primera interacción o 4 s después de la carga ociosa, lo que
+  // ocurra antes: mientras tanto se ve la aurora CSS (mismo look, sin costo).
+  var started = false;
+  function start() {
+    if (started) return;
+    started = true;
+    ['scroll', 'pointermove', 'touchstart', 'keydown'].forEach(function (ev) { window.removeEventListener(ev, start); });
+    init();
+  }
+  ['scroll', 'pointermove', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, start, { passive: true, once: true }); });
+  whenIdleAfterLoad(function () { setTimeout(start, 4000); });
 })();
