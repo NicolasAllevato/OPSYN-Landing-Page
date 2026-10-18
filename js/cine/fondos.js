@@ -215,15 +215,14 @@
     var go = function () { 'requestIdleCallback' in window ? requestIdleCallback(cb, { timeout: 2500 }) : setTimeout(cb, 600); };
     if (document.readyState === 'complete') go(); else window.addEventListener('load', go, { once: true });
   }
-  // Arranca con la primera interacción o 4 s después de la carga ociosa, lo que
-  // ocurra antes: mientras tanto se ve la aurora CSS (mismo look, sin costo).
+  // Arranca con la primera interacción (scroll, puntero, toque o tecla), ya con la
+  // carga terminada: hasta entonces se ve la aurora CSS (mismo look, sin costo).
   var started = false;
   function start() {
     if (started) return;
     started = true;
     ['scroll', 'pointermove', 'touchstart', 'keydown'].forEach(function (ev) { window.removeEventListener(ev, start); });
-    init();
+    whenIdleAfterLoad(init);
   }
   ['scroll', 'pointermove', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, start, { passive: true, once: true }); });
-  whenIdleAfterLoad(function () { setTimeout(start, 4000); });
 })();
