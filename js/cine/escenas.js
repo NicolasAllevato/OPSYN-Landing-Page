@@ -69,6 +69,25 @@
     });
   }
 
-  function init() { golpeEnTitulos(); rayosHero(); paquetesProceso(); reflejoServicios(); }
+  // Parallax de 2 capas en Nosotros: --py de -1 (abajo) a 1 (arriba) según su posición
+  function parallaxNosotros() {
+    var v = document.querySelector('.about-visual');
+    if (!v || !('IntersectionObserver' in window)) return;
+    var activo = false, ticking = false;
+    function update() {
+      ticking = false;
+      var r = v.getBoundingClientRect(), vh = window.innerHeight;
+      var p = C.clamp(((r.top + r.height / 2) - vh / 2) / (vh / 2 + r.height / 2), -1, 1);
+      v.style.setProperty('--py', p.toFixed(3));
+    }
+    new IntersectionObserver(function (es) { activo = es[0].isIntersecting; if (activo) update(); }).observe(v);
+    window.addEventListener('scroll', function () {
+      if (!activo || ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    }, { passive: true });
+  }
+
+  function init() { golpeEnTitulos(); rayosHero(); paquetesProceso(); reflejoServicios(); parallaxNosotros(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

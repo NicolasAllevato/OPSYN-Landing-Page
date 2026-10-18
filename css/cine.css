@@ -43,6 +43,15 @@ body::after { background-blend-mode: normal; }
   transition: opacity 900ms var(--ease-cine);
 }
 .cine-canvas.is-on { opacity: 1; }
+/* bordes desvanecidos: el canvas se funde con la sección vecina (sin cortes ni barras) */
+.cine-canvas {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 88%, transparent),
+                      linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 88%, transparent),
+              linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-composite: intersect;
+}
 /* con canvas activo el aurora CSS se retira (queda de fallback) */
 [data-bg="aurora"].cine-activo::before { opacity: 0; animation: none; }
 
@@ -217,11 +226,48 @@ html.js .golpe.is-visible {
   100% { text-shadow: 0 0 10px rgba(148, 52, 212, 0.25); }
 }
 
+
+/* ---- Nosotros: parallax de 2 capas (--py lo pone escenas.js, -1..1) ---- */
+.about-visual { position: relative; isolation: isolate; }
+.about-visual::before {               /* capa lejana: halo de luz clave */
+  content: '';
+  position: absolute;
+  inset: -12%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 40% 35%, var(--accent-40) 0%, transparent 55%),
+    radial-gradient(circle at 70% 75%, var(--cyan-10) 0%, transparent 50%);
+  filter: blur(8px);
+  transform: translate3d(0, calc(var(--py, 0) * 40px), 0);
+}
+.about-visual-media {                 /* capa cercana: la imagen, más rápida */
+  transform: translate3d(0, calc(var(--py, 0) * -22px), 0);
+}
+
+/* ---- Contacto: foco de luz cenital sobre el formulario ---- */
+.contact-form-wrap { position: relative; isolation: isolate; }
+.contact-form-wrap::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -12%;
+  width: 100%;
+  height: 80%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 42% 50% at 50% 18%, rgba(199, 125, 240, 0.20), transparent 75%);
+  opacity: 0.6;
+  transition: opacity 700ms var(--ease-cine);
+}
+.contact-form-wrap:focus-within::before { opacity: 1; }
+
 /* ---- Reduced motion: todo lo nuevo queda estático ---- */
 @media (prefers-reduced-motion: reduce) {
   .cine-canvas, .hero-rays, .hero::after { display: none; }
   .service-card::after, .portfolio-card::after { animation: none; opacity: 0; }
   html.js .golpe { opacity: 1; transform: none; filter: none; }
   .hero-logo-wrap::before, .process-line-packet { display: none; }
+  .about-visual::before, .about-visual-media { transform: none; }
   .hero-logo-wrap::after, .hero-title, .portfolio-card.is-visible .portfolio-metric { animation: none; }
 }

@@ -28,6 +28,7 @@
     glow(x, W * 0.5, H * 0.46, Math.max(W, H) * 0.55, VIOLETA, 0.16 * A * (0.85 + 0.15 * Math.sin(t * 0.9)));
     glow(x, W * 0.12, H * 0.9, Math.max(W, H) * 0.4, CIAN, 0.05 * A);
     glow(x, W * 0.9, H * 0.1, Math.max(W, H) * 0.36, CLARO, 0.06 * A);
+    x.globalCompositeOperation = 'source-over'; // cada fondo elige su mezcla
   }
   function glow(x, cx, cy, r, rgb, a) {
     var g = x.createRadialGradient(cx, cy, 0, cx, cy, r);
