@@ -30,43 +30,48 @@ const MODELS = {
 };
 
 // Estilo común para que las 19 imágenes se vean como una misma familia.
+// "Cine OPSYN" (oct 2026): misma familia de vidrio/neón, ahora con iluminación de cine:
+// luz clave violeta cálida desde arriba-izquierda, rim light cian por detrás, rayos volumétricos
+// suaves, bokeh y profundidad de campo. Sin texto ni bordes.
 const STYLE =
-  'Style: premium 3D render, translucent frosted glass material with subtle neon edge glow, ' +
-  'brand colors violet #9434D4 and cyan #79FFFF, solid deep dark background #0D0326 filling the whole frame ' +
-  '(no transparency, no checkerboard), soft studio lighting, isometric view, minimal, centered subject with generous margin. ' +
+  'Style: cinematic premium 3D render, translucent frosted glass material with subtle neon edges, ' +
+  'cinematic lighting: warm violet key light (#9434D4) from the upper left, crisp cyan rim light (#79FFFF) from behind outlining the silhouette, ' +
+  'soft volumetric light rays and faint atmospheric haze, shallow depth of field with gentle bokeh particles in the background, ' +
+  'subtle anamorphic lens glow, high dynamic range, ultra sharp focus on the subject, film-like color grade with deep shadows, ' +
+  'solid deep dark background #0D0326 filling the whole frame (no transparency, no checkerboard), centered subject with generous margin. ' +
   'No text, no letters, no watermark, no frame, no border.';
 
 const icon = (subject) => `3D glass/neon icon of ${subject}.`;
 
-// Tamaños de salida a 2x del tamaño en que se muestran (nitidez en pantallas retina).
+// Tamaños de salida a 3x del tamaño en que se muestran (definición en pantallas de alta densidad).
 const IMAGES = [
   {
     name: 'og-image', model: 'pro', aspect: '16:9', width: 1200, height: 630,
     prompt: '3D glass/neon abstract composition evoking an impossible triangle made of translucent glass, surrounded by thin glowing circuit traces, floating in a dark cosmic scene with a violet and cyan aurora glow. Wide composition with the subject on the right third, leaving clean dark space on the left for a headline overlay.',
   },
-  { name: 'servicio-software', model: 'pro', aspect: '1:1', width: 320, height: 320, prompt: icon('interlocking code brackets </> as solid glass shapes') },
-  { name: 'servicio-agentes-ia', model: 'pro', aspect: '1:1', width: 320, height: 320, prompt: icon('a friendly robot chat bubble with engraved circuit patterns') },
-  { name: 'servicio-consultoria', model: 'pro', aspect: '1:1', width: 320, height: 320, prompt: icon('a glowing compass') },
-  { name: 'servicio-marketing', model: 'pro', aspect: '1:1', width: 320, height: 320, prompt: icon('a megaphone with an upward growth arrow') },
+  { name: 'servicio-software', model: 'pro', aspect: '1:1', width: 480, height: 480, prompt: icon('interlocking code brackets </> as solid glass shapes') },
+  { name: 'servicio-agentes-ia', model: 'pro', aspect: '1:1', width: 480, height: 480, prompt: icon('a friendly robot chat bubble with engraved circuit patterns') },
+  { name: 'servicio-consultoria', model: 'pro', aspect: '1:1', width: 480, height: 480, prompt: icon('a glowing compass') },
+  { name: 'servicio-marketing', model: 'pro', aspect: '1:1', width: 480, height: 480, prompt: icon('a megaphone with an upward growth arrow') },
 
-  { name: 'item-crm-personalizados', model: 'flash', aspect: '1:1', width: 96, height: 96, prompt: icon('a database cylinder with connected network nodes') },
-  { name: 'item-agente-soporte', model: 'flash', aspect: '1:1', width: 96, height: 96, prompt: icon('a support headset next to a chat bubble') },
-  { name: 'item-agente-ventas', model: 'flash', aspect: '1:1', width: 96, height: 96, prompt: icon('a rising bar chart with an arrow') },
-  { name: 'item-agente-automatizacion-interna', model: 'flash', aspect: '1:1', width: 96, height: 96, prompt: icon('two interlocking gears connected by a workflow line') },
-  { name: 'item-asistente-personal', model: 'flash', aspect: '1:1', width: 96, height: 96, prompt: icon('a calendar with a small sparkle') },
-  { name: 'item-armado-de-base-de-datos', model: 'flash', aspect: '1:1', width: 96, height: 96, prompt: icon('a stack of three database disks') },
+  { name: 'item-crm-personalizados', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a database cylinder with connected network nodes') },
+  { name: 'item-agente-soporte', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a support headset next to a chat bubble') },
+  { name: 'item-agente-ventas', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a rising bar chart with an arrow') },
+  { name: 'item-agente-automatizacion-interna', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('two interlocking gears connected by a workflow line') },
+  { name: 'item-asistente-personal', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a calendar with a small sparkle') },
+  { name: 'item-armado-de-base-de-datos', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a stack of three database disks') },
 
-  { name: 'portfolio-1', model: 'flash', aspect: '3:2', width: 400, height: 280, prompt: icon('a clearly recognizable shopping cart (basket on wheels) with a small upward arrow above it') },
-  { name: 'portfolio-2', model: 'flash', aspect: '3:2', width: 400, height: 280, prompt: icon('a chat bubble with a clock and speed lines') },
-  { name: 'portfolio-3', model: 'flash', aspect: '3:2', width: 400, height: 280, prompt: icon('a dashboard screen with charts beside a mobile phone') },
-  { name: 'portfolio-4', model: 'flash', aspect: '3:2', width: 400, height: 280, prompt: icon('a cluster of abstract social media bubbles (heart, share, comment symbols)') },
+  { name: 'portfolio-1', model: 'flash', aspect: '3:2', width: 600, height: 420, prompt: icon('a clearly recognizable shopping cart (basket on wheels) with a small upward arrow above it') },
+  { name: 'portfolio-2', model: 'flash', aspect: '3:2', width: 600, height: 420, prompt: icon('a chat bubble with a clock and speed lines') },
+  { name: 'portfolio-3', model: 'flash', aspect: '3:2', width: 600, height: 420, prompt: icon('a dashboard screen with charts beside a mobile phone') },
+  { name: 'portfolio-4', model: 'flash', aspect: '3:2', width: 600, height: 420, prompt: icon('a cluster of abstract social media bubbles (heart, share, comment symbols)') },
 
-  { name: 'proceso-idea', model: 'flash', aspect: '1:1', width: 240, height: 240, prompt: icon('a glowing lightbulb with a spark inside') },
-  { name: 'proceso-proyecto', model: 'flash', aspect: '1:1', width: 240, height: 240, prompt: icon('interlocking geometric building blocks assembling into a structure') },
-  { name: 'proceso-solucion', model: 'flash', aspect: '1:1', width: 240, height: 240, prompt: icon('a rocket lifting off with a small checkmark badge') },
+  { name: 'proceso-idea', model: 'flash', aspect: '1:1', width: 360, height: 360, prompt: icon('a glowing lightbulb with a spark inside') },
+  { name: 'proceso-proyecto', model: 'flash', aspect: '1:1', width: 360, height: 360, prompt: icon('interlocking geometric building blocks assembling into a structure') },
+  { name: 'proceso-solucion', model: 'flash', aspect: '1:1', width: 360, height: 360, prompt: icon('a rocket lifting off with a small checkmark badge') },
 
   {
-    name: 'nosotros', model: 'flash', aspect: '1:1', width: 640, height: 640,
+    name: 'nosotros', model: 'flash', aspect: '1:1', width: 960, height: 960,
     prompt: '3D glass/neon abstract sculpture representing partnership and craftsmanship: two intertwined translucent glass shapes forming connected nodes.',
   },
 ];
@@ -136,8 +141,12 @@ async function generateOne(apiKey, spec) {
       const outPath = path.join(OUT_DIR, `${spec.name}.webp`);
       await sharp(raw)
         .resize(spec.width, spec.height, { fit: 'cover', position: 'centre' })
-        .webp({ quality: 85 })
+        .webp({ quality: 82 })
         .toFile(outPath);
+      if (spec.name === 'og-image') {
+        await sharp(raw).resize(spec.width, spec.height, { fit: 'cover', position: 'centre' })
+          .jpeg({ quality: 82, mozjpeg: true }).toFile(path.join(OUT_DIR, 'og-image.jpg'));
+      }
       return outPath;
     } catch (error) {
       lastError = error;
