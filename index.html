@@ -46,6 +46,7 @@
   <link rel="stylesheet" href="./css/sections/blog.css">
   <link rel="stylesheet" href="./css/sections/contact.css">
   <link rel="stylesheet" href="./css/backgrounds.css">
+  <link rel="stylesheet" href="./css/cine.css">
   <link rel="stylesheet" href="./css/cookies.css">
   <link rel="stylesheet" href="./css/components/contact-links.css">
   <script>document.documentElement.classList.add('js');</script>
@@ -88,7 +89,7 @@
 
     <main id="main">
     <!-- HERO -->
-    <section id="inicio" class="hero" data-bg="aurora">
+    <section id="inicio" class="hero" data-bg="aurora" data-cine="cortina">
       <div class="hero-background">
         <svg class="circuit-bg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1920 1000" aria-hidden="true">
           <g stroke="currentColor" stroke-width="1.5" fill="none">
@@ -179,7 +180,7 @@
     </section>
 
     <!-- CÓMO LO HACEMOS (Idea → Proyecto → Solución) -->
-    <section id="proceso" class="process" aria-labelledby="proceso-title" data-bg="aurora">
+    <section id="proceso" class="process" aria-labelledby="proceso-title" data-bg="aurora" data-cine="constelacion">
       <div class="section-header">
         <p class="section-label" data-i18n="procLabel">Cómo lo hacemos</p>
         <h2 id="proceso-title" class="section-title" data-i18n="procTitle">Somos una idea, somos un proyecto, somos la solución para vos</h2>
@@ -293,7 +294,7 @@
     </section>
 
     <!-- SERVICIOS -->
-    <section id="servicios" class="services">
+    <section id="servicios" class="services" data-bg="aurora" data-cine="liso">
       <div class="section-header">
         <p class="section-label" data-i18n="servicesLabel">Servicios</p>
         <h2 class="section-title" data-i18n="servicesTitle">Todo bajo un mismo techo</h2>
@@ -379,7 +380,7 @@
     </section>
 
     <!-- PORTFOLIO -->
-    <section id="portfolio" class="portfolio">
+    <section id="portfolio" class="portfolio" data-bg="aurora" data-cine="malla">
       <div class="section-header">
         <p class="section-label" data-i18n="portfolioLabel">Portfolio</p>
         <h2 class="section-title" data-i18n="portfolioTitle">Casos de éxito</h2>
@@ -437,7 +438,7 @@
     </section>
 
     <!-- NOSOTROS -->
-    <section id="nosotros" class="about" data-bg="grid">
+    <section id="nosotros" class="about" data-bg="grid" data-cine="aurora">
       <div class="about-layout">
         <div class="about-content">
           <div class="section-header">
@@ -494,7 +495,7 @@
     </section>
 
     <!-- CONTACTO -->
-    <section id="contacto" class="contact" data-bg="aurora">
+    <section id="contacto" class="contact" data-bg="aurora" data-cine="liso">
       <div class="contact-content">
         <div class="section-header">
           <p class="section-label" data-i18n="contactLabel">Contacto</p>
@@ -690,5 +691,8 @@
   <script src="./js/sections/contact.js" defer></script>
   <script src="./js/sections/services.js" defer></script>
   <script src="./js/sections/portfolio.js" defer></script>
+  <script src="./js/cine/motor.js" defer></script>
+  <script src="./js/cine/fondos.js" defer></script>
+  <script src="./js/cine/escenas.js" defer></script>
 </body>
 </html>
