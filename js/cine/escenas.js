@@ -42,6 +42,33 @@
     }, { passive: true });
   }
 
-  function init() { golpeEnTitulos(); rayosHero(); }
+  // Paquete de luz: copia del trazo de fondo con un guion corto que avanza
+  function paquetesProceso() {
+    document.querySelectorAll('.process-line-bg').forEach(function (bg) {
+      var p = bg.cloneNode(false);
+      p.setAttribute('class', 'process-line-packet');
+      bg.parentNode.appendChild(p);
+    });
+  }
+
+  // Reflejo que sigue al puntero en las tarjetas (solo puntero fino)
+  function reflejoServicios() {
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    document.querySelectorAll('.service-card').forEach(function (card) {
+      var raf = 0, ev = null;
+      card.addEventListener('pointermove', function (e) {
+        ev = e;
+        if (raf) return;
+        raf = requestAnimationFrame(function () {
+          raf = 0;
+          var r = card.getBoundingClientRect();
+          card.style.setProperty('--rx', (ev.clientX - r.left) + 'px');
+          card.style.setProperty('--ry', (ev.clientY - r.top) + 'px');
+        });
+      }, { passive: true });
+    });
+  }
+
+  function init() { golpeEnTitulos(); rayosHero(); paquetesProceso(); reflejoServicios(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

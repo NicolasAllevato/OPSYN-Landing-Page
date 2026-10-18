@@ -136,9 +136,92 @@ html.js .golpe.is-visible {
               filter var(--dur-cine) var(--ease-cine);
 }
 
+
+/* ---- Hero: rim light (cian arriba-izq) + luz clave (violeta abajo-der) en el logo 3D ---- */
+/* la textura del logo es cuadrada y opaca: misma máscara radial que .hero-logo */
+.hero-logo-3d canvas {
+  -webkit-mask-image: radial-gradient(circle, #000 52%, transparent 72%);
+  mask-image: radial-gradient(circle, #000 52%, transparent 72%);
+}
+.hero-logo-wrap::after {
+  background:
+    radial-gradient(circle at 34% 30%, var(--cyan-25) 0%, transparent 42%),
+    radial-gradient(circle at 62% 66%, var(--accent-40) 0%, transparent 62%);
+}
+/* bloom que respira detrás del logo (reemplaza el glow estático) */
+.hero-logo-wrap::after { animation: respira 7s ease-in-out infinite; }
+@keyframes respira {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 0.95; transform: scale(1.06); }
+}
+/* "El haz": barrido diagonal único sobre el logo al cargar */
+.hero-logo-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -6%;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 50%;
+  background: linear-gradient(120deg, transparent 40%, rgba(255, 255, 255, 0.22) 50%, rgba(121, 255, 255, 0.12) 54%, transparent 62%);
+  background-size: 300% 100%;
+  background-position: 120% 0;
+  -webkit-mask-image: radial-gradient(circle, #000 45%, transparent 70%);
+  mask-image: radial-gradient(circle, #000 45%, transparent 70%);
+  mix-blend-mode: screen;
+  animation: hazLogo 1.6s var(--ease-cine) 0.9s 1 both;
+}
+@keyframes hazLogo {
+  0% { background-position: 120% 0; opacity: 0; }
+  20% { opacity: 1; }
+  100% { background-position: -20% 0; opacity: 0; }
+}
+/* .hero-title */ .hero-title-cine { animation: tituloLuz 1.2s var(--ease-cine) 0.2s 1 both; }
+@keyframes tituloLuz {
+  from { opacity: 0; filter: blur(8px); transform: scale(1.04); }
+  to { opacity: 1; filter: none; transform: none; }
+}
+
+/* ---- Proceso: paquete de luz que recorre la línea (lo crea escenas.js) ---- */
+.process-line-packet {
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-dasharray: 0.04 0.96;
+  filter: drop-shadow(0 0 4px var(--cyan));
+  animation: paquete 3.6s linear infinite;
+}
+@keyframes paquete { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+/* ---- Servicios: reflejo que sigue al puntero (--rx/--ry los pone escenas.js) ---- */
+.service-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1; /* detrás del texto: no baja el contraste */
+  background: radial-gradient(360px circle at var(--rx, 50%) var(--ry, -20%), rgba(199, 125, 240, 0.14), transparent 60%);
+  opacity: 0;
+  transition: opacity 400ms var(--ease-cine);
+}
+.service-card:hover::before { opacity: 1; }
+
+/* ---- Portfolio: destello suave cuando el contador llega a su cifra ---- */
+.portfolio-card.is-visible .portfolio-metric {
+  animation: cifraLuz 1.4s ease-out calc(var(--i, 0) * 90ms + 900ms) 1 both;
+}
+@keyframes cifraLuz {
+  0% { text-shadow: none; }
+  25% { text-shadow: 0 0 22px rgba(121, 255, 255, 0.55); }
+  100% { text-shadow: 0 0 10px rgba(148, 52, 212, 0.25); }
+}
+
 /* ---- Reduced motion: todo lo nuevo queda estático ---- */
 @media (prefers-reduced-motion: reduce) {
   .cine-canvas, .hero-rays, .hero::after { display: none; }
   .service-card::after, .portfolio-card::after { animation: none; opacity: 0; }
   html.js .golpe { opacity: 1; transform: none; filter: none; }
+  .hero-logo-wrap::before, .process-line-packet { display: none; }
+  .hero-logo-wrap::after, .hero-title, .portfolio-card.is-visible .portfolio-metric { animation: none; }
 }
