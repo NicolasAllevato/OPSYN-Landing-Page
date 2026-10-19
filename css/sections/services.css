@@ -224,8 +224,10 @@
   display: block;
 }
 
-.service-item-media.img-slot--broken {
-  display: none;
+/* Imagen ausente o rota: el hueco se conserva (invisible) para no desalinear el texto. */
+.service-item-media.img-slot--broken,
+.service-item-media--empty {
+  visibility: hidden;
 }
 
 .service-item-text {

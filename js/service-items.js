@@ -25,7 +25,8 @@
   }
 
   function renderItemMedia(item) {
-    if (!item.image) return '';
+    // Sin imagen: se reserva el hueco para que el texto quede alineado con los demás ítems.
+    if (!item.image) return '<div class="service-item-media service-item-media--empty" aria-hidden="true"></div>';
     // img-slot: si el asset todavía no existe (Fase 3), el <img> dispara
     // `error` y el listener de más abajo oculta el slot sin romper el layout.
     return `

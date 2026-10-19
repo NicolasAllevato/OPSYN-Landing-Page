@@ -11,6 +11,42 @@
         "en": "We design customized systems that give you full control over the management of your business."
       },
       "image": "assets/3d/item-crm-personalizados.webp"
+    },
+    {
+      "id": "apps-y-sitios-web",
+      "title": {
+        "es": "Apps y sitios web a medida",
+        "en": "Custom apps and websites"
+      },
+      "desc": {
+        "es": "Aplicaciones web y sitios institucionales sin plantillas genéricas, pensados para la identidad de tu marca.",
+        "en": "Web apps and corporate sites with no generic templates, built around your brand identity."
+      },
+      "image": "assets/3d/item-apps-y-sitios-web.webp"
+    },
+    {
+      "id": "tiendas-online",
+      "title": {
+        "es": "Tiendas online y e-commerce",
+        "en": "Online stores & e-commerce"
+      },
+      "desc": {
+        "es": "Tu propio canal de venta, conectado a stock, medios de pago y logística, sin comisiones de marketplaces.",
+        "en": "Your own sales channel, connected to stock, payments and logistics, with no marketplace fees."
+      },
+      "image": "assets/3d/item-tiendas-online.webp"
+    },
+    {
+      "id": "paneles-de-gestion",
+      "title": {
+        "es": "Paneles de control y gestión",
+        "en": "Control & management dashboards"
+      },
+      "desc": {
+        "es": "Todos los datos y el estado de cada área o local en un solo panel, actualizado en tiempo real.",
+        "en": "All the data and status of every area or branch in a single real-time dashboard."
+      },
+      "image": "assets/3d/item-paneles-de-gestion.webp"
     }
   ],
   "service2": [
@@ -61,6 +97,78 @@
         "en": "Able to help you on a day-to-day basis, take care of your finances, schedule your appointments,manage your business, etc."
       },
       "image": "assets/3d/item-asistente-personal.webp"
+    },
+    {
+      "id": "catalogo-conversacional",
+      "title": {
+        "es": "Catálogo conversacional",
+        "en": "Conversational catalog"
+      },
+      "desc": {
+        "es": "Guía a tus clientes por tus productos, recomienda opciones y los acompaña hasta la compra.",
+        "en": "Guides customers through your products, recommends options and walks them to checkout."
+      },
+      "image": "assets/3d/item-catalogo-conversacional.webp"
+    },
+    {
+      "id": "gestion-de-turnos",
+      "title": {
+        "es": "Gestión de turnos y reservas",
+        "en": "Appointments & bookings"
+      },
+      "desc": {
+        "es": "Agenda reuniones y citas automáticamente según tu calendario, sin intervención manual.",
+        "en": "Books meetings and appointments automatically from your calendar, with no manual work."
+      },
+      "image": "assets/3d/item-gestion-de-turnos.webp"
+    },
+    {
+      "id": "asistente-interno",
+      "title": {
+        "es": "Asistente interno",
+        "en": "Internal assistant"
+      },
+      "desc": {
+        "es": "Responde a tu equipo sobre procesos, documentos e información del negocio en cualquier momento.",
+        "en": "Answers your team's questions about processes, documents and business info at any time."
+      },
+      "image": "assets/3d/item-asistente-interno.webp"
+    },
+    {
+      "id": "agentes-especializados",
+      "title": {
+        "es": "Departamento de agentes especializados",
+        "en": "Specialized agents department"
+      },
+      "desc": {
+        "es": "Varios agentes de IA coordinados, cada uno en una tarea, para automatizar procesos completos de punta a punta.",
+        "en": "Several coordinated AI agents, each on one task, automating complete processes end to end."
+      },
+      "image": "assets/3d/item-agentes-especializados.webp"
+    },
+    {
+      "id": "procesamiento-de-documentos",
+      "title": {
+        "es": "Procesamiento inteligente de documentos",
+        "en": "Intelligent document processing"
+      },
+      "desc": {
+        "es": "Carga y organiza facturas, remitos y otros documentos que hoy se cargan a mano, con menos errores.",
+        "en": "Loads and organizes invoices, delivery notes and other documents you now enter by hand, with fewer errors."
+      },
+      "image": "assets/3d/item-procesamiento-de-documentos.webp"
+    },
+    {
+      "id": "analisis-de-datos-y-ventas",
+      "title": {
+        "es": "Análisis de datos y ventas",
+        "en": "Data & sales analysis"
+      },
+      "desc": {
+        "es": "Convierte tus datos de ventas y operación en reportes claros y periódicos para decidir más rápido.",
+        "en": "Turns your sales and operations data into clear, recurring reports so you decide faster."
+      },
+      "image": "assets/3d/item-analisis-de-datos-y-ventas.webp"
     }
   ],
   "service3": [
@@ -75,6 +183,18 @@
         "en": "We design and implement on-premises and cloud server solutions. This ensures the security and availability of your information."
       },
       "image": "assets/3d/item-armado-de-base-de-datos.webp"
+    },
+    {
+      "id": "servidor-privado-y-hosting",
+      "title": {
+        "es": "Servidor privado y hosting",
+        "en": "Private server & hosting"
+      },
+      "desc": {
+        "es": "Infraestructura propia y dedicada solo a tu negocio, con más seguridad, control y velocidad sobre tus datos.",
+        "en": "Your own infrastructure, dedicated to your business only, with more security, control and speed over your data."
+      },
+      "image": "assets/3d/item-servidor-privado-y-hosting.webp"
     }
   ],
   "service4": [
@@ -87,7 +207,32 @@
       "desc": {
         "es": "Desarrollamos una aplicación para la creación de contenido fotográfico y de video, con gestión virtual y el soporte de un equipo de marketing adaptado a sus necesidades.",
         "en": "We developed an application for the creation of photographic and video content, with virtual management and the support of a marketing team adapted to your needs."
-      }
+      },
+      "image": "assets/3d/item-opsyn-marketing.webp"
+    },
+    {
+      "id": "plataformas-de-marketing",
+      "title": {
+        "es": "Plataformas de marketing",
+        "en": "Marketing platforms"
+      },
+      "desc": {
+        "es": "Automatiza campañas, promociones y seguimientos por WhatsApp, email y redes, conectados a tu CRM.",
+        "en": "Automates campaigns, promotions and follow-ups over WhatsApp, email and social, tied to your CRM."
+      },
+      "image": "assets/3d/item-plataformas-de-marketing.webp"
+    },
+    {
+      "id": "publicacion-de-contenido",
+      "title": {
+        "es": "Publicación de contenido",
+        "en": "Content publishing"
+      },
+      "desc": {
+        "es": "Calendario de contenido con publicación automática en cada red o canal, sin subir todo a mano.",
+        "en": "A content calendar with automatic publishing to each network or channel, no manual posting."
+      },
+      "image": "assets/3d/item-publicacion-de-contenido.webp"
     }
   ]
 }

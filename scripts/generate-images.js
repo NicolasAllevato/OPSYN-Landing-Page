@@ -61,6 +61,21 @@ const IMAGES = [
   { name: 'item-asistente-personal', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a calendar with a small sparkle') },
   { name: 'item-armado-de-base-de-datos', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a stack of three database disks') },
 
+  // Ítems del catálogo general (oct 2026)
+  { name: 'item-apps-y-sitios-web', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a browser window with a layout wireframe and a small cursor') },
+  { name: 'item-tiendas-online', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a storefront with a striped awning and a small shopping bag') },
+  { name: 'item-paneles-de-gestion', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a control dashboard with a donut chart, a line graph and gauges') },
+  { name: 'item-catalogo-conversacional', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a chat bubble holding a small product box with a price tag') },
+  { name: 'item-gestion-de-turnos', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a wall clock overlapping a calendar with a checkmark') },
+  { name: 'item-asistente-interno', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('an open book with a small robot head and a question mark') },
+  { name: 'item-agentes-especializados', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('three small robot heads connected around a central glowing node') },
+  { name: 'item-procesamiento-de-documentos', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('an invoice document with a scanning beam and extracted data lines') },
+  { name: 'item-analisis-de-datos-y-ventas', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a magnifying glass over a bar chart with a trend line') },
+  { name: 'item-opsyn-marketing', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a camera with a video play button and a floating photo frame') },
+  { name: 'item-plataformas-de-marketing', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a megaphone sending out chat bubbles and an envelope') },
+  { name: 'item-publicacion-de-contenido', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a content calendar with a paper plane taking off') },
+  { name: 'item-servidor-privado-y-hosting', model: 'flash', aspect: '1:1', width: 144, height: 144, prompt: icon('a server rack with a padlock and a cloud above it') },
+
   { name: 'portfolio-1', model: 'flash', aspect: '3:2', width: 600, height: 420, prompt: icon('a clearly recognizable shopping cart (basket on wheels) with a small upward arrow above it') },
   { name: 'portfolio-2', model: 'flash', aspect: '3:2', width: 600, height: 420, prompt: icon('a chat bubble with a clock and speed lines') },
   { name: 'portfolio-3', model: 'flash', aspect: '3:2', width: 600, height: 420, prompt: icon('a dashboard screen with charts beside a mobile phone') },
