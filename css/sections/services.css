@@ -102,24 +102,6 @@
   display: none;
 }
 
-/* Etiqueta en la esquina: no ocupa lugar en el flujo, así el título y la
-   descripción de esta tarjeta quedan a la misma altura que las demás. */
-.service-soon {
-  position: absolute;
-  top: var(--sp-3);
-  right: var(--sp-3);
-  font-family: var(--font-mono);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--cyan);
-  background: var(--cyan-10);
-  border: 1px solid var(--cyan-25);
-  border-radius: var(--r-pill);
-  padding: 2px var(--sp-3);
-  margin: 0;
-}
-
 .service-consult-btn {
   margin-top: auto;
 }
@@ -325,7 +307,7 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .service-card p:not(.service-soon) {
+  .service-card p {
     min-height: calc(1.55em * 3);
   }
 }
@@ -335,7 +317,7 @@
     grid-template-columns: repeat(4, 1fr);
   }
 
-  .service-card p:not(.service-soon) {
+  .service-card p {
     min-height: calc(1.55em * 4);
   }
 }
