@@ -77,5 +77,17 @@
       "image": "assets/3d/item-armado-de-base-de-datos.webp"
     }
   ],
-  "service4": []
+  "service4": [
+    {
+      "id": "opsyn-marketing",
+      "title": {
+        "es": "Opsyn Marketing",
+        "en": "Opsyn Marketing"
+      },
+      "desc": {
+        "es": "Desarrollamos una aplicación para la creación de contenido fotográfico y de video, con gestión virtual y el soporte de un equipo de marketing adaptado a sus necesidades.",
+        "en": "We developed an application for the creation of photographic and video content, with virtual management and the support of a marketing team adapted to your needs."
+      }
+    }
+  ]
 }
