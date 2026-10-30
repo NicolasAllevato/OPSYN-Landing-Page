@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://opsyn-landing.vercel.app/sitemap.xml
+Sitemap: https://opsyn.app/sitemap.xml
