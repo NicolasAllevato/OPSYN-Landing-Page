@@ -4,6 +4,19 @@
   "env": {
     "NODE_ENV": "production"
   },
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "opsyn-landing.vercel.app"
+        }
+      ],
+      "destination": "https://opsyn.app/$1",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
