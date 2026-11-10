@@ -20,8 +20,8 @@
   position: relative;
   border-radius: var(--r-md);
   overflow: hidden;
-  border: 1px solid rgba(148, 52, 212, 0.25);
-  background: rgba(56, 19, 124, 0.15);
+  border: 1px solid var(--border-color);
+  background: var(--surface-1);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,16 +30,12 @@
   padding: var(--sp-6);
   min-height: 180px;
   justify-content: center;
-  transition: transform var(--dur-base) var(--ease-standard),
-              box-shadow var(--dur-base) ease,
-              border-color var(--dur-base) ease;
+  transition: border-color var(--dur-base) ease;
 }
 
 @media (hover: hover) {
   .portfolio-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 24px rgba(148, 52, 212, 0.3);
-    border-color: var(--primary-accent);
+    border-color: var(--accent-40);
   }
 }
 
@@ -76,37 +72,19 @@
   margin: 0;
 }
 
-/* Detalle que se revela en hover/focus (o siempre visible en touch, ver
-   media query pointer:coarse más abajo). */
+/* Detalle siempre visible: antes aparecía solo con hover, quedaba oculto
+   para teclado/lectores y cambiaba el alto de la tarjeta al pasar el mouse. */
 .portfolio-detail {
   font-size: var(--fs-sm);
   line-height: 1.45;
   color: var(--text-subtle);
   margin: 0;
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: max-height var(--dur-base) var(--ease-standard),
-              opacity var(--dur-base) ease;
-}
-
-@media (hover: hover) {
-  .portfolio-card:hover .portfolio-detail,
-  .portfolio-card:focus-within .portfolio-detail {
-    max-height: 120px;
-    opacity: 1;
-  }
-}
-
-@media (hover: none) {
-  .portfolio-detail {
-    max-height: 120px;
-    opacity: 1;
-  }
 }
 
 .portfolio-eyebrow {
+  /* Es el nombre del caso: ahora es el <h3> de la tarjeta */
   font-family: var(--font-mono);
+  font-weight: 500;
   font-size: var(--fs-micro);
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -140,13 +118,7 @@
   margin: 0;
 }
 
-@media (min-width: 1025px) {
-  .portfolio-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 769px) {
   .portfolio-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -159,8 +131,3 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .portfolio-card:hover {
-    transform: none;
-  }
-}

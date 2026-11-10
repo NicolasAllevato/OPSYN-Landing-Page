@@ -52,40 +52,7 @@
   flex-shrink: 0;
 }
 
-.cookie-btn {
-  padding: var(--sp-2) var(--sp-6);
-  border-radius: var(--r-pill);
-  font-family: var(--font-secondary);
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: transform var(--dur-fast) ease, background-color var(--dur-fast) ease;
-}
-
-.cookie-btn:hover {
-  transform: translateY(-1px);
-}
-
-.cookie-btn-accept {
-  background: var(--primary-accent);
-  color: var(--text-light);
-}
-
-.cookie-btn-accept:hover {
-  background: var(--secondary-accent);
-}
-
-.cookie-btn-reject {
-  background: transparent;
-  border-color: var(--border-color);
-  color: var(--text-muted);
-}
-
-.cookie-btn-reject:hover {
-  border-color: var(--accent-text);
-  color: var(--accent-text);
-}
+/* Botones: sistema .btn (css/components/buttons.css), clases .cookie-btn* solo como ganchos. */
 
 @media (max-width: 480px) {
   .cookie-banner {
@@ -94,6 +61,12 @@
     left: var(--sp-3);
     right: var(--sp-3);
     bottom: var(--sp-3);
+  }
+
+  /* En columna, el flex-basis de 280px del texto se volvía alto: el aviso
+     ocupaba media pantalla del celular. */
+  .cookie-banner-text {
+    flex: none;
   }
 
   .cookie-banner-actions {

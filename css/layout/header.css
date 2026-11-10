@@ -193,7 +193,13 @@
 }
 
 /* Objetivos táctiles mínimos de 44px en controles interactivos */
-.nav-toggle,
+/* El display del botón de menú lo define su breakpoint: declararlo acá lo
+   dejaba visible también en escritorio (pisaba el display: none de arriba). */
+.nav-toggle {
+  min-height: 44px;
+  align-items: center;
+}
+
 .nav-link {
   min-height: 44px;
   display: inline-flex;

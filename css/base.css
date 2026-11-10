@@ -21,6 +21,13 @@ body {
   overflow-x: clip;
 }
 
+/* También en <html>: el clip de <body> solo se propaga al viewport y no evita
+   que el fondo de circuitos ensanche el viewport de layout en móviles (los
+   elementos fijos —chat, WhatsApp— quedaban corridos unos 17px). */
+html {
+  overflow-x: clip;
+}
+
 ::selection {
   background: var(--primary-accent);
   color: var(--text-light);

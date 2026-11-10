@@ -230,46 +230,6 @@
   color: var(--text-subtle);
 }
 
-/* "Qué necesitamos de vos" se expande con hover/foco; siempre visible en táctil */
-.process-step-details div:nth-child(2) dd {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height var(--dur-base) var(--ease-standard),
-              opacity var(--dur-base) var(--ease-standard);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .process-card:hover .process-step-details div:nth-child(2) dd,
-  .process-card:focus-within .process-step-details div:nth-child(2) dd {
-    max-height: 200px;
-    opacity: 1;
-  }
-}
-
-@media (pointer: coarse), (hover: none) {
-  .process-step-details div:nth-child(2) dd {
-    max-height: none;
-    opacity: 1;
-  }
-}
-
-.process-step-cta {
-  margin-top: var(--sp-2);
-  align-self: flex-start;
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  color: var(--cyan);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color var(--dur-fast) var(--ease-out);
-}
-
-.process-step-cta:hover,
-.process-step-cta:focus-visible {
-  border-color: var(--cyan);
-}
-
 /* --- Ejemplo didáctico --- */
 .process-example {
   max-width: var(--container);

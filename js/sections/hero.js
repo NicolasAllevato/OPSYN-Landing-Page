@@ -165,11 +165,15 @@
       var container = el.querySelector('.hero-logo-3d');
       if (!container) throw new Error('hero-logo-3d: contenedor no encontrado');
 
-      var size = container.clientWidth || 360;
+      // El contenedor sigue oculto (display:none) hasta activar la escena: se
+      // toma el ancho del logo de respaldo, que ya tiene el tamaño final del CSS.
+      var fallback = el.querySelector('.hero-logo');
+      var size = container.clientWidth || (fallback && fallback.getBoundingClientRect().width) || 360;
 
       var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-      renderer.setSize(size, size);
+      // false: no fija ancho/alto en línea; el canvas sigue al CSS (100% del contenedor).
+      renderer.setSize(size, size, false);
       container.appendChild(renderer.domElement);
 
       var scene = new THREE.Scene();
@@ -255,7 +259,7 @@
 
       function onResize() {
         var newSize = container.clientWidth || size;
-        renderer.setSize(newSize, newSize);
+        renderer.setSize(newSize, newSize, false);
       }
       window.addEventListener('resize', onResize, { passive: true });
 

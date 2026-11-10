@@ -139,3 +139,73 @@
     animation: none;
   }
 }
+
+/* --- Contacto directo: WhatsApp y mail, atajos de igual peso sobre el formulario --- */
+.contact-direct {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--sp-4);
+}
+
+.contact-direct-btn {
+  justify-content: flex-start;
+  gap: var(--sp-3);
+  min-height: 68px;
+  padding: var(--sp-3) var(--sp-6);
+  border-radius: var(--r-lg);
+  white-space: normal;
+  text-align: left;
+}
+
+.contact-direct-btn[hidden] {
+  display: none;
+}
+
+.contact-direct-btn svg {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  color: var(--cyan);
+}
+
+.contact-direct-btn--wa svg {
+  color: #25D366; /* verde de WhatsApp, igual que .wa-float */
+}
+
+.contact-direct-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+
+.contact-direct-text strong {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  line-height: var(--lh-heading);
+}
+
+.contact-direct-text small {
+  font-size: var(--fs-micro);
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.contact-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  margin: var(--sp-6) 0;
+  font-size: var(--fs-micro);
+  color: var(--text-faint);
+}
+
+.contact-divider::before,
+.contact-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-hairline-strong);
+}

@@ -62,8 +62,8 @@
       '<p class="cookie-banner-text">' + t.text +
       ' <a href="./cookies.html">' + t.link + '</a></p>' +
       '<div class="cookie-banner-actions">' +
-      '<button type="button" class="cookie-btn cookie-btn-reject">' + t.reject + '</button>' +
-      '<button type="button" class="cookie-btn cookie-btn-accept">' + t.accept + '</button>' +
+      '<button type="button" class="btn btn--ghost btn--sm cookie-btn cookie-btn-reject">' + t.reject + '</button>' +
+      '<button type="button" class="btn btn--secondary btn--sm cookie-btn cookie-btn-accept">' + t.accept + '</button>' +
       '</div>';
 
     var accept = el.querySelector('.cookie-btn-accept');
@@ -84,6 +84,7 @@
 
   function hideBanner(el) {
     el.classList.remove('is-visible');
+    document.documentElement.style.removeProperty('--cookie-h');
     window.setTimeout(function () {
       if (el.parentNode) el.parentNode.removeChild(el);
     }, 300);
@@ -97,6 +98,8 @@
 
     window.requestAnimationFrame(function () {
       banner.classList.add('is-visible');
+      // Los botones flotantes (chat, WhatsApp) suben para no quedar tapados por el aviso.
+      document.documentElement.style.setProperty('--cookie-h', (banner.offsetHeight + 12) + 'px');
     });
   }
 

@@ -22,8 +22,8 @@
   const EMAIL_RE = /^[^\s@<>"'()]+@[^\s@<>"'()]+\.[a-z]{2,}$/i;
 
   const LABELS = {
-    es: { wa: 'WhatsApp', waFloat: 'Escribinos por WhatsApp', waContact: '¿Preferís WhatsApp?', waContactCta: 'Escribinos directo' },
-    en: { wa: 'WhatsApp', waFloat: 'Message us on WhatsApp', waContact: 'Prefer WhatsApp?', waContactCta: 'Message us directly' },
+    es: { wa: 'WhatsApp', waFloat: 'Escribinos por WhatsApp' },
+    en: { wa: 'WhatsApp', waFloat: 'Message us on WhatsApp' },
   };
 
   const WA_ICON =
@@ -64,7 +64,10 @@
   function applyEmail(email) {
     document.querySelectorAll('a[href^="mailto:"]').forEach((link) => {
       link.href = 'mailto:' + email;
-      if (link.textContent.includes('@')) link.textContent = email;
+      // Botones con ícono y dos renglones: solo se actualiza el renglón del email.
+      const slot = link.querySelector('[data-email-text]');
+      if (slot) slot.textContent = email;
+      else if (!link.children.length && link.textContent.includes('@')) link.textContent = email;
     });
   }
 
@@ -115,16 +118,13 @@
     button.title = LABELS[getLang()].waFloat;
   }
 
-  // Canal alternativo junto al formulario de contacto (solo index).
+  // Botón "Escribinos por WhatsApp" de la sección Contacto (solo index).
   function renderContactWhatsapp(waUrl) {
     const box = document.querySelector('[data-contact-whatsapp]');
     if (!box) return;
     box.hidden = !waUrl;
-    if (!waUrl) return;
-    const labels = LABELS[getLang()];
-    box.textContent = labels.waContact + ' ';
-    const link = externalLink(waUrl, labels.waContactCta + ' →');
-    box.appendChild(link);
+    if (waUrl) box.href = waUrl;
+    else box.removeAttribute('href');
   }
 
   function render(config) {

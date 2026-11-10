@@ -40,22 +40,6 @@
   outline-offset: 3px;
 }
 
-.contact-whatsapp {
-  margin: var(--sp-6) 0 0;
-  text-align: center;
-  font-size: var(--fs-sm);
-  color: var(--text-muted);
-}
-
-.contact-whatsapp[hidden] {
-  display: none;
-}
-
-.contact-whatsapp a {
-  color: var(--accent-text);
-  font-weight: 600;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .wa-float {
     transition: none;

@@ -49,21 +49,28 @@
   <link rel="stylesheet" href="./css/cine.css">
   <link rel="stylesheet" href="./css/cookies.css">
   <link rel="stylesheet" href="./css/components/contact-links.css">
+  <link rel="stylesheet" href="./css/components/splash.css">
+  <link rel="stylesheet" href="./css/components/chat.css">
+  <script src="./js/splash.js"></script>
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
+  <div class="splash" aria-hidden="true">
+    <img class="splash-logo" src="./assets/logo-opsyn-icon-440.png" alt="" width="160" height="142">
+    <p class="splash-tagline" data-i18n="tagline">"somos una idea, somos un proyecto, somos la solución para vos"</p>
+  </div>
   <a href="#main" class="skip-link">Saltar al contenido</a>
   <div class="page-container">
     <!-- HEADER -->
     <header class="header">
       <div class="header-content">
-        <div class="logo-section">
+        <a href="#inicio" class="logo-section" aria-label="OPSYN, ir al inicio">
           <picture>
             <source srcset="./assets/logo-opsyn-80.webp" type="image/webp">
             <img src="./assets/logo-opsyn-80.png" alt="" width="40" height="36" class="logo-icon">
           </picture>
           <span class="logo-text">OPSYN</span>
-        </div>
+        </a>
 
         <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-menu">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
@@ -220,7 +227,6 @@
                   <dd data-i18n="procStep1Get">Un diagnóstico claro y un plan priorizado.</dd>
                 </div>
               </dl>
-              <a class="process-step-cta" href="#contacto" data-i18n="procStep1Cta">Contanos tu idea</a>
             </div>
           </li>
 
@@ -392,9 +398,9 @@
             <source srcset="./assets/3d/portfolio-1.webp" type="image/webp">
             <img src="./assets/3d/portfolio-1.webp" alt="" width="200" height="140" loading="lazy" decoding="async">
           </picture>
-          <p class="portfolio-eyebrow">Proyecto E-commerce</p>
+          <h3 class="portfolio-eyebrow">Proyecto E-commerce</h3>
           <p class="portfolio-metric" data-count-prefix="+" data-count-target="40" data-count-suffix="%">+40<span class="portfolio-unit">%</span></p>
-          <h3 class="portfolio-label">en ventas</h3>
+          <p class="portfolio-label">en ventas</p>
           <p class="portfolio-sample" data-i18n="portfolioSample">Caso ilustrativo</p>
           <p class="portfolio-detail" data-i18n="portfolioDetail1">Rediseño de checkout y catálogo, con foco en velocidad de carga y conversión móvil.</p>
         </article>
@@ -404,9 +410,9 @@
             <source srcset="./assets/3d/portfolio-2.webp" type="image/webp">
             <img src="./assets/3d/portfolio-2.webp" alt="" width="200" height="140" loading="lazy" decoding="async">
           </picture>
-          <p class="portfolio-eyebrow">Agente IA de soporte</p>
+          <h3 class="portfolio-eyebrow">Agente IA de soporte</h3>
           <p class="portfolio-metric" data-count-prefix="&minus;" data-count-target="60" data-count-suffix="%">&minus;60<span class="portfolio-unit">%</span></p>
-          <h3 class="portfolio-label">tiempo de respuesta</h3>
+          <p class="portfolio-label">tiempo de respuesta</p>
           <p class="portfolio-sample" data-i18n="portfolioSample">Caso ilustrativo</p>
           <p class="portfolio-detail" data-i18n="portfolioDetail2">Agente conversacional que resuelve consultas frecuentes y deriva casos complejos a un humano.</p>
         </article>
@@ -416,9 +422,9 @@
             <source srcset="./assets/3d/portfolio-3.webp" type="image/webp">
             <img src="./assets/3d/portfolio-3.webp" alt="" width="200" height="140" loading="lazy" decoding="async">
           </picture>
-          <p class="portfolio-eyebrow">App de gestión interna</p>
+          <h3 class="portfolio-eyebrow">App de gestión interna</h3>
           <p class="portfolio-metric" data-count-target="15" data-count-suffix="hs">15<span class="portfolio-unit">hs</span></p>
-          <h3 class="portfolio-label">ahorradas por semana</h3>
+          <p class="portfolio-label">ahorradas por semana</p>
           <p class="portfolio-sample" data-i18n="portfolioSample">Caso ilustrativo</p>
           <p class="portfolio-detail" data-i18n="portfolioDetail3">App a medida que centraliza tareas administrativas dispersas en planillas y mensajes.</p>
         </article>
@@ -428,9 +434,9 @@
             <source srcset="./assets/3d/portfolio-4.webp" type="image/webp">
             <img src="./assets/3d/portfolio-4.webp" alt="" width="200" height="140" loading="lazy" decoding="async">
           </picture>
-          <p class="portfolio-eyebrow">Rebranding + redes</p>
+          <h3 class="portfolio-eyebrow">Rebranding + redes</h3>
           <p class="portfolio-metric" data-count-target="3" data-count-suffix="&times;">3<span class="portfolio-unit">&times;</span></p>
-          <h3 class="portfolio-label">más engagement</h3>
+          <p class="portfolio-label">más engagement</p>
           <p class="portfolio-sample" data-i18n="portfolioSample">Caso ilustrativo</p>
           <p class="portfolio-detail" data-i18n="portfolioDetail4">Identidad visual renovada y calendario de contenido consistente en todas las redes.</p>
         </article>
@@ -505,6 +511,18 @@
           </p>
         </div>
 
+        <div class="contact-direct" role="group" aria-label="Contacto directo">
+          <a class="btn btn--secondary contact-direct-btn contact-direct-btn--wa" data-contact-whatsapp target="_blank" rel="noopener noreferrer" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 8.6c0 3 2.4 5.9 5.6 6.4l1.1-1.3-1.7-1-1 .8a4.5 4.5 0 0 1-2.4-2.4l.8-1-1-1.7z"/></svg>
+            <span class="contact-direct-text"><strong data-i18n="contactWaCta">Escribinos por WhatsApp</strong><small data-i18n="contactWaHint">Se abre el chat; vos decidís cuándo enviar</small></span>
+          </a>
+          <a class="btn btn--secondary contact-direct-btn" href="mailto:opsyn.soluciones@gmail.com">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></svg>
+            <span class="contact-direct-text"><strong data-i18n="contactMailCta">Envianos un mail</strong><small data-email-text>opsyn.soluciones@gmail.com</small></span>
+          </a>
+        </div>
+        <p class="contact-divider" data-i18n="contactDivider">o dejanos tu consulta</p>
+
         <div class="contact-form-wrap">
           <form class="contact-form" id="contactForm" novalidate>
             <div class="form-row">
@@ -578,8 +596,6 @@
           </div>
         </div>
 
-        <!-- Canal alternativo: lo completa js/site-config.js solo si hay número de WhatsApp cargado -->
-        <p class="contact-whatsapp" data-contact-whatsapp hidden></p>
       </div>
     </section>
 
@@ -669,11 +685,16 @@
             <li><a href="./privacidad.html" data-i18n="footerPrivacy">Privacidad</a></li>
             <li><a href="./terminos.html" data-i18n="footerTerms">Términos y condiciones</a></li>
             <li><a href="./cookies.html" data-i18n="footerCookies">Cookies</a></li>
+            <li><a href="./eliminar-datos.html" data-i18n="footerDataDeletion">Eliminación de datos</a></li>
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
+        <address class="footer-fiscal">
+          <p><span data-i18n="footerHolder">Titular</span>: Nicolás Hernán Allevato · CUIT 20-36721291-9</p>
+          <p>Piedras 1841, piso 8, depto. A, C1140, Ciudad Autónoma de Buenos Aires, Argentina</p>
+        </address>
         <p id="copyright">© 2026 OPSYN. Todos los derechos reservados.</p>
       </div>
     </footer>
@@ -684,6 +705,7 @@
   <script src="./js/cookie-consent.js"></script>
   <script src="./js/site-config.js"></script>
   <script src="./js/service-items.js"></script>
+  <script src="./js/chat.js" defer></script>
   <script src="./js/effects.js" defer></script>
   <script src="./js/sections/process.js" defer></script>
   <script src="./js/sections/backgrounds.js" defer></script>

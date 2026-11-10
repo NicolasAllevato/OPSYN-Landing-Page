@@ -22,7 +22,6 @@ const TRANSLATIONS = {
     procStep1Do: 'Una charla directa para entender cómo funciona tu negocio y a dónde querés llegar. Diagnóstico honesto, sin jerga.',
     procStep1Need: 'Contarnos qué te frena hoy.',
     procStep1Get: 'Un diagnóstico claro y un plan priorizado.',
-    procStep1Cta: 'Contanos tu idea',
     procStep2Title: 'Proyecto',
     procStep2Promise: 'Lo diseñamos y lo construimos con vos.',
     procStep2Do: 'Definimos el alcance, armamos la solución y te mostramos avances cortos para decidir juntos.',
@@ -108,6 +107,12 @@ const TRANSLATIONS = {
     footerPrivacy: 'Privacidad',
     footerTerms: 'Términos y condiciones',
     footerCookies: 'Cookies',
+    footerDataDeletion: 'Eliminación de datos',
+    footerHolder: 'Titular',
+    contactWaCta: 'Escribinos por WhatsApp',
+    contactWaHint: 'Se abre el chat; vos decidís cuándo enviar',
+    contactMailCta: 'Envianos un mail',
+    contactDivider: 'o dejanos tu consulta',
   },
   en: {
     tagline: '"we are an idea, we are a project, we are the solution for you"',
@@ -128,7 +133,6 @@ const TRANSLATIONS = {
     procStep1Do: 'A straight conversation to understand how your business runs and where you want to go. An honest, jargon-free diagnosis.',
     procStep1Need: 'Tell us what\'s holding you back today.',
     procStep1Get: 'A clear diagnosis and a prioritized plan.',
-    procStep1Cta: 'Tell us your idea',
     procStep2Title: 'Project',
     procStep2Promise: 'We design and build it with you.',
     procStep2Do: 'We define the scope, build the solution, and show you short progress cycles so we can decide together.',
@@ -214,6 +218,12 @@ const TRANSLATIONS = {
     footerPrivacy: 'Privacy',
     footerTerms: 'Terms & conditions',
     footerCookies: 'Cookies',
+    footerDataDeletion: 'Data deletion',
+    footerHolder: 'Owner',
+    contactWaCta: 'Message us on WhatsApp',
+    contactWaHint: 'Opens the chat; you decide when to send',
+    contactMailCta: 'Send us an email',
+    contactDivider: 'or leave us your inquiry',
   }
 };
 

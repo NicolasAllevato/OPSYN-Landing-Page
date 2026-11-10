@@ -9,7 +9,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 136px 24px 64px;
+  padding: calc(var(--header-h) + var(--sp-8)) var(--sp-6) var(--sp-12);
   gap: var(--sp-6);
   overflow: hidden;
   min-height: 100vh;   /* fallback para navegadores sin soporte de dvh */
@@ -79,7 +79,8 @@
 .hero-content {
   position: relative;
   z-index: 10;
-  max-width: 700px;
+  /* 860px: el titular entra en 3 renglones en vez de 4 en escritorio */
+  max-width: 860px;
 }
 
 .hero-logo-wrap {
@@ -101,7 +102,9 @@
 }
 
 .hero-logo {
-  width: min(360px, 70vw);
+  /* Acotado también por la altura: en laptops de 768px el logo grande
+     empujaba los botones fuera del primer pantallazo. */
+  width: min(280px, 26vh, 70vw);
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 0 30px var(--glow-color));
@@ -116,7 +119,7 @@
    confirma soporte (WebGL + desktop + sin reduced-motion) y la activa. */
 .hero-logo-3d {
   display: none;
-  width: min(360px, 70vw);
+  width: min(280px, 26vh, 70vw);
   aspect-ratio: 1 / 1;
   margin: 0 auto;
 }
@@ -138,7 +141,7 @@
 
 .hero-tagline {
   font-family: var(--font-primary);
-  font-size: var(--fs-lead);
+  font-size: var(--fs-sm);
   color: var(--cyan);
   letter-spacing: 0.5px;
   margin: 8px auto 0;
@@ -176,8 +179,8 @@
   align-items: center;
   justify-content: center;
   gap: var(--sp-4, 16px);
-  /* Un renglón de aire entre el subtítulo y los CTA */
-  margin-top: var(--sp-10);
+  /* Aire entre el subtítulo y los CTA */
+  margin-top: var(--sp-8);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -330,7 +333,8 @@
 
 @media (max-width: 768px) {
   .hero {
-    padding: 100px 24px 48px;
+    padding: calc(var(--header-h) + var(--sp-4)) var(--sp-6) var(--sp-12);
+    gap: var(--sp-4);
   }
 
   /* .circuit-bg es decoración del hero (vive dentro de .hero-background,
@@ -343,13 +347,43 @@
     position: absolute;
   }
 
+  .hero-logo,
+  .hero-logo-3d {
+    width: min(220px, 22vh, 60vw);
+  }
+
+  .hero-title {
+    font-size: clamp(2.25rem, 1.6rem + 3vw, 3rem);
+  }
+
+  .hero-subtitle {
+    font-size: var(--fs-base);
+  }
+
   .hero-cta-group {
     flex-direction: column;
     width: 100%;
+    margin-top: var(--sp-6);
   }
 
   .hero-cta-group .btn {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* Pantallas bajas de escritorio (laptops de hasta ~900px de alto): titular algo
+   más compacto para que los dos botones entren sin hacer scroll. */
+@media (min-width: 769px) and (max-height: 920px) {
+  .hero-title {
+    font-size: clamp(2.5rem, 1.9rem + 2.2vw, 3.5rem);
+  }
+
+  .hero-subtitle {
+    font-size: var(--fs-base);
+  }
+
+  .hero-cta-group {
+    margin-top: var(--sp-6);
   }
 }

@@ -1,0 +1,78 @@
+/* ========================================
+   PRESENTACIÓN DE ENTRADA
+   Logo + eslogan de la marca al abrir la página (1,8 s).
+   Solo transform/opacity. El último keyframe la deja invisible y
+   sin eventos: aunque falle js/splash.js, nunca bloquea el sitio.
+   js/splash.js agrega .splash-skip a <html> si ya se vio en la
+   sesión o si hay prefers-reduced-motion.
+   ======================================== */
+
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-6);
+  padding: var(--sp-6);
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 42%, var(--accent-25), transparent 60%),
+    var(--primary-dark);
+  animation: splash-out var(--dur-slow) var(--ease-standard) 1.3s forwards;
+}
+
+.splash-skip .splash {
+  display: none;
+}
+
+.splash-logo {
+  width: 200px;
+  height: auto;
+  /* Mismo recorte que el logo del hero: funde el fondo cuadrado de la imagen */
+  -webkit-mask-image: radial-gradient(circle, black 58%, transparent 82%);
+  mask-image: radial-gradient(circle, black 58%, transparent 82%);
+  opacity: 0;
+  animation: splash-logo-in var(--dur-slow) var(--ease-out) forwards;
+}
+
+.splash-tagline {
+  margin: 0;
+  max-width: 24ch;
+  font-family: var(--font-primary);
+  font-size: var(--fs-lead);
+  font-weight: 500;
+  line-height: var(--lh-heading);
+  letter-spacing: var(--ls-tight);
+  color: var(--text-light);
+  text-wrap: balance;
+  opacity: 0;
+  animation: splash-text-in var(--dur-slow) var(--ease-out) 300ms forwards;
+}
+
+.splash.is-leaving {
+  animation: splash-out var(--dur-base) var(--ease-standard) forwards;
+}
+
+@keyframes splash-logo-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes splash-text-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes splash-out {
+  from { opacity: 1; visibility: visible; }
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash {
+    display: none;
+  }
+}

@@ -79,3 +79,12 @@ El límite se implementa en memoria (`Map` con timestamps por IP, ventana de 15 
 - Todo el input del usuario se sanitiza (`escapeHtml`) antes de interpolarse en el HTML del email, para evitar inyección de HTML.
 - La validación es 100% server-side; nunca se confía en los atributos `required` del HTML del cliente.
 - El campo honeypot `_gotcha` permite filtrar bots sin darles señal de que fueron detectados.
+
+## `/api/chat` — Asistente virtual
+
+Atiende el widget de chat del sitio (`js/chat.js`) con Claude Haiku. Lee el catálogo de `data/service-items.json`, conversa con el visitante y, cuando este acepta que lo contacten y deja nombre y contacto, deriva el lead al equipo.
+
+- **Memoria:** el historial vive en el navegador del visitante (`localStorage`, 7 días) y se reenvía en cada mensaje (últimos 24).
+- **Variables:** `ANTHROPIC_API_KEY` (obligatoria), `CHAT_MODEL` (opcional), `LEAD_WEBHOOK_URL` (opcional). El lead se envía por email con `RESEND_API_KEY` + `CONTACT_TO_EMAIL` y/o al webhook.
+- **Sin canal de entrega configurado:** responde `delivered: false` y el widget ofrece al visitante enviar el resumen por WhatsApp o mail con el texto ya escrito.
+- **Límites:** 20 mensajes cada 10 minutos por IP, 1000 caracteres por mensaje.
