@@ -152,8 +152,7 @@ function construirCuerpoHtml({ nombre, email, servicio, mensaje }) {
   const nombreSeguro = escapeHtml(nombre);
   const emailSeguro = escapeHtml(email);
   const servicioSeguro = escapeHtml(ETIQUETAS_SERVICIO[servicio] || servicio);
-  const mensajeSeguro = escapeHtml(mensaje).replace(/
-/g, '<br>');
+  const mensajeSeguro = escapeHtml(mensaje).replace(/\n/g, '<br>');
   const fila = (etiqueta, valor) =>
     `<p style="margin: 0 0 10px;"><strong style="color: #79FFFF; display: inline-block; min-width: 80px;">${etiqueta}</strong> ${valor}</p>`;
 
@@ -200,16 +199,14 @@ function construirCuerpoTexto({ nombre, email, servicio, mensaje }) {
     '',
     '──────────',
     `Para contestarle, respondé este mail: le llega directo a ${email}.`
-  ].join('
-');
+  ].join('\n');
 }
 
 /**
  * Envía el aviso de la consulta al equipo de OPSYN.
  */
 async function enviarEmailDeContacto(datos) {
-  const nombreAsunto = datos.nombre.replace(/[
-]+/g, ' ').trim();
+  const nombreAsunto = datos.nombre.replace(/[\r\n]+/g, ' ').trim();
   const asunto = `Nueva consulta: ${ETIQUETAS_SERVICIO[datos.servicio] || datos.servicio} — ${nombreAsunto}`;
 
   await enviarCorreo({
