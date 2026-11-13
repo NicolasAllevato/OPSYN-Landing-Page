@@ -3,14 +3,18 @@ main = "worker.js"
 compatibility_date = "2025-09-01"
 workers_dev = true
 
-# Solo puede enviar a esta casilla (debe estar verificada en Email Routing).
+# EMAIL: avisos al equipo, solo puede escribir a esta casilla (Email Routing).
+# CLIENTES: confirmación al cliente que consultó (Email Sending, cualquier destinatario).
 send_email = [
-  { name = "EMAIL", destination_address = "opsyn.soluciones@gmail.com" }
+  { name = "EMAIL", destination_address = "opsyn.soluciones@gmail.com" },
+  { name = "CLIENTES" }
 ]
 
 [vars]
 DESTINO = "opsyn.soluciones@gmail.com"
 REMITENTE = "web@opsyn.app"
 NOMBRE_REMITENTE = "OPSYN Web"
+REMITENTE_CLIENTES = "contacto@opsyn.app"
+NOMBRE_REMITENTE_CLIENTES = "OPSYN"
 
 # Secreto (no va acá): wrangler secret put MAILER_TOKEN

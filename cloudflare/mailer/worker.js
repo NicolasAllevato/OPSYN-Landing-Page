@@ -5,6 +5,8 @@
 // contacto y asistente) y manda el mail al equipo con el binding `send_email`
 // de Cloudflare Email Routing. El destinatario está fijo en la configuración:
 // aunque alguien robara el token, solo podría escribirle al equipo de OPSYN.
+// Modo `tipo: 'confirmacion'`: confirmación de recepción al cliente por
+// Email Sending (binding CLIENTES), sin links a dominios ajenos.
 
 import { EmailMessage } from 'cloudflare:email';
 
@@ -67,6 +69,35 @@ function construirMime({ de, nombreDe, para, asunto, texto, html, responderA, do
   return [...encabezados, `Content-Type: multipart/alternative; boundary="${limite}"`, '', ...partes].join('\r\n');
 }
 
+// Solo links al propio sitio: si el token se filtrara, el mail al cliente no
+// serviría para phishing con enlaces a otros dominios.
+const LINK_AJENO = /(?:https?:\/\/|www\.)(?!(?:www\.)?opsyn\.app(?:[/"'\s<]|$))/i;
+
+/**
+ * Confirmación de recepción al cliente, por Cloudflare Email Sending
+ * (binding CLIENTES, sin destinatario fijo) desde contacto@opsyn.app.
+ */
+async function enviarConfirmacion(env, { para, asunto, texto, html }) {
+  const destino = linea(para).toLowerCase();
+  if (!REGEX_EMAIL.test(destino) || destino.length > 254) return respuestaJson(400, { ok: false, error: 'Destinatario inválido' });
+  if (LINK_AJENO.test(texto) || LINK_AJENO.test(html)) return respuestaJson(400, { ok: false, error: 'Contenido no permitido' });
+
+  try {
+    const { messageId } = await env.CLIENTES.send({
+      from: { email: env.REMITENTE_CLIENTES, name: env.NOMBRE_REMITENTE_CLIENTES || 'OPSYN' },
+      to: destino,
+      replyTo: env.REMITENTE_CLIENTES,
+      subject: asunto,
+      text: texto,
+      ...(html ? { html } : {}),
+    });
+    return respuestaJson(200, { ok: true, id: messageId });
+  } catch (error) {
+    console.error('Mailer: fallo la confirmación al cliente', error instanceof Error ? error.message : error);
+    return respuestaJson(502, { ok: false, error: 'No se pudo enviar el mail' });
+  }
+}
+
 export default {
   async fetch(request, env) {
     if (request.method !== 'POST') return respuestaJson(405, { ok: false, error: 'Método no permitido' });
@@ -87,6 +118,8 @@ export default {
     const responderA = linea(datos?.responderA);
     if (!asunto || !texto) return respuestaJson(400, { ok: false, error: 'Faltan asunto o texto' });
     if (responderA && !REGEX_EMAIL.test(responderA)) return respuestaJson(400, { ok: false, error: 'responderA inválido' });
+
+    if (datos?.tipo === 'confirmacion') return enviarConfirmacion(env, { ...datos, asunto, texto, html });
 
     const de = env.REMITENTE;
     const mime = construirMime({

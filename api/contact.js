@@ -5,7 +5,8 @@
 // Envía el mensaje de contacto con api/_lib/correo.js (Worker de Cloudflare
 // o, como respaldo, Resend) usando fetch nativo, sin dependencias externas.
 
-import { enviarCorreo } from './_lib/correo.js';
+import { enviarCorreo, enviarConfirmacionCliente } from './_lib/correo.js';
+import { construirConfirmacion, redactarParrafo } from './_lib/respuesta-cliente.js';
 
 // ----------------------------------------
 // Configuración de rate limiting en memoria
@@ -133,27 +134,46 @@ const ETIQUETAS_SERVICIO = {
   marketing: 'Marketing digital'
 };
 
+/** Fecha y hora de recepción en Argentina, para el aviso al equipo. */
+function fechaRecepcion() {
+  const ahora = new Date();
+  const zona = { timeZone: 'America/Argentina/Buenos_Aires' };
+  return {
+    fecha: ahora.toLocaleDateString('es-AR', { ...zona, day: '2-digit', month: '2-digit', year: 'numeric' }),
+    hora: ahora.toLocaleTimeString('es-AR', { ...zona, hour: '2-digit', minute: '2-digit', hour12: false })
+  };
+}
+
 /**
- * Construye el cuerpo HTML del email con la paleta de OPSYN.
+ * Construye el cuerpo HTML del aviso al equipo con la paleta de OPSYN.
  */
 function construirCuerpoHtml({ nombre, email, servicio, mensaje }) {
+  const { fecha, hora } = fechaRecepcion();
   const nombreSeguro = escapeHtml(nombre);
   const emailSeguro = escapeHtml(email);
   const servicioSeguro = escapeHtml(ETIQUETAS_SERVICIO[servicio] || servicio);
-  const mensajeSeguro = escapeHtml(mensaje).replace(/\n/g, '<br>');
+  const mensajeSeguro = escapeHtml(mensaje).replace(/
+/g, '<br>');
+  const fila = (etiqueta, valor) =>
+    `<p style="margin: 0 0 10px;"><strong style="color: #79FFFF; display: inline-block; min-width: 80px;">${etiqueta}</strong> ${valor}</p>`;
 
   return `
     <div style="font-family: Arial, sans-serif; background-color: #0B0F14; color: #E6F7F7; padding: 24px;">
       <div style="max-width: 560px; margin: 0 auto; background-color: #101820; border-radius: 12px; overflow: hidden; border: 1px solid #2D89AD;">
         <div style="background: linear-gradient(135deg, #2D89AD, #79FFFF); padding: 20px 24px;">
-          <h2 style="margin: 0; color: #0B0F14; font-size: 18px;">Nuevo contacto desde OPSYN</h2>
+          <h2 style="margin: 0; color: #0B0F14; font-size: 18px;">Nueva consulta desde opsyn.app</h2>
+          <p style="margin: 4px 0 0; color: #0B0F14; font-size: 13px;">Recibida el ${fecha} a las ${hora} (hora de Argentina)</p>
         </div>
         <div style="padding: 24px;">
-          <p style="margin: 0 0 12px;"><strong style="color: #79FFFF;">Nombre:</strong> ${nombreSeguro}</p>
-          <p style="margin: 0 0 12px;"><strong style="color: #79FFFF;">Email:</strong> ${emailSeguro}</p>
-          <p style="margin: 0 0 12px;"><strong style="color: #79FFFF;">Servicio de interés:</strong> ${servicioSeguro}</p>
-          <p style="margin: 16px 0 8px; color: #79FFFF;"><strong>Mensaje:</strong></p>
+          <p style="margin: 0 0 12px; font-size: 12px; letter-spacing: 1px; color: #7D8B99;">DATOS DEL CONTACTO</p>
+          ${fila('Nombre:', nombreSeguro)}
+          ${fila('Email:', `<a href="mailto:${emailSeguro}" style="color: #E6F7F7;">${emailSeguro}</a>`)}
+          ${fila('Servicio:', servicioSeguro)}
+          ${fila('Origen:', 'Formulario de contacto')}
+          <p style="margin: 20px 0 8px; font-size: 12px; letter-spacing: 1px; color: #7D8B99;">MENSAJE</p>
           <p style="margin: 0; line-height: 1.6; background-color: #0B0F14; padding: 12px 16px; border-radius: 8px; border: 1px solid #2D89AD;">${mensajeSeguro}</p>
+          <p style="margin: 24px 0 0;"><a href="mailto:${emailSeguro}" style="display: inline-block; background: #79FFFF; color: #0B0F14; padding: 10px 18px; border-radius: 8px; font-weight: bold; text-decoration: none;">Responder a ${nombreSeguro}</a></p>
+          <p style="margin: 16px 0 0; font-size: 12px; color: #7D8B99;">Al cliente ya le llegó la confirmación automática de recepción.</p>
         </div>
       </div>
     </div>
@@ -161,28 +181,36 @@ function construirCuerpoHtml({ nombre, email, servicio, mensaje }) {
 }
 
 /**
- * Construye la versión en texto plano del email.
+ * Construye la versión en texto plano del aviso al equipo.
  */
 function construirCuerpoTexto({ nombre, email, servicio, mensaje }) {
-  const servicioLabel = ETIQUETAS_SERVICIO[servicio] || servicio;
+  const { fecha, hora } = fechaRecepcion();
   return [
-    'Nuevo contacto desde OPSYN',
+    'NUEVA CONSULTA DESDE OPSYN.APP',
+    `Recibida el ${fecha} a las ${hora} (hora de Argentina)`,
     '',
-    `Nombre: ${nombre}`,
-    `Email: ${email}`,
-    `Servicio de interés: ${servicioLabel}`,
+    'DATOS DEL CONTACTO',
+    `Nombre:    ${nombre}`,
+    `Email:     ${email}`,
+    `Servicio:  ${ETIQUETAS_SERVICIO[servicio] || servicio}`,
+    'Origen:    Formulario de contacto',
     '',
-    'Mensaje:',
-    mensaje
-  ].join('\n');
+    'MENSAJE',
+    mensaje,
+    '',
+    '──────────',
+    `Para contestarle, respondé este mail: le llega directo a ${email}.`
+  ].join('
+');
 }
 
 /**
- * Envía el email de contacto usando la API HTTP de Resend (fetch nativo).
+ * Envía el aviso de la consulta al equipo de OPSYN.
  */
 async function enviarEmailDeContacto(datos) {
-  const nombreAsunto = datos.nombre.replace(/[\r\n]+/g, ' ').trim();
-  const asunto = `Nuevo contacto: ${nombreAsunto} — ${ETIQUETAS_SERVICIO[datos.servicio] || datos.servicio}`;
+  const nombreAsunto = datos.nombre.replace(/[
+]+/g, ' ').trim();
+  const asunto = `Nueva consulta: ${ETIQUETAS_SERVICIO[datos.servicio] || datos.servicio} — ${nombreAsunto}`;
 
   await enviarCorreo({
     asunto,
@@ -190,6 +218,40 @@ async function enviarEmailDeContacto(datos) {
     html: construirCuerpoHtml(datos),
     responderA: datos.email
   });
+}
+
+/**
+ * Agente de respuesta: lee la consulta, redacta un párrafo personalizado y
+ * le manda al cliente la confirmación de recepción. Si falla, la consulta
+ * igual quedó registrada (el aviso al equipo ya salió): solo se loguea.
+ */
+// Una confirmación por dirección cada 24 h (best effort, en memoria de la
+// instancia, igual que el rate limit por IP): frena que se use el formulario
+// para inundar de mails la casilla de un tercero.
+const VENTANA_CONFIRMACION_MS = 24 * 60 * 60 * 1000;
+const confirmacionesEnviadas = new Map(); // email -> timestamp (ms)
+
+function confirmacionReciente(email) {
+  const ahora = Date.now();
+  for (const [direccion, momento] of confirmacionesEnviadas) {
+    if (ahora - momento >= VENTANA_CONFIRMACION_MS) confirmacionesEnviadas.delete(direccion);
+  }
+  const clave = email.toLowerCase();
+  if (confirmacionesEnviadas.has(clave)) return true;
+  confirmacionesEnviadas.set(clave, ahora);
+  return false;
+}
+
+async function responderAlCliente(datos) {
+  if (confirmacionReciente(datos.email)) return;
+  try {
+    const servicio = ETIQUETAS_SERVICIO[datos.servicio] || datos.servicio;
+    const parrafo = await redactarParrafo({ ...datos, servicio });
+    const correo = construirConfirmacion({ ...datos, servicio, parrafo });
+    await enviarConfirmacionCliente({ para: datos.email, ...correo });
+  } catch (error) {
+    console.error('Contacto: no se pudo enviar la confirmación al cliente', error instanceof Error ? error.message : error);
+  }
 }
 
 // ----------------------------------------
@@ -247,12 +309,15 @@ export default async function handler(req, res) {
       });
     }
 
-    await enviarEmailDeContacto({
+    const consulta = {
       nombre: nombre.trim(),
       email: email.trim(),
       servicio,
       mensaje: mensaje.trim()
-    });
+    };
+
+    await enviarEmailDeContacto(consulta);
+    await responderAlCliente(consulta);
 
     return res.status(200).json({
       success: true,

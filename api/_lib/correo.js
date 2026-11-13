@@ -72,3 +72,49 @@ export async function enviarCorreo(correo) {
   console.error('Correo: falta configurar MAILER_URL/MAILER_TOKEN (o RESEND_API_KEY/CONTACT_TO_EMAIL).');
   throw new Error(ERROR_SIN_CONFIGURAR);
 }
+
+// ----------------------------------------
+// Confirmación al cliente
+// ----------------------------------------
+
+/**
+ * Manda la confirmación de recepción al cliente que hizo la consulta.
+ * Por Cloudflare usa el modo `confirmacion` del Worker (Email Sending, desde
+ * contacto@opsyn.app); por Resend, el remitente configurado.
+ * @param {{ para: string, asunto: string, texto: string, html?: string }} correo
+ * @throws {Error} ERROR_SIN_CONFIGURAR o ERROR_ENVIO.
+ */
+export async function enviarConfirmacionCliente({ para, asunto, texto, html }) {
+  if (process.env.MAILER_URL && process.env.MAILER_TOKEN) {
+    const respuesta = await pedirConTimeout(process.env.MAILER_URL, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${process.env.MAILER_TOKEN}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tipo: 'confirmacion', para, asunto, texto, html }),
+    });
+    if (!respuesta.ok) {
+      console.error('Correo: confirmación al cliente rechazada por el mailer', respuesta.status, await respuesta.text().catch(() => ''));
+      throw new Error(ERROR_ENVIO);
+    }
+    return;
+  }
+  if (process.env.RESEND_API_KEY) {
+    const respuesta = await pedirConTimeout('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: process.env.CONTACT_FROM_EMAIL || 'OPSYN <contacto@opsyn.app>',
+        to: [para],
+        reply_to: 'contacto@opsyn.app',
+        subject: asunto,
+        text: texto,
+        ...(html ? { html } : {}),
+      }),
+    });
+    if (!respuesta.ok) {
+      console.error('Correo: Resend rechazó la confirmación', respuesta.status, await respuesta.text().catch(() => ''));
+      throw new Error(ERROR_ENVIO);
+    }
+    return;
+  }
+  throw new Error(ERROR_SIN_CONFIGURAR);
+}
