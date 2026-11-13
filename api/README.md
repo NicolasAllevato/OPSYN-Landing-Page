@@ -82,9 +82,11 @@ El límite se implementa en memoria (`Map` con timestamps por IP, ventana de 15 
 
 ## `/api/chat` — Asistente virtual
 
-Atiende el widget de chat del sitio (`js/chat.js`) con Claude Haiku. Lee el catálogo de `data/service-items.json`, conversa con el visitante y, cuando este acepta que lo contacten y deja nombre y contacto, deriva el lead al equipo.
+Atiende el widget de chat del sitio (`js/chat.js`) con Gemini (`gemini-2.5-flash`). Responde solo con contenido publicado en la web: catálogo (`data/service-items.json`), texto de marca y documentos legales (`privacidad.html`, `terminos.html`, `cookies.html`, `eliminar-datos.html`, leídos de las propias páginas). Conversa con el visitante y, cuando este acepta que lo contacten y deja nombre y contacto, deriva el lead al equipo.
 
 - **Memoria:** el historial vive en el navegador del visitante (`localStorage`, 7 días) y se reenvía en cada mensaje (últimos 24).
-- **Variables:** `ANTHROPIC_API_KEY` (obligatoria), `CHAT_MODEL` (opcional), `LEAD_WEBHOOK_URL` (opcional). El lead se envía por email con `RESEND_API_KEY` + `CONTACT_TO_EMAIL` y/o al webhook.
+- **Variables:** `GEMINI_API_KEY` (obligatoria; en producción, con facturación habilitada), `CHAT_MODEL` (opcional), `LEAD_WEBHOOK_URL` (opcional). El lead se envía por email con `RESEND_API_KEY` + `CONTACT_TO_EMAIL` y/o al webhook.
 - **Sin canal de entrega configurado:** responde `delivered: false` y el widget ofrece al visitante enviar el resumen por WhatsApp o mail con el texto ya escrito.
 - **Límites:** 20 mensajes cada 10 minutos por IP, 1000 caracteres por mensaje.
+- **Seguridad** (`api/_lib/seguridad.js`, con tests en `tests/`): el prompt limita el alcance a lo publicado; se detectan intentos de manipulación sin llamar al modelo; tarjetas, CBU y contraseñas se ocultan antes de enviarse a Google; la respuesta se filtra (fuga del prompt, claves, CUIT, emails ajenos); el CUIT y el domicilio del titular no se le entregan al modelo; y un lead solo se deriva si el contacto lo escribió el propio visitante.
+- **Cuota:** si Gemini responde 429 el endpoint devuelve 503 con un mensaje amable.

@@ -1,6 +1,11 @@
 {
   "buildCommand": "echo 'Static site - no build needed'",
   "outputDirectory": "./",
+  "functions": {
+    "api/chat.js": {
+      "includeFiles": "{data/service-items.json,privacidad.html,terminos.html,cookies.html,eliminar-datos.html}"
+    }
+  },
   "env": {
     "NODE_ENV": "production"
   },

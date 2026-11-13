@@ -1,6 +1,6 @@
 // ========================================
 // ASISTENTE VIRTUAL DE OPSYN (widget de chat)
-// Lanzador flotante + panel. Conversa con /api/chat (Claude Haiku).
+// Lanzador flotante + panel. Conversa con /api/chat (Gemini).
 // Memoria básica: el historial vive en localStorage ('opsyn-chat')
 // por 7 días y se reenvía en cada mensaje. Si el visitante acepta
 // que lo contacten, el servidor deriva el lead al equipo; si esa
