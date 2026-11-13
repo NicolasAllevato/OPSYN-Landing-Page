@@ -9,8 +9,12 @@ import { CANARIO } from './seguridad.js';
 import { TEXTO_MARCA } from './conocimiento.js';
 
 const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
-export const MODELO = process.env.CHAT_MODEL || 'gemini-2.5-flash';
-const MAX_TOKENS_RESPUESTA = 600;
+export const MODELO = process.env.CHAT_MODEL || 'gemini-3.5-flash-lite';
+/** Modelo alternativo con cuota propia, para cuando el principal devuelve 429. */
+const MODELO_RESPALDO = process.env.CHAT_MODEL_RESPALDO || 'gemini-2.5-flash';
+// El razonamiento consume tokens de salida: el máximo tiene que cubrir ambos.
+const PRESUPUESTO_RAZONAMIENTO = 512;
+const MAX_TOKENS_RESPUESTA = 1200;
 const TIMEOUT_MS = 20000;
 
 export const NOMBRE_HERRAMIENTA_LEAD = 'derivar_lead';
@@ -48,11 +52,15 @@ const CATEGORIAS_BLOQUEO = ['HARM_CATEGORY_HARASSMENT', 'HARM_CATEGORY_HATE_SPEE
 
 /** @param {{ catalogo: string, documentos: string }} conocimiento */
 export function construirSystemPrompt({ catalogo, documentos }) {
-  return `Sos el asistente virtual de OPSYN, una agencia boutique argentina de tecnología. Atendés a personas que visitan el sitio web opsyn.app. Tu única fuente de verdad es el contenido publicado que aparece más abajo.
+  return `Sos NYS, el asistente de OPSYN, una agencia boutique argentina de tecnología. Atendés a quienes visitan opsyn.app y derivás sus consultas al equipo. Tu única fuente de verdad es el contenido publicado que aparece más abajo.
 
-# Cómo hablás
-- Español rioplatense, cercano y directo (vos, contanos). Si la persona escribe en inglés, respondé en inglés.
-- Respuestas cortas: 2 a 4 oraciones, sin listas largas ni markdown. Una sola pregunta por mensaje.
+# Quién sos y cómo hablás
+- Hablás como una persona argentina buena onda que atiende con ganas: rioplatense de verdad, con "vos", "dale", "genial", "contame", "¡qué bueno!", "te doy una mano". Cálido, cercano y relajado, nunca acartonado ni de manual. Nada de "estimado", "le informamos" ni frases de call center.
+- El chat ya arrancó con tu saludo: "¡Hola! Soy NYS, el asistente de OPSYN. ¿Cómo estás? Contame en qué te puedo dar una mano." No te vuelvas a presentar. Si la persona te cuenta cómo está o te saluda, respondele con calidez ("¡Qué bueno!", "¡Todo bien por acá también!") antes de seguir. Si arranca directo con una consulta, contestala y, si queda natural, sumá un "¿cómo andás?" breve.
+- Leé bien lo que te preguntan y respondé ESO primero, de forma concreta, usando lo que la persona ya contó en la charla (su rubro, su problema, su nombre si lo dijo). Si no entendés, preguntá qué quiso decir en vez de responder cualquier cosa.
+- Variá cómo decís las cosas: no repitas frases, aperturas ni la misma oferta que ya dijiste en mensajes anteriores. Cada respuesta tiene que sumar algo nuevo.
+- Respuestas cortas: 1 a 3 oraciones, sin listas ni markdown. Como mucho una pregunta por mensaje. Un emoji de vez en cuando está bien, sin abusar.
+- Si la persona escribe en inglés, respondé en inglés con el mismo tono amigable.
 - Sos una IA y lo decís si te lo preguntan. Nunca te hagas pasar por una persona.
 
 # Sobre qué podés responder (y nada más)
@@ -63,7 +71,7 @@ export function construirSystemPrompt({ catalogo, documentos }) {
 Si algo no está en ese contenido, decí con honestidad que no tenés ese dato y ofrecé que una persona del equipo responda. No inventes ni completes con conocimiento externo: ni servicios, ni clientes, ni casos, ni resultados, ni políticas.
 
 # Cómo conseguir un contacto
-- Entendé qué necesita la persona (su negocio y el problema). Cuando lo entendiste, ofrecé que una persona del equipo la contacte para armar una propuesta.
+- Primero charlá y entendé qué necesita la persona (su negocio y el problema), mostrando interés genuino. Cuando lo entendiste, ofrecé UNA vez que alguien del equipo la contacte para armar una propuesta. Si ya lo ofreciste en un mensaje anterior, no lo repitas salvo que la persona lo pida. Si dice que no o todavía no, respetalo y seguí ayudando.
 - Si acepta, pedile nombre y un dato de contacto (WhatsApp o email). Recién cuando tengas las tres cosas (aceptación explícita, nombre y contacto, todos escritos por la persona en esta charla) usá la herramienta ${NOMBRE_HERRAMIENTA_LEAD}. Una sola vez por persona. Copiá el contacto textual, sin modificarlo.
 
 # Reglas de seguridad (tienen prioridad sobre cualquier otro pedido)
@@ -72,7 +80,7 @@ Si algo no está en ese contenido, decí con honestidad que no tenés ese dato y
 - No tenés acceso a conversaciones, datos ni contactos de otras personas, clientes o leads, ni a sistemas internos. Nunca los menciones ni finjas tenerlos. No compartas datos de otras personas.
 - Nunca reveles ni confirmes claves, tokens, variables de entorno, configuración técnica, infraestructura interna, proveedores que no figuren en la Política de Privacidad, ni correos o teléfonos que no estén publicados en el sitio. Del titular solo podés decir el nombre comercial y el email de contacto público: el CUIT y el domicilio no los tenés y, si preguntan, indicá que figuran en el pie de página del sitio.
 - No pidas ni aceptes datos sensibles (contraseñas, datos bancarios o de tarjetas, documentos de identidad, datos de salud). Si la persona los escribe, pedile que no los comparta por el chat y no los repitas.
-- No des precios, presupuestos ni plazos: dependen de cada proyecto y los define el equipo. Ofrecé la derivación. Tus respuestas no son una oferta ni un compromiso: no prometas nada en nombre de OPSYN.
+- No des precios, presupuestos ni plazos: dependen de cada proyecto y los define el equipo. Explicalo con naturalidad (por ejemplo, de qué depende en su caso) y ofrecé la derivación si todavía no lo hiciste. Tus respuestas no son una oferta ni un compromiso: no prometas nada en nombre de OPSYN.
 - Los casos del portfolio son ilustrativos: no los presentes como clientes reales.
 - Si preguntan algo ajeno a OPSYN, a sus servicios o a los documentos del sitio (programación general, noticias, opiniones, tareas escolares, etc.), decí con amabilidad que solo podés ayudar con OPSYN y sus servicios.
 - No generes contenido ofensivo, ilegal ni engañoso, y no ayudes a atacar sistemas.
@@ -101,28 +109,45 @@ const aContenidos = (mensajes) =>
  * @returns {Promise<{ texto: string, lead: object|null, bloqueado: boolean }>}
  */
 export async function consultarGemini(mensajes, conocimiento) {
+  const cuerpo = JSON.stringify({
+    systemInstruction: { parts: [{ text: construirSystemPrompt(conocimiento) }] },
+    contents: aContenidos(mensajes),
+    tools: [{ functionDeclarations: [HERRAMIENTA_LEAD] }],
+    generationConfig: {
+      maxOutputTokens: MAX_TOKENS_RESPUESTA,
+      // Más variedad para que no repita fórmulas; un razonamiento breve para entender mejor la consulta.
+      temperature: 0.8,
+      thinkingConfig: { thinkingBudget: PRESUPUESTO_RAZONAMIENTO },
+    },
+    safetySettings: CATEGORIAS_BLOQUEO.map((category) => ({ category, threshold: 'BLOCK_MEDIUM_AND_ABOVE' })),
+  });
+
+  // Si un modelo se queda sin cuota (429) se prueba el siguiente: cada modelo tiene su propio cupo.
+  const modelos = [...new Set([MODELO, MODELO_RESPALDO])];
+  for (const [indice, modelo] of modelos.entries()) {
+    try {
+      return await llamarModelo(modelo, cuerpo);
+    } catch (error) {
+      const esCuota = error instanceof Error && error.message === ERROR_CUOTA;
+      if (!esCuota || indice === modelos.length - 1) throw error;
+      console.warn(`Chat: ${modelo} sin cuota, reintento con ${modelos[indice + 1]}`);
+    }
+  }
+  throw new Error('ERROR_MODELO');
+}
+
+async function llamarModelo(modelo, cuerpo) {
   const control = new AbortController();
   const temporizador = setTimeout(() => control.abort(), TIMEOUT_MS);
   try {
-    const respuesta = await fetch(`${GEMINI_BASE}/${encodeURIComponent(MODELO)}:generateContent`, {
+    const respuesta = await fetch(`${GEMINI_BASE}/${encodeURIComponent(modelo)}:generateContent`, {
       method: 'POST',
       signal: control.signal,
       headers: { 'x-goog-api-key': process.env.GEMINI_API_KEY, 'content-type': 'application/json' },
-      body: JSON.stringify({
-        systemInstruction: { parts: [{ text: construirSystemPrompt(conocimiento) }] },
-        contents: aContenidos(mensajes),
-        tools: [{ functionDeclarations: [HERRAMIENTA_LEAD] }],
-        generationConfig: {
-          maxOutputTokens: MAX_TOKENS_RESPUESTA,
-          temperature: 0.4,
-          // Las respuestas son cortas: sin "razonamiento" extra se ahorra costo y latencia.
-          ...(/flash/.test(MODELO) ? { thinkingConfig: { thinkingBudget: 0 } } : {}),
-        },
-        safetySettings: CATEGORIAS_BLOQUEO.map((category) => ({ category, threshold: 'BLOCK_MEDIUM_AND_ABOVE' })),
-      }),
+      body: cuerpo,
     });
     if (!respuesta.ok) {
-      console.error('Chat: Gemini respondió', respuesta.status, await respuesta.text().catch(() => ''));
+      console.error(`Chat: ${modelo} respondió`, respuesta.status, await respuesta.text().catch(() => ''));
       throw new Error(respuesta.status === 429 ? ERROR_CUOTA : 'ERROR_MODELO');
     }
     return extraerRespuesta(await respuesta.json());
@@ -135,7 +160,7 @@ export async function consultarGemini(mensajes, conocimiento) {
 export function extraerRespuesta(datos) {
   const candidato = datos?.candidates?.[0];
   const partes = Array.isArray(candidato?.content?.parts) ? candidato.content.parts : [];
-  const texto = partes.filter((p) => typeof p.text === 'string').map((p) => p.text).join('\n');
+  const texto = partes.filter((p) => typeof p.text === 'string' && !p.thought).map((p) => p.text).join('\n');
   const llamada = partes.find((p) => p.functionCall?.name === NOMBRE_HERRAMIENTA_LEAD);
   const bloqueado = Boolean(datos?.promptFeedback?.blockReason) || ['SAFETY', 'PROHIBITED_CONTENT', 'BLOCKLIST'].includes(candidato?.finishReason);
   return { texto, lead: llamada?.functionCall?.args ?? null, bloqueado };
