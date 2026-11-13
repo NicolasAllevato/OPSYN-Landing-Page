@@ -1,0 +1,16 @@
+name = "opsyn-mailer"
+main = "worker.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+# Solo puede enviar a esta casilla (debe estar verificada en Email Routing).
+send_email = [
+  { name = "EMAIL", destination_address = "opsyn.soluciones@gmail.com" }
+]
+
+[vars]
+DESTINO = "opsyn.soluciones@gmail.com"
+REMITENTE = "web@opsyn.app"
+NOMBRE_REMITENTE = "OPSYN Web"
+
+# Secreto (no va acá): wrangler secret put MAILER_TOKEN

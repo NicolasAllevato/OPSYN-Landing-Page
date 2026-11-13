@@ -6,7 +6,7 @@
 // navegador del visitante), responde con Gemini usando solo contenido
 // publicado en la web (servicios, marca y documentos legales) y, cuando el
 // visitante acepta que lo contacten, deriva el lead al equipo (email por
-// Resend y/o webhook).
+// Cloudflare/Resend y/o webhook).
 //
 // Seguridad en capas (ver api/_lib/seguridad.js): detección de manipulación,
 // datos sensibles ocultos antes de llegar al modelo, filtro de la respuesta
@@ -17,6 +17,7 @@
 
 import { crearLimitador, obtenerIpCliente, escapeHtml } from './_lib/shared.js';
 import { cargarConocimiento } from './_lib/conocimiento.js';
+import { enviarCorreo, correoConfigurado } from './_lib/correo.js';
 import { consultarGemini, ERROR_CUOTA } from './_lib/gemini.js';
 import {
   detectarManipulacion,
@@ -96,24 +97,17 @@ function transcripcion(mensajes) {
 }
 
 async function enviarLeadPorEmail(lead, mensajes) {
-  const apiKey = process.env.RESEND_API_KEY;
-  const destinatario = process.env.CONTACT_TO_EMAIL;
-  if (!apiKey || !destinatario) return false;
+  if (!correoConfigurado()) return false;
 
   const servicio = ETIQUETAS_LEAD[lead.servicio];
   const charla = transcripcion(mensajes);
   const fila = (etiqueta, valor) =>
     `<p style="margin:0 0 12px;"><strong style="color:#79FFFF;">${etiqueta}:</strong> ${escapeHtml(valor)}</p>`;
 
-  const respuesta = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from: process.env.CONTACT_FROM_EMAIL || 'OPSYN Landing <contacto@opsyn.dev>',
-      to: [destinatario],
-      ...(lead.contacto.includes('@') ? { reply_to: lead.contacto } : {}),
-      subject: `Lead del asistente: ${lead.nombre} — ${servicio}`,
-      html: `<div style="font-family:Arial,sans-serif;background:#0B0F14;color:#E6F7F7;padding:24px;">
+  await enviarCorreo({
+    asunto: `Lead del asistente: ${lead.nombre} — ${servicio}`,
+    ...(lead.contacto.includes('@') ? { responderA: lead.contacto } : {}),
+    html: `<div style="font-family:Arial,sans-serif;background:#0B0F14;color:#E6F7F7;padding:24px;">
   <div style="max-width:560px;margin:0 auto;background:#101820;border-radius:12px;border:1px solid #2D89AD;overflow:hidden;">
     <div style="background:linear-gradient(135deg,#9434D4,#2D89AD);padding:20px 24px;"><h2 style="margin:0;color:#fff;font-size:18px;">Nuevo lead desde el asistente de OPSYN</h2></div>
     <div style="padding:24px;">
@@ -123,13 +117,8 @@ async function enviarLeadPorEmail(lead, mensajes) {
     </div>
   </div>
 </div>`,
-      text: `Nuevo lead desde el asistente de OPSYN\n\nNombre: ${lead.nombre}\nContacto: ${lead.contacto}\nServicio: ${servicio}\nResumen: ${lead.resumen}\n\nConversación:\n${charla}`,
-    }),
+    texto: `Nuevo lead desde el asistente de OPSYN\n\nNombre: ${lead.nombre}\nContacto: ${lead.contacto}\nServicio: ${servicio}\nResumen: ${lead.resumen}\n\nConversación:\n${charla}`,
   });
-  if (!respuesta.ok) {
-    console.error('Lead: Resend respondió', respuesta.status, await respuesta.text().catch(() => ''));
-    return false;
-  }
   return true;
 }
 

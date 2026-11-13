@@ -2,8 +2,10 @@
 // API SERVERLESS: FORMULARIO DE CONTACTO
 // ========================================
 // Vercel Serverless Function (Node.js runtime, sin build step).
-// Envía el mensaje de contacto vía Resend usando fetch nativo,
-// sin dependencias externas ni SDK.
+// Envía el mensaje de contacto con api/_lib/correo.js (Worker de Cloudflare
+// o, como respaldo, Resend) usando fetch nativo, sin dependencias externas.
+
+import { enviarCorreo } from './_lib/correo.js';
 
 // ----------------------------------------
 // Configuración de rate limiting en memoria
@@ -179,39 +181,15 @@ function construirCuerpoTexto({ nombre, email, servicio, mensaje }) {
  * Envía el email de contacto usando la API HTTP de Resend (fetch nativo).
  */
 async function enviarEmailDeContacto(datos) {
-  const apiKey = process.env.RESEND_API_KEY;
-  const destinatario = process.env.CONTACT_TO_EMAIL;
-
-  if (!apiKey || !destinatario) {
-    // No revelamos al cliente cuál variable falta.
-    console.error('Configuración de email incompleta: falta RESEND_API_KEY o CONTACT_TO_EMAIL.');
-    throw new Error('CONFIGURACION_INCOMPLETA');
-  }
-
   const nombreAsunto = datos.nombre.replace(/[\r\n]+/g, ' ').trim();
   const asunto = `Nuevo contacto: ${nombreAsunto} — ${ETIQUETAS_SERVICIO[datos.servicio] || datos.servicio}`;
 
-  const respuesta = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      from: 'OPSYN Landing <contacto@opsyn.dev>',
-      to: [destinatario],
-      reply_to: datos.email,
-      subject: asunto,
-      html: construirCuerpoHtml(datos),
-      text: construirCuerpoTexto(datos)
-    })
+  await enviarCorreo({
+    asunto,
+    texto: construirCuerpoTexto(datos),
+    html: construirCuerpoHtml(datos),
+    responderA: datos.email
   });
-
-  if (!respuesta.ok) {
-    const detalle = await respuesta.text().catch(() => '');
-    console.error('Error al enviar email vía Resend:', respuesta.status, detalle);
-    throw new Error('ERROR_ENVIO_EMAIL');
-  }
 }
 
 // ----------------------------------------
